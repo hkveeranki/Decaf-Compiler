@@ -85,7 +85,7 @@ Var_declarations:
 	| Var_declaration SC Var_declarations
 	;
 Var_declaration:
-	TYPE ID Var_names {fprintf(bison_out,"%s Variable Declarations %s\n",$1,$2);}
+	TYPE ID Var_names {fprintf(bison_out,"ID=%s for %s Variable Declarations\n",$2,$1);}
 	;
 Var_names:
 	/* Empty */
@@ -143,7 +143,7 @@ Expression:
 	| Expression NOT_EQUAL Expression {fprintf(bison_out,"NOT_EQUALS Encountered\n");}
 	| Expression COND_OR Expression {fprintf(bison_out,"CONDITIONAL OR Encountered\n");}
 	| Expression COND_AND Expression {fprintf(bison_out,"CONDITIONAL AND Encountered\n");}
-	| '-' Expression {fprintf(bison_out,"UNARY - Encountered");}
+	| SUB Expression {fprintf(bison_out,"UNARY - Encountered\n");}
 	| NOT Expression {fprintf(bison_out,"NOT Encountered");}
 	| OP Expression CP
 	;
