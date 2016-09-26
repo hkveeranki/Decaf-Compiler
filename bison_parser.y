@@ -19,12 +19,13 @@
 }
 
 /* -------------	Tokens 		------------- */
-%token CLASS TYPE
+%token CLASS
 %token CALLOUT RETURN VOID
 %token BREAK CONTINUE
 %token IF ELSE FOR
-%token ID COMMA SC
-%token BOOLEAN INTEGER CHAR STRING
+%token COMMA SC
+%token<value> BOOLEAN CHAR STRING TYPE ID
+%token<val> INTEGER
 %token OB CB OSB CSB OP CP
 %token COND_AND COND_OR
 %token ADD SUB MUL DIV MOD
@@ -50,31 +51,31 @@ Field_declarations:
 	| Field_declarations Field_declaration SC
 	;
 Field_declaration:
-	TYPE Variables
+	TYPE Variables {fprintf(bison_out,"%s Field Declarations\n",$1);}
 	;
 Variables:
-	ID Variable
-	| ID OSB INTEGER CSB Variable
+	ID Variable { fprintf(bison_out,"ID=%s\n",$1); }
+	| ID OSB INTEGER CSB Variable { fprintf(bison_out,"ID=%s\nSize=%d\n",$1,$3); }
 	;
 Variable:
 	/* Empty */
-	| COMMA ID Variable
-	| COMMA ID OSB INTEGER CSB Variable
+	| COMMA ID Variable { fprintf(bison_out,"ID=%s\n",$2); }
+	| COMMA ID OSB INTEGER CSB Variable { fprintf(bison_out,"ID=%s\nSize=%d\n",$2,$4);}
 Method_declarations:
 	/* Empty */
 	| Method_declaration Method_declarations
 	;
 Method_declaration:
-	TYPE ID Args_list Block
-	| VOID ID Args_list Block
+	TYPE ID Args_list Block {fprintf(bison_out,"%s Method Declaration\nID=%s\n",$1,$2);}
+	| VOID ID Args_list Block {fprintf(bison_out,"Void Method Declaration\nID=%s\n",$2);}
 	;
 Args_list:
 	OP CP
-	| OP TYPE ID Arg CP
+	| OP TYPE ID Arg CP {fprintf(bison_out,"%s Argument %s\n",$2,$3);}
 	;
 Arg:
 	/* Empty */
-	| COMMA TYPE ID Arg
+	| COMMA TYPE ID Arg {fprintf(bison_out,"%s Argument %s\n",$2,$3);}
 	;
 Block:
 	OB Var_declarations Statements CB
@@ -84,11 +85,11 @@ Var_declarations:
 	| Var_declaration SC Var_declarations
 	;
 Var_declaration:
-	TYPE ID Var_names
+	TYPE ID Var_names {fprintf(bison_out,"%s Variable Declarations %s\n",$1,$2);}
 	;
 Var_names:
 	/* Empty */
-	| COMMA ID Var_names
+	| COMMA ID Var_names {fprintf(bison_out,"ID=%s\n",$2);}
 	;
 Statements:
 	/* Empty */
@@ -97,23 +98,23 @@ Statements:
 Statement:
 	Location Assign_Op Expression SC
 	| Method_Call SC
-	| IF OP Expression CP Block 
-	| IF OP Expression CP Block ELSE Block
-	| FOR ID EQ Expression COMMA Expression Block
-	| RETURN SC
-	| RETURN Expression SC
-	| BREAK SC
-	| CONTINUE SC
+	| IF OP Expression CP Block {fprintf(bison_out,"IF Block Encountered\n");}
+	| IF OP Expression CP Block ELSE Block  {fprintf(bison_out,"IF ELSE Block Encountered\n");}
+	| FOR ID EQ Expression COMMA Expression Block  {fprintf(bison_out,"FOR Block Encountered\n");}
+	| RETURN SC {fprintf(bison_out,"Return Encountered\n");}
+	| RETURN Expression SC {fprintf(bison_out,"Return Encountered\n");}
+	| BREAK SC {fprintf(bison_out,"Break Encountered\n");}
+	| CONTINUE SC {fprintf(bison_out,"Continue Encountered\n");}
 	| Block
 	;
 Assign_Op:
-	EQ
-	| SUBEQ
-	| ADDEQ
+	EQ {fprintf(bison_out,"= Assignment Encountered\n");}
+	| SUBEQ {fprintf(bison_out,"-= Assignment Encountered\n");}
+	| ADDEQ {fprintf(bison_out,"+= Assignment Encountered\n");}
 	;
 Method_Call:
-	ID OP Method_args CP
-	| CALLOUT OP STRING Callout_args CP
+	ID OP Method_args CP {fprintf(bison_out,"Method call for %s\n Encountered\n",$1);}
+	| CALLOUT OP STRING Callout_args CP {fprintf(bison_out,"Callout Method call for %s\n Encountered\n",$3);}
 	;
 Method_args:
 	/* Empty */
@@ -129,21 +130,21 @@ Expression:
 	Location
 	| Method_Call
 	| Literal
-	| Expression ADD Expression
-	| Expression SUB Expression
-	| Expression MUL Expression
-	| Expression DIV Expression
-	| Expression MOD Expression
-	| Expression LT Expression
-	| Expression GT Expression
-	| Expression LE Expression
-	| Expression GE Expression
-	| Expression EQUAL Expression
-	| Expression NOT_EQUAL Expression
-	| Expression COND_OR Expression
-	| Expression COND_AND Expression
-	| '-' Expression
-	| NOT Expression
+	| Expression ADD Expression {fprintf(bison_out,"ADDITION Expression Encountered\n");}
+	| Expression SUB Expression {fprintf(bison_out,"SUBTRACTION Expression Encountered\n");}
+	| Expression MUL Expression {fprintf(bison_out,"MULTIPLICATION Encountered\n");}
+	| Expression DIV Expression {fprintf(bison_out,"DIVISION Encountered\n");}
+	| Expression MOD Expression {fprintf(bison_out,"MOD Encountered\n");}
+	| Expression LT Expression {fprintf(bison_out,"LESS THAN Encountered\n");}
+	| Expression GT Expression {fprintf(bison_out,"GREATER THAN Encountered\n");}
+	| Expression LE Expression {fprintf(bison_out,"LESS THAN EQUAL TO Encountered\n");}
+	| Expression GE Expression {fprintf(bison_out,"GREATER THAN EQUAL TO  Encountered\n");}
+	| Expression EQUAL Expression {fprintf(bison_out,"EQUALS Encountered\n");}
+	| Expression NOT_EQUAL Expression {fprintf(bison_out,"NOT_EQUALS Encountered\n");}
+	| Expression COND_OR Expression {fprintf(bison_out,"CONDITIONAL OR Encountered\n");}
+	| Expression COND_AND Expression {fprintf(bison_out,"CONDITIONAL AND Encountered\n");}
+	| '-' Expression {fprintf(bison_out,"UNARY - Encountered");}
+	| NOT Expression {fprintf(bison_out,"NOT Encountered");}
 	| OP Expression CP
 	;
 Callout_args:
@@ -155,12 +156,13 @@ Callout_Args:
 	| Callout_Args COMMA Callout_arg
 	;
 Callout_arg:
-	Expression | STRING
+	Expression
+	| STRING {fprintf(bison_out,"STRING LITERAL:%s\n",$1);}
 	;
 Literal:
-	INTEGER
-	| CHAR
-	| BOOLEAN
+	INTEGER {fprintf(bison_out,"INT LITERAL:%d\n",$1);}
+	| CHAR {fprintf(bison_out,"CHAR LITERAL:%s\n",$1);}
+	| BOOLEAN {fprintf(bison_out,"BOOLEAN LITERAL:%s\n",$1);}
 	;
 %%
 int main(int argc, char **argv) {

@@ -19,16 +19,16 @@ hex_digit {digit}|[a-fA-F]
 "class" { fprintf(flex_out, "CLASS\n"); return CLASS;}
 "void" { return VOID; }
 "callout" { fprintf(flex_out, "CALLOUT\n"); return CALLOUT; }
-"int" { fprintf(flex_out, "INT_DECLARATION\n"); return TYPE; }
-"boolean" { fprintf(flex_out, "BOOLEAN_DECLARATION\n");return TYPE; }
+"int" { fprintf(flex_out, "INT_DECLARATION\n"); yylval.value = strdup(yytext); return TYPE; }
+"boolean" { fprintf(flex_out, "BOOLEAN_DECLARATION\n");yylval.value = strdup(yytext); return TYPE; }
 "break" { fprintf(flex_out, "BREAK\n");return BREAK; }
 "continue" { fprintf(flex_out, "CONTINUE\n"); return CONTINUE; }
 "return" { return RETURN; }
 "for" { return FOR; }
 "if" { return IF; }
 "else" { return ELSE; }
-"true"|"false" { fprintf(flex_out, "BOOLEAN:%s\n",yytext);yylval = strdup(yytext);return BOOLEAN; }
-"0x"{hex_digit}+|{digit}+ { fprintf(flex_out, "INT:%s\n",yytext);yylval = strdup(yytext);return INTEGER; }
+"true"|"false" { fprintf(flex_out, "BOOLEAN:%s\n",yytext);yylval.value = strdup(yytext);return BOOLEAN; }
+"0x"{hex_digit}+|{digit}+ { fprintf(flex_out, "INT:%s\n",yytext);yylval.val = atoi(yytext);return INTEGER; }
 "+" { fprintf(flex_out, "ARITH_OP:%s\n",yytext);return ADD; }
 "-" { fprintf(flex_out, "ARITH_OP:%s\n",yytext);return SUB; }
 "/" { fprintf(flex_out, "ARITH_OP:%s\n",yytext);return DIV; }
@@ -53,9 +53,9 @@ hex_digit {digit}|[a-fA-F]
 "(" { /* fprintf(flex_out, "Returning OP\n"); */return OP; }
 ")" { /* fprintf(flex_out, "Returning CP\n"); */return CP; }
 ";" { return SC; }
-{letter}{alpha}* { fprintf(flex_out, "ID:%s\n",yytext);return ID; }
-{character} { fprintf(flex_out, "CHAR:%s\n",yytext);return CHAR; }
-\"{string}*\" { fprintf(flex_out, "STRING:%s\n",yytext);return STRING; }
+{letter}{alpha}* { fprintf(flex_out, "ID:%s\n",yytext);yylval.value = strdup(yytext);return ID; }
+{character} { fprintf(flex_out, "CHAR:%s\n",yytext);yylval.value = strdup(yytext);return CHAR; }
+\"{string}*\" { fprintf(flex_out, "STRING:%s\n",yytext);yylval.value = strdup(yytext);return STRING; }
 {delim}						/* Ignore whitespaces tabs and newlines */
 "//".*						/* Inline comments So Ignore */
 \n { line_num++; }
