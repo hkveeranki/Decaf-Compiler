@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "bison_parser.tab.h"
+#include "parser.tab.h"
 	static void comment(void);
 	FILE* flex_out;
 	int line_num = 0;

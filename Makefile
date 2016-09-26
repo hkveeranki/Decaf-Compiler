@@ -1,10 +1,12 @@
 TARGET=mycomp
 all=$(TARGET)
-$(TARGET): lex.yy.c bison_parser.tab.c
-	gcc lex.yy.c bison_parser.tab.c -lfl -o $(TARGET)
-lex.yy.c: lex_specifications.l
+CC=gcc
+CFLAGS=-lfl
+$(TARGET): lex.yy.c parser.tab.c
+	$(CC) lex.yy.c bison_parser.tab.c $(CFLAGS) -o $(TARGET)
+lex.yy.c: specifications_lex.l
 	flex lex_specifications.l
-bison_parser.tab.c: bison_parser.y
+parser.tab.c: parser.y
 	bison -d bison_parser.y
 clean:
-	rm -f *.c *.h $(TARGET)
+	rm -f *.c *.h $(TARGET) *_output.txt

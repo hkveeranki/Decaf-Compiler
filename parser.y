@@ -33,7 +33,7 @@
 %token EQUAL NOT_EQUAL
 %token EQ ADDEQ SUBEQ
 /* -------------	Left Precedence		------------- */
-%define parse.error verbose
+/* %define parse.error verbose */
 %left EQUAL NOT_EQUAL
 %left COND_AND COND_OR
 %left LT GT LE GE
@@ -113,8 +113,8 @@ Assign_Op:
 	| ADDEQ {fprintf(bison_out,"+= Assignment Encountered\n");}
 	;
 Method_Call:
-	ID OP Method_args CP {fprintf(bison_out,"Method call for %s\n Encountered\n",$1);}
-	| CALLOUT OP STRING Callout_args CP {fprintf(bison_out,"Callout Method call for %s\n Encountered\n",$3);}
+	ID OP Method_args CP {fprintf(bison_out,"Method call for %s Encountered\n",$1);}
+	| CALLOUT OP STRING Callout_args CP {fprintf(bison_out,"CALLOUT for %s Encountered\n",$3);}
 	;
 Method_args:
 	/* Empty */
@@ -157,12 +157,12 @@ Callout_Args:
 	;
 Callout_arg:
 	Expression
-	| STRING {fprintf(bison_out,"STRING LITERAL:%s\n",$1);}
+	| STRING {fprintf(bison_out,"STRING LITERAL=%s\n",$1);}
 	;
 Literal:
-	INTEGER {fprintf(bison_out,"INT LITERAL:%d\n",$1);}
-	| CHAR {fprintf(bison_out,"CHAR LITERAL:%s\n",$1);}
-	| BOOLEAN {fprintf(bison_out,"BOOLEAN LITERAL:%s\n",$1);}
+	INTEGER {fprintf(bison_out,"INT LITERAL=%d\n",$1);}
+	| CHAR {fprintf(bison_out,"CHAR LITERAL=%s\n",$1);}
+	| BOOLEAN {fprintf(bison_out,"BOOLEAN LITERAL=%s\n",$1);}
 	;
 %%
 int main(int argc, char **argv) {
@@ -172,7 +172,6 @@ int main(int argc, char **argv) {
 		printf("No Input File Given\n");
 		exit(-1);
 	}
-	printf("Input file is %s\n",argv[1]);
 	FILE *input = fopen(argv[1], "r");
 	if (input == NULL){
 		printf("Can't open the given file!\n");
@@ -182,9 +181,15 @@ int main(int argc, char **argv) {
 	do{
 		yyparse();
 	}while (!feof(yyin));
-	printf("Success\n");
+	if(errors == 0){
+		printf("Success\n");
+	}
+	else{
+		printf("Compilation Done\n%d compilation Errors found\n",errors);
+	}
 }
 void yyerror(const char *s){
-	printf("%s\n",s);
-	exit(-1);
+	errors++;
+	printf("%s at Line:%d\n",s,line_num);
+//	exit(-1);
 }
