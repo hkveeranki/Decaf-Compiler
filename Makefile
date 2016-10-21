@@ -2,11 +2,11 @@ TARGET=mycomp
 all=$(TARGET)
 CC=gcc
 CFLAGS=-lfl
-$(TARGET): lex.yy.c parser.tab.c
-	$(CC) lex.yy.c parser.tab.c $(CFLAGS) -o $(TARGET)
-lex.yy.c: specifications_lex.l
-	flex specifications_lex.l
-parser.tab.c: parser.y
-	bison -d parser.y
+$(TARGET): lex.yy.c decaf.tab.c
+	$(CC) lex.yy.c decaf.tab.c $(CFLAGS) -o $(TARGET)
+lex.yy.c: decaf.l
+	flex decaf.l
+decaf.tab.c: decaf.y
+	bison -d decaf.y
 clean:
-	rm -f *.c *.h $(TARGET) *_output.txt
+	rm -f *.c decaf.tab.h $(TARGET) *_output.txt

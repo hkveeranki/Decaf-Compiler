@@ -6,7 +6,7 @@
         extern int yylex();
         extern int yyparse();
         extern FILE *yyin;
-	extern FILE *flex_out; 
+	extern FILE *flex_out;
         extern int line_num;
         FILE *bison_out;
 	int errors=0;
@@ -39,9 +39,29 @@
 %left LT GT LE GE
 %left ADD SUB
 %left MUL DIV MOD
-%left NOT
-%left '-'
+%nonassoc NOT
 
+/* -------------	Non-Terminal Types		------------- */
+%type <prog> Program
+%type <fields> Field_declarations
+%type <field> Field_declaration
+%type <vars> Variables
+%type <var> Variable
+%type <methods> Method_declarations
+%type <method> Method_declaration
+%type <block> Block
+%type <var_decls> Var_declarations
+%type <var_decl> Var_declaration
+%type <stmts> Statements
+%type <stmt> Statement
+%type <assignment> Assignment
+%type <parameters> Params
+%type <method_call> Method_Call
+%type <location> Location
+%type <Expression> Expr
+%type <callout_args> Callout_Args
+%type <callout_arg> Callout_Arg
+%type <literal> Literal;
 /* -------------	Grammer Rules		------------- */
 %%
 Program:
@@ -54,28 +74,27 @@ Field_declaration:
 	TYPE Variables {fprintf(bison_out,"%s Field Declarations\n",$1);}
 	;
 Variables:
-	ID Variable { fprintf(bison_out,"ID=%s\n",$1); }
-	| ID OSB INTEGER CSB Variable { fprintf(bison_out,"ID=%s\nSize=%d\n",$1,$3); }
+	Variable {}
+	| Variables COMMA  Variable {  }
 	;
 Variable:
-	/* Empty */
-	| COMMA ID Variable { fprintf(bison_out,"ID=%s\n",$2); }
-	| COMMA ID OSB INTEGER CSB Variable { fprintf(bison_out,"ID=%s\nSize=%d\n",$2,$4);}
+	ID { fprintf(bison_out,"ID=%s\n",$1); }
+	| ID OSB INTEGER CSB { fprintf(bison_out,"ID=%s\nSize=%d\n",$1,$3);}
 Method_declarations:
 	/* Empty */
 	| Method_declaration Method_declarations
 	;
 Method_declaration:
-	TYPE ID Args_list Block {fprintf(bison_out,"%s Method Declaration\nID=%s\n",$1,$2);}
-	| VOID ID Args_list Block {fprintf(bison_out,"Void Method Declaration\nID=%s\n",$2);}
+	TYPE ID Method_Args Block {fprintf(bison_out,"%s Method Declaration\nID=%s\n",$1,$2);}
+	| VOID ID Method_Args Block {fprintf(bison_out,"Void Method Declaration\nID=%s\n",$2);}
 	;
-Args_list:
+Method_Args:
 	OP CP
-	| OP TYPE ID Arg CP {fprintf(bison_out,"%s Argument %s\n",$2,$3);}
+	| OP TYPE ID Method_Arg CP {fprintf(bison_out,"%s Argument %s\n",$2,$3);}
 	;
-Arg:
+Method_Arg:
 	/* Empty */
-	| COMMA TYPE ID Arg {fprintf(bison_out,"%s Argument %s\n",$2,$3);}
+	| COMMA TYPE ID Method_Arg {fprintf(bison_out,"%s Argument %s\n",$2,$3);}
 	;
 Block:
 	OB Var_declarations Statements CB
@@ -96,7 +115,7 @@ Statements:
 	| Statements Statement
 	;
 Statement:
-	Location Assign_Op Expression SC
+	Assignment
 	| Method_Call SC
 	| IF OP Expression CP Block {fprintf(bison_out,"IF Block Encountered\n");}
 	| IF OP Expression CP Block ELSE Block  {fprintf(bison_out,"IF ELSE Block Encountered\n");}
@@ -107,19 +126,19 @@ Statement:
 	| CONTINUE SC {fprintf(bison_out,"Continue Encountered\n");}
 	| Block
 	;
-Assign_Op:
-	EQ {fprintf(bison_out,"= Assignment Encountered\n");}
-	| SUBEQ {fprintf(bison_out,"-= Assignment Encountered\n");}
-	| ADDEQ {fprintf(bison_out,"+= Assignment Encountered\n");}
+Assignment:
+	Location EQ Expression SC {fprintf(bison_out,"= Assignment Encountered\n");}
+	| Location SUBEQ Expression SC  {fprintf(bison_out,"-= Assignment Encountered\n");}
+	| Location ADDEQ Expression SC {fprintf(bison_out,"+= Assignment Encountered\n");}
 	;
 Method_Call:
-	ID OP Method_args CP {fprintf(bison_out,"Method call for %s Encountered\n",$1);}
+	ID OP Params CP {fprintf(bison_out,"Method call for %s Encountered\n",$1);}
 	| CALLOUT OP STRING Callout_args CP {fprintf(bison_out,"CALLOUT for %s Encountered\n",$3);}
 	;
-Method_args:
+Params:
 	/* Empty */
 	| Expression
-	| Method_args COMMA Expression
+	| Params COMMA Expression
 	;
 
 Location:
@@ -147,15 +166,12 @@ Expression:
 	| NOT Expression {fprintf(bison_out,"NOT Encountered");}
 	| OP Expression CP
 	;
-Callout_args:
-	/* Empty */
-	|COMMA Callout_Args
-	;
+
 Callout_Args:
-	Callout_arg
+	Callout_Arg
 	| Callout_Args COMMA Callout_arg
 	;
-Callout_arg:
+Callout_Arg:
 	Expression
 	| STRING {fprintf(bison_out,"STRING LITERAL=%s\n",$1);}
 	;
