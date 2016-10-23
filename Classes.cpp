@@ -123,7 +123,7 @@ calloutArg::calloutArg(string literal){
 unExpr::unExpr(string opr, class Expr* expr){
   this->opr = opr;
   this->body = expr;
-  this->etype = exprType::unExpr;
+  this->etype = exprType::Unexpr;
 }
 
 binExpr::binExpr(class Expr* lhs, string opr, class Expr* rhs){

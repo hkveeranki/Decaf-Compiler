@@ -2,7 +2,7 @@
 
 using namespace std;
 
-enum exprType { binary = 1, location = 2, literal = 3, enclExpr = 4 , unExpr = 5};
+enum exprType { binary = 1, location = 2, literal = 3, enclExpr = 4 , Unexpr = 5};
 enum literalType { Int = 1, Bool = 2, Char = 3, String = 4 };
 union Node{
 	int number;
