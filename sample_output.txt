@@ -1,0 +1,107 @@
+<program>
+    <field_declarations count="1">
+        Normal
+        <declaration name="x" type="int" />
+        Array
+        <declaration name="y" type="int" size="100" />
+    </field_declarations>
+    <method_declarations count="2">
+        <method_declaration return_type="int name="sqr">
+            <method_args count="1">
+                <method_arg name="a" type="int" />
+            </method_args>
+            <block>
+                <variable_declarations count="0">
+                <statements count="1">
+                    <return_statement>
+                        <binary_expression type="Multiplication">
+                            <identifier name="a" />
+                            <identifier name="a" />
+                        </binary_expression>
+                    </return_statement>
+                </statements>
+            </block>
+        </method_declaration>
+        <method_declaration return_type="boolean name="func">
+            <method_args count="2">
+                <method_arg name="b" type="int" />
+                <method_arg name="a" type="int" />
+            </method_args>
+            <block>
+                <variable_declarations count="0">
+                <statements count="2">
+                    <for_statement>
+                        <initialisation>
+                            <variable name="i" />
+                            <integer value="0" />
+                        </initialisation>
+                        <condition>
+                            <binary_expression type="Addition">
+                                <identifier name="a" />
+                                <identifier name="b" />
+                            </binary_expression>
+                        </condition>
+                            <block>
+                                <variable_declarations count="0">
+                                <statements count="1">
+                                    <if_else_statement>
+                                        <condition>
+                                            <binary_expression type="Compare_equal">
+                                                <identifier name="a">
+                                                    <identifier name="i" />
+                                                </identifier>
+                                                <integer value="5" />
+                                            </binary_expression>
+                                        </condition>
+                                        <ifblock>
+                                            <block>
+                                                <variable_declarations count="0">
+                                                <statements count="1">
+                                                    <assignment>
+                                                        <LHS name ="p">
+                                                        </LHS>
+                                                        <operation ="Equal_assign">
+                                                        <RHS>
+                                                            <binary_expression type="Conditional_and">
+                                                                <integer value="10" />
+                                                                <method_call function="func">
+                                                                        <boolean value="false" />
+                                                                </method_call>
+                                                            </binary_expression>
+                                                        </RHS>
+                                                    </assignment>
+                                                </statements>
+                                            </block>
+                                        </ifblock>
+                                        <else_block>
+                                            <block>
+                                                <variable_declarations count="0">
+                                                <statements count="1">
+                                                    <assignment>
+                                                        <LHS name ="p">
+                                                        </LHS>
+                                                        <operation ="Equal_assign">
+                                                        <RHS>
+                                                            <binary_expression type="Conditional_and">
+                                                                <integer value="10" />
+                                                                <method_call function="func">
+                                                                        <boolean value="false" />
+                                                                </method_call>
+                                                            </binary_expression>
+                                                        </RHS>
+                                                    </assignment>
+                                                </statements>
+                                            </block>
+                                        </elseblock>
+                                    </if_else_statement>
+                                </statements>
+                            </block>
+                    </for_statement>
+                    <return_statement>
+                        <boolean value="false" />
+                    </return_statement>
+                </statements>
+            </block>
+        </method_declaration>
+    </method_declarations>
+</program>

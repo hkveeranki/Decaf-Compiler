@@ -1,0 +1,17 @@
+class Program{
+	int x,y[100];
+
+	boolean func(int a, int b){
+		for i=0, a+b{
+			if(a[i]==5)
+			{
+				p = (10 && func(true, false));
+			}
+		}
+		return false;
+	}
+	int sqr(int a){
+		return a*a;
+	}
+
+}

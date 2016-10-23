@@ -2,7 +2,7 @@
 
 using namespace std;
 
-enum exprType { binary = 1, location = 2, literal = 3, enclExpr = 4 };
+enum exprType { binary = 1, location = 2, literal = 3, enclExpr = 4 , unExpr = 5};
 enum literalType { Int = 1, Bool = 2, Char = 3, String = 4 };
 union Node{
 	int number;
@@ -91,16 +91,16 @@ class stringLiteral;
 
 class Var{
 private:
-	string declType;
-	string name;
-	string dataType;
-	unsigned int length;
+	string declType; /* rray or Normal */
+	string name; /* Name of the variable */
+	string dataType; /* type of variable */
+	unsigned int length; /* if it is an Array then length */
 public:
 	/* Constructors */
 	Var(string,string,unsigned int);
 	Var(string,string);
 	/* Methods */
-	void setDataType(string);
+	void setDataType(string); /* Set the data Type */
 	void traverse();
 };
 
@@ -117,7 +117,7 @@ public:
 
 class fieldDecl{
 private:
-	string dataType;
+	string dataType; /* Field declaration can have datatype and vaariables */
 	vector<class Var*> var_list;
 public:
 	fieldDecl(string,class Vars*);
@@ -137,7 +137,7 @@ public:
 
 class Expr{
 protected:
-	exprType etype;
+	exprType etype; /* Binary or unary or literal or location */
 public:
 	void setEtype(exprType x){etype = x;}
 	exprType getEtype();
@@ -155,8 +155,8 @@ public:
 
 class unExpr:public Expr{
 private:
-	class Expr* body;
-	string opr;
+	class Expr* body; /* body of expression */
+	string opr; /* Unary Expression */
 public:
 	unExpr(string,class Expr*);
 	void traverse();
@@ -164,9 +164,9 @@ public:
 
 class binExpr:public Expr{
 private:
-	class Expr* lhs;
-	class Expr* rhs;
-	string opr;
+	class Expr* lhs; /* left hand side */
+	class Expr* rhs; /* right hand side */
+	string opr; /* operator in between */
 public:
 	binExpr(class Expr*, string, class Expr*);
 	void traverse();
@@ -174,21 +174,21 @@ public:
 
 class Location:public Expr{
 private:
-	string var;
-	string location_type;
-	class Expr* expr;
+	string var; /* name used in location */
+	string location_type; /* Array or normal */
+	class Expr* expr; /* if it is array then we have the address */
 public:
 	Location(string,string,class Expr*);
 	Location(string,string);
 	void traverse();
-	string getVar();
-	bool is_array();
+	string getVar();/* returns the var name */
+	bool is_array(); /* tells if its array or not */
 	class Expr* getExpr();
 };
 
 class Literal:public Expr{
 protected:
-	literalType ltype;
+	literalType ltype; /* Integer bool or char */
 public:
 	virtual void traverse(){}
 	virtual int getValue(){}
@@ -253,7 +253,7 @@ public:
 
 class calloutCall:public methodCall{
 private:
-	class calloutArgs* args;
+	class calloutArgs* args; /* Args passed to callout call */
 public:
 	calloutCall(string, class calloutArgs*);
 	void traverse();
@@ -261,7 +261,7 @@ public:
 
 class Method:public methodCall{
 private:
-	class Params* params;
+	class Params* params;/* Parameters passed to method call */
 public:
 	Method(string, class Params*);
 	void traverse();
@@ -299,9 +299,9 @@ public:
 
 class Assignment:public Stmt{
 private:
-	class Location* loc;
-	class Expr* expr;
-	string opr;
+	class Location* loc;/* location to which assignment is done */
+	class Expr* expr; /* what is assigned */
+	string opr; /* how it is assigned = or -= or += */
 public:
 	Assignment(class Location*, string, class Expr*);
 	void traverse();
@@ -309,8 +309,8 @@ public:
 
 class Block:public Stmt{
 private:
-	class varDecls* decls_list;
-	class Stmts* stmts_list;
+	class varDecls* decls_list; /* list of variable declarations */
+	class Stmts* stmts_list; /* list of statement declarations */
 public:
 	Block(class varDecls*,class Stmts*);
 	void traverse();
@@ -318,8 +318,8 @@ public:
 
 class varDecl{
 private:
-	string type;
-	vector<string> var_list;
+	string type; /* type of variable declaraion */
+	vector<string> var_list; /* list of variables */
 	int cnt;
 public:
 	varDecl(string,class stringList*);
@@ -329,7 +329,7 @@ public:
 
 class stringList{
 private:
-	vector<string> list;
+	vector<string> list; /* class to store vector of strings */
 public:
 	stringList(){}
 	void push_back(string);
@@ -347,10 +347,10 @@ public:
 
 class forStmt:public Stmt{
 private:
-	string var;
-	class Expr* init;
-	class Expr* condition;
-	class Block* body;
+	string var;/* variable to be initialised */
+	class Expr* init; /* Value for initialisation */
+	class Expr* condition; /* condition for loop */
+	class Block* body; /* body of the loop */
 public:
 	forStmt(string, class Expr*, class Expr*, class Block*);
 	void traverse();
@@ -358,9 +358,9 @@ public:
 
 class ifElseStmt:public Stmt{
 private:
-	class Expr* condition;
-	class Block* if_block;
-	class Block* else_block;
+	class Expr* condition; /* condition for if statement */
+	class Block* if_block; /* if block */
+	class Block* else_block;/* else block */
 public:
 	ifElseStmt(class Expr*, class Block*, class Block*);
 	void traverse();
@@ -368,7 +368,7 @@ public:
 
 class returnStmt:public Stmt{
 private:
-	class Expr* ret;
+	class Expr* ret;/* Expression to be returned */
 public:
 	returnStmt(class Expr*);
 	void traverse();
@@ -388,10 +388,10 @@ public:
 
 class methodDecl{
 private:
-	string type;
-	string name;
-	class methodArgs* arg_list;
-	class Block* body;
+	string type; /* return type of the function */
+	string name; /* name of the function */
+	class methodArgs* arg_list; /* List of arguments for the functions */
+	class Block* body; /* Body of the function */
 public:
 	methodDecl(string type, string name, class methodArgs*, class Block*);
 	void traverse();
@@ -419,8 +419,8 @@ public:
 
 class methodArg{
 private:
-	string type;
-	string name;
+	string type; /* type of the argument int/boolean */
+	string name; /* name of argument */
 public:
 	methodArg(string,string);
 	void traverse();
@@ -428,9 +428,9 @@ public:
 
 class Prog{
 private:
-	string name;
-	class methodDecls* methods;
-	class fieldDecls* fields;
+	string name; /* name of the class */
+	class methodDecls* methods; /* list of methods */
+	class fieldDecls* fields; /* list of fields */
 public:
 	Prog(string name,class fieldDecls*,class methodDecls*);
 	void traverse();

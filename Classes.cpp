@@ -4,7 +4,7 @@ using namespace std;
 #define TBS printTabs()
 ofstream out("XML_vistor.txt");
 int tabs_needed = 0;
-const int tab_width = 2;
+const int tab_width = 4;
 
 
 /* Usefull Functions */
@@ -63,7 +63,8 @@ void printTabs(){
     out << " ";
   }
 }
-/* Constructors */
+
+/* --------------------- Constructors ---------------------*/
 Var::Var(string declType, string name, unsigned int length){
   this->declType = declType;
   this->name = name;
@@ -122,6 +123,7 @@ calloutArg::calloutArg(string literal){
 unExpr::unExpr(string opr, class Expr* expr){
   this->opr = opr;
   this->body = expr;
+  this->etype = exprType::unExpr;
 }
 
 binExpr::binExpr(class Expr* lhs, string opr, class Expr* rhs){
@@ -235,9 +237,10 @@ Prog::Prog(string name, class fieldDecls* decls, class methodDecls* methods){
   this->fields = decls;
 }
 
-/* Methods */
+/* --------------------- Methods --------------------- */
 
 void Var::setDataType(string datatype){
+  /* Sets the data type for the variable */
   this->dataType = datatype;
 }
 
@@ -325,7 +328,8 @@ void methodArgs::push_back(class methodArg* arg){
 vector<string> stringList::getList(){
   return this->list;
 }
-/* Traversals */
+
+/* --------------------- Traversals ---------------------*/
 
 void fieldDecls::traverse(){
   TBS;
@@ -463,10 +467,13 @@ void unExpr::traverse(){
 
 void Block::traverse(){
   TBS;
-  out << "<block>";
+  out << "<block>\n";
   tabs_needed++;
   decls_list->traverse();
   stmts_list->traverse();
+  tabs_needed--;
+  TBS;
+  out << "</block>\n";
 }
 
 void varDecls::traverse(){
@@ -510,13 +517,10 @@ void forStmt::traverse(){
   tabs_needed--;
   TBS;
   out << "</condition>\n";
-  TBS;
-  out << "<body>\n";
   tabs_needed++;
   body->traverse();
   tabs_needed--;
-  TBS;
-  out << "</body>\n";
+  tabs_needed--;
   TBS;
   out << "</for_statement>\n";
 }
@@ -640,11 +644,10 @@ void methodDecl::traverse(){
   out << "<method_declaration return_type=\"" << type << " name=\""<< name << "\">\n";
   tabs_needed++;
   arg_list->traverse();
-  TBS;
-  out << "<body>\n";
   body->traverse();
+  tabs_needed--;
   TBS;
-  out << "</body>\n";
+  out << "</method_declaration>\n";
 }
 
 void methodDecls::traverse(){
