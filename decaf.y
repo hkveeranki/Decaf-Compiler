@@ -1,37 +1,33 @@
 %{
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#define YYDEBUG 1
-        extern int yylex();
-        extern int yyparse();
-        extern FILE *yyin;
-	extern FILE *flex_out;
-        extern int line_num;
-        FILE *bison_out;
-	int errors=0;
-        void yyerror(const char *s);
+#include "ClassDefs.h"
+#include <bits/stdc++.h>
+
+  extern "C" int yylex();
+  extern "C" int yyparse();
+  extern "C" FILE *yyin;
+  extern "C" int line_num;
+  extern union Node yylval;
+  void yyerror(const char *s);
+  class Prog* start = NULL;
+  int errors=0;
 %}
-/* -------------	Union 		-------------*/
-%union{
-	int val;
-	char *value;
-}
 
 /* -------------	Tokens 		------------- */
+%start Program
+
 %token CLASS
-%token CALLOUT RETURN VOID
+%token CALLOUT RETURN
 %token BREAK CONTINUE
 %token IF ELSE FOR
 %token COMMA SC
-%token<value> BOOLEAN CHAR STRING TYPE ID
-%token<val> INTEGER
+%token <value> BOOLEAN CHAR STRING TYPE ID VOID
+%token <number> INTEGER
 %token OB CB OSB CSB OP CP
-%token COND_AND COND_OR
-%token ADD SUB MUL DIV MOD
-%token LT GT LE GE
-%token EQUAL NOT_EQUAL
-%token EQ ADDEQ SUBEQ
+%token <value> COND_AND COND_OR NOT
+%token <value> ADD SUB MUL DIV MOD
+%token <value> LT GT LE GE
+%token <value> EQUAL NOT_EQUAL
+%token <value> EQ ADDEQ SUBEQ
 /* -------------	Left Precedence		------------- */
 /* %define parse.error verbose */
 %left EQUAL NOT_EQUAL
@@ -49,6 +45,8 @@
 %type <var> Variable
 %type <methods> Method_declarations
 %type <method> Method_declaration
+%type <method_args> Method_Args
+%type <method_args> Method_Arg
 %type <block> Block
 %type <var_decls> Var_declarations
 %type <var_decl> Var_declaration
@@ -58,154 +56,189 @@
 %type <parameters> Params
 %type <method_call> Method_Call
 %type <location> Location
-%type <Expression> Expr
+%type <expr> Expression
 %type <callout_args> Callout_Args
 %type <callout_arg> Callout_Arg
 %type <literal> Literal;
+%type <mylist> Var_names
 /* -------------	Grammer Rules		------------- */
 %%
 Program:
-	CLASS ID OB Field_declarations Method_declarations CB {fprintf(bison_out,"Program Encountered\n");}
+	CLASS ID OB Field_declarations Method_declarations CB {
+    $$ = new Prog(string($2),$4,$5);
+    start = $$;
+  }
 	;
 Field_declarations:
-	| Field_declarations Field_declaration SC
+  {
+    $$ = new fieldDecls();
+  }
+	| Field_declarations Field_declaration SC {$$->push_back($2);}
 	;
 Field_declaration:
-	TYPE Variables {fprintf(bison_out,"%s Field Declarations\n",$1);}
+	TYPE Variables {$$ = new fieldDecl(string($1),$2);}
 	;
 Variables:
-	Variable {}
-	| Variables COMMA  Variable {  }
+	Variable {$$ = new Vars();$$->push_back($1);}
+	| Variables COMMA  Variable { $$->push_back($3); }
 	;
 Variable:
-	ID { fprintf(bison_out,"ID=%s\n",$1); }
-	| ID OSB INTEGER CSB { fprintf(bison_out,"ID=%s\nSize=%d\n",$1,$3);}
+	ID { $$ = new Var(string("Normal"),string($1));}
+	| ID OSB INTEGER CSB { $$ = new Var(string("Array"),string($1),$3);}
+  ;
 Method_declarations:
-	/* Empty */
-	| Method_declaration Method_declarations
+	{
+    $$ = new methodDecls();
+  }
+	| Method_declaration Method_declarations {$2->push_back($1);$$ = $2;}
 	;
 Method_declaration:
-	TYPE ID Method_Args Block {fprintf(bison_out,"%s Method Declaration\nID=%s\n",$1,$2);}
-	| VOID ID Method_Args Block {fprintf(bison_out,"Void Method Declaration\nID=%s\n",$2);}
+	TYPE ID Method_Args Block {$$ = new methodDecl(string($1),$2,$3,$4);}
+	| VOID ID Method_Args Block {$$ = new methodDecl(string($1),$2,$3,$4);}
 	;
 Method_Args:
-	OP CP
-	| OP TYPE ID Method_Arg CP {fprintf(bison_out,"%s Argument %s\n",$2,$3);}
+	OP CP {$$ = new methodArgs();}
+	| OP TYPE ID Method_Arg CP {
+    methodArg* arg = new methodArg(string($2),string($3));
+    $4->push_back(arg);
+    $$ = $4;
+  }
 	;
 Method_Arg:
 	/* Empty */
-	| COMMA TYPE ID Method_Arg {fprintf(bison_out,"%s Argument %s\n",$2,$3);}
+  {
+    $$ = new methodArgs();
+  }
+	| COMMA TYPE ID Method_Arg {
+    methodArg* arg = new methodArg(string($2),string($3));
+    $4->push_back(arg);
+    $$ = $4;
+  }
 	;
 Block:
-	OB Var_declarations Statements CB
+	OB Var_declarations Statements CB {
+    $$ = new Block($2,$3);
+  }
 	;
 Var_declarations:
 	/* Empty */
-	| Var_declaration SC Var_declarations
+  {
+    $$ = new varDecls();
+  }
+	| Var_declaration SC Var_declarations {$3->push_back($1);$$ = $3;}
 	;
 Var_declaration:
-	TYPE ID Var_names {fprintf(bison_out,"ID=%s for %s Variable Declarations\n",$2,$1);}
+	TYPE ID Var_names {
+    $3->push_back($2);
+    $$ = new varDecl(string($1),$3);
+  }
 	;
 Var_names:
 	/* Empty */
-	| COMMA ID Var_names {fprintf(bison_out,"ID=%s\n",$2);}
+  {
+        $$ = new stringList();
+  }
+	| COMMA ID Var_names {$3->push_back(string($2));$$ = $3;}
 	;
 Statements:
 	/* Empty */
-	| Statements Statement
+  {
+    $$ = new Stmts();
+  }
+	| Statements Statement {$$->push_back($2);}
 	;
 Statement:
-	Assignment
-	| Method_Call SC
-	| IF OP Expression CP Block {fprintf(bison_out,"IF Block Encountered\n");}
-	| IF OP Expression CP Block ELSE Block  {fprintf(bison_out,"IF ELSE Block Encountered\n");}
-	| FOR ID EQ Expression COMMA Expression Block  {fprintf(bison_out,"FOR Block Encountered\n");}
-	| RETURN SC {fprintf(bison_out,"Return Encountered\n");}
-	| RETURN Expression SC {fprintf(bison_out,"Return Encountered\n");}
-	| BREAK SC {fprintf(bison_out,"Break Encountered\n");}
-	| CONTINUE SC {fprintf(bison_out,"Continue Encountered\n");}
-	| Block
+	Assignment {$$ = $1;}
+	| Method_Call SC {$$ = $1;}
+	| IF OP Expression CP Block {$$ = new ifElseStmt($3,$5,NULL);}
+	| IF OP Expression CP Block ELSE Block  {$$ = new ifElseStmt($3,$5,$7);}
+	| FOR ID EQ Expression COMMA Expression Block  {
+    $$ = new forStmt(string($2),$4,$6,$7);
+  }
+	| RETURN SC {$$ = new returnStmt(NULL);}
+	| RETURN Expression SC {$$ = new returnStmt($2);}
+	| BREAK SC {$$ = new breakStmt();}
+	| CONTINUE SC {$$ = new continueStmt();}
+	| Block {$$ = $1;}
 	;
 Assignment:
-	Location EQ Expression SC {fprintf(bison_out,"= Assignment Encountered\n");}
-	| Location SUBEQ Expression SC  {fprintf(bison_out,"-= Assignment Encountered\n");}
-	| Location ADDEQ Expression SC {fprintf(bison_out,"+= Assignment Encountered\n");}
+	Location EQ Expression SC {$$ = new Assignment($1,string($2),$3);}
+	| Location SUBEQ Expression SC  {$$ = new Assignment($1,string($2),$3);}
+	| Location ADDEQ Expression SC {$$ = new Assignment($1,string($2),$3);}
 	;
 Method_Call:
-	ID OP Params CP {fprintf(bison_out,"Method call for %s Encountered\n",$1);}
-	| CALLOUT OP STRING Callout_args CP {fprintf(bison_out,"CALLOUT for %s Encountered\n",$3);}
+	ID OP Params CP {$$ = new Method(string($1),$3);}
+	| CALLOUT OP STRING Callout_Args CP {$$ = new calloutCall(string($3),$4);}
 	;
 Params:
-	/* Empty */
-	| Expression
-	| Params COMMA Expression
+	Expression {$$ = new Params();}
+	| Params COMMA Expression {$$->push_back($3);}
 	;
 
 Location:
-	ID
-	| ID OSB Expression CSB
+	ID {$$ = new Location(string($1),string("Normal"));}
+	| ID OSB Expression CSB {$$ = new Location(string($1),string("Array"),$3);}
 	;
 Expression:
-	Location
-	| Method_Call
-	| Literal
-	| Expression ADD Expression {fprintf(bison_out,"ADDITION Expression Encountered\n");}
-	| Expression SUB Expression {fprintf(bison_out,"SUBTRACTION Expression Encountered\n");}
-	| Expression MUL Expression {fprintf(bison_out,"MULTIPLICATION Encountered\n");}
-	| Expression DIV Expression {fprintf(bison_out,"DIVISION Encountered\n");}
-	| Expression MOD Expression {fprintf(bison_out,"MOD Encountered\n");}
-	| Expression LT Expression {fprintf(bison_out,"LESS THAN Encountered\n");}
-	| Expression GT Expression {fprintf(bison_out,"GREATER THAN Encountered\n");}
-	| Expression LE Expression {fprintf(bison_out,"LESS THAN EQUAL TO Encountered\n");}
-	| Expression GE Expression {fprintf(bison_out,"GREATER THAN EQUAL TO  Encountered\n");}
-	| Expression EQUAL Expression {fprintf(bison_out,"EQUALS Encountered\n");}
-	| Expression NOT_EQUAL Expression {fprintf(bison_out,"NOT_EQUALS Encountered\n");}
-	| Expression COND_OR Expression {fprintf(bison_out,"CONDITIONAL OR Encountered\n");}
-	| Expression COND_AND Expression {fprintf(bison_out,"CONDITIONAL AND Encountered\n");}
-	| SUB Expression {fprintf(bison_out,"UNARY - Encountered\n");}
-	| NOT Expression {fprintf(bison_out,"NOT Encountered");}
-	| OP Expression CP
+	Location {$$ = $1;}
+	| Method_Call {$$ = $1;}
+	| Literal {$$ = $1;}
+	| Expression ADD Expression {$$ = new binExpr($1,string($2),$3);}
+	| Expression SUB Expression {$$ = new binExpr($1,string($2),$3);}
+	| Expression MUL Expression {$$ = new binExpr($1,string($2),$3);}
+	| Expression DIV Expression {$$ = new binExpr($1,string($2),$3);}
+	| Expression MOD Expression {$$ = new binExpr($1,string($2),$3);}
+	| Expression LT Expression {$$ = new binExpr($1,string($2),$3);}
+	| Expression GT Expression {$$ = new binExpr($1,string($2),$3);}
+	| Expression LE Expression {$$ = new binExpr($1,string($2),$3);}
+	| Expression GE Expression {$$ = new binExpr($1,string($2),$3);}
+	| Expression EQUAL Expression {$$ = new binExpr($1,string($2),$3);}
+	| Expression NOT_EQUAL Expression {$$ = new binExpr($1,string($2),$3);}
+	| Expression COND_OR Expression {$$ = new binExpr($1,string($2),$3);}
+	| Expression COND_AND Expression {$$ = new binExpr($1,string($2),$3);}
+	| SUB Expression {$$ = new unExpr(string($1),$2);}
+	| NOT Expression {$$ = new unExpr(string($1),$2);}
+	| OP Expression CP {$$ = new EnclExpr($2);}
 	;
 
 Callout_Args:
-	Callout_Arg
-	| Callout_Args COMMA Callout_arg
+	Callout_Arg {$$ = new calloutArgs(); $$->push_back($1);}
+	| Callout_Args COMMA Callout_Arg {$$->push_back($3);}
 	;
 Callout_Arg:
-	Expression
-	| STRING {fprintf(bison_out,"STRING LITERAL=%s\n",$1);}
+	Expression {$$ = new calloutArg($1);}
+	| STRING {$$ = new calloutArg(string($1));}
 	;
 Literal:
-	INTEGER {fprintf(bison_out,"INT LITERAL=%d\n",$1);}
-	| CHAR {fprintf(bison_out,"CHAR LITERAL=%s\n",$1);}
-	| BOOLEAN {fprintf(bison_out,"BOOLEAN LITERAL=%s\n",$1);}
+	INTEGER {$$ = new intLiteral($1);}
+	| CHAR {$$ = new charLiteral(string($1));}
+	| BOOLEAN {$$ = new boolLiteral(string($1));}
 	;
 %%
 int main(int argc, char **argv) {
-	bison_out = fopen("bison_output.txt","w");
-	flex_out = fopen("flex_output.txt","w");
-	if(argc == 1) {
+  if(argc == 1) {
 		printf("No Input File Given\n");
 		exit(-1);
 	}
+
 	FILE *input = fopen(argv[1], "r");
+
 	if (input == NULL){
 		printf("Can't open the given file!\n");
 		exit(-1);
 	}
 	yyin = input;
-	do{
+
+	do {
 		yyparse();
-	}while (!feof(yyin));
-	if(errors == 0){
-		printf("Success\n");
-	}
-	else{
-		printf("Compilation Done\n%d compilation Errors found\n",errors);
+	} while (!feof(yyin));
+	printf("Success\n");
+	if(start){
+		start->traverse();
 	}
 }
 void yyerror(const char *s){
 	errors++;
-	printf("%s at Line:%d\n",s,line_num);
-//	exit(-1);
+	printf("Error:%s at %d\n",s,line_num);
+  exit(-1);
 }

@@ -1,10 +1,11 @@
 %{
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
+#include <bits/stdc++.h>
+#include "ClassDefs.h"
 #include "decaf.tab.h"
-	static void comment(void);
-	FILE* flex_out;
+#define YY_DECL extern "C" int yylex()
+	extern union Node yylval;
+	using namespace std;
 	int line_num = 0;
 %}
 digit [0-9]
@@ -16,63 +17,47 @@ character   \'{char}\'
 string (\\n|\\t|\\'|\\\\|\\\"|[^\\"'])
 hex_digit {digit}|[a-fA-F]
 %%
-"class" { fprintf(flex_out, "CLASS\n"); return CLASS;}
-"void" { return VOID; }
-"callout" { fprintf(flex_out, "CALLOUT\n"); return CALLOUT; }
-"int" { fprintf(flex_out, "INT_DECLARATION\n"); yylval.value = strdup(yytext); return TYPE; }
-"boolean" { fprintf(flex_out, "BOOLEAN_DECLARATION\n");yylval.value = strdup(yytext); return TYPE; }
-"break" { fprintf(flex_out, "BREAK\n");return BREAK; }
-"continue" { fprintf(flex_out, "CONTINUE\n"); return CONTINUE; }
+"class" { return CLASS;}
+"void" { yylval.value = strdup(yytext);return VOID; }
+"callout" { return CALLOUT; }
+"int" { yylval.value = strdup(yytext); return TYPE; }
+"boolean" { yylval.value = strdup(yytext); return TYPE; }
+"break" { return BREAK; }
+"continue" { return CONTINUE; }
 "return" { return RETURN; }
 "for" { return FOR; }
 "if" { return IF; }
 "else" { return ELSE; }
-"true"|"false" { fprintf(flex_out, "BOOLEAN:%s\n",yytext);yylval.value = strdup(yytext);return BOOLEAN; }
-"0x"{hex_digit}+|{digit}+ { fprintf(flex_out, "INT:%s\n",yytext);yylval.val = atoi(yytext);return INTEGER; }
-"+" { fprintf(flex_out, "ARITH_OP:%s\n",yytext);return ADD; }
-"-" { fprintf(flex_out, "ARITH_OP:%s\n",yytext);return SUB; }
-"/" { fprintf(flex_out, "ARITH_OP:%s\n",yytext);return DIV; }
-"*" { fprintf(flex_out, "ARITH_OP:%s\n",yytext);return MUL; }
-"%" { fprintf(flex_out, "ARITH_OP:%s\n",yytext);return MOD; }
-"<" { fprintf(flex_out, "REL_OP:%s\n",yytext);return LT; }
-">" { fprintf(flex_out, "REL_OP:%s\n",yytext);return GT; }
-"<=" { fprintf(flex_out, "REL_OP:%s\n",yytext); return LE; }
-">=" { fprintf(flex_out, "REL_OP:%s\n",yytext);return GE; }
-"==" { fprintf(flex_out, "EQ_OP:%s\n",yytext);return EQUAL; }
-"!=" { fprintf(flex_out, "EQ_OP:%s\n",yytext);return NOT_EQUAL; }
-"=" { fprintf(flex_out, "ASSIGN_OP:%s\n",yytext);return EQ; }
-"+=" { fprintf(flex_out, "ASSIGN_OP:%s\n",yytext);return ADDEQ; }
-"-=" { fprintf(flex_out, "ASSIGN_OP:%s\n",yytext);return SUBEQ; }
-"&&" { fprintf(flex_out, "COND_OP:%s\n",yytext);return COND_AND; }
-"||" { fprintf(flex_out, "COND_OP:%s\n",yytext);return COND_OR; }
+"true"|"false" { yylval.value = strdup(yytext);return BOOLEAN; }
+"0x"{hex_digit}+|{digit}+ { yylval.number = atoi(yytext);return INTEGER; }
+"+" { yylval.value = strdup(yytext);return ADD; }
+"-" { yylval.value = strdup(yytext);return SUB; }
+"/" { yylval.value = strdup(yytext);return DIV; }
+"*" { yylval.value = strdup(yytext);return MUL; }
+"%" { yylval.value = strdup(yytext);return MOD; }
+"<" { yylval.value = strdup(yytext);return LT; }
+">" { yylval.value = strdup(yytext);return GT; }
+"<=" { yylval.value = strdup(yytext);return LE; }
+">=" {yylval.value = strdup(yytext);return GE; }
+"==" { yylval.value = strdup(yytext);return EQUAL; }
+"!=" { yylval.value = strdup(yytext);return NOT_EQUAL; }
+"=" { yylval.value = strdup(yytext);return EQ; }
+"+=" { yylval.value = strdup(yytext);return ADDEQ; }
+"-=" { yylval.value = strdup(yytext);return SUBEQ; }
+"&&" { yylval.value = strdup(yytext);return COND_AND; }
+"||" { yylval.value = strdup(yytext);return COND_OR; }
 "," { return COMMA; }
-"{" { /* fprintf(flex_out, "Returning OB\n"); */return OB; }
-"}" { /* fprintf(flex_out, "Returning CB\n"); */return CB; }
-"[" {/*  fprintf(flex_out, "Returning OSB\n");*/return OSB; }
-"]" { /* fprintf(flex_out, "Returning CSB\n");*/return CSB; }
-"(" { /* fprintf(flex_out, "Returning OP\n"); */return OP; }
-")" { /* fprintf(flex_out, "Returning CP\n"); */return CP; }
+"{" { return OB; }
+"}" { return CB; }
+"[" {return OSB; }
+"]" {return CSB; }
+"(" {return OP; }
+")" {return CP; }
 ";" { return SC; }
-{letter}{alpha}* { fprintf(flex_out, "ID:%s\n",yytext);yylval.value = strdup(yytext);return ID; }
-{character} { fprintf(flex_out, "CHAR:%s\n",yytext);yylval.value = strdup(yytext);return CHAR; }
-\"{string}*\" { fprintf(flex_out, "STRING:%s\n",yytext);yylval.value = strdup(yytext);return STRING; }
+{letter}{alpha}* { yylval.value = strdup(yytext);return ID; }
+{character} { yylval.value = strdup(yytext);return CHAR; }
+\"{string}*\" { yylval.value = strdup(yytext);return STRING; }
 {delim}						/* Ignore whitespaces tabs and newlines */
 "//".*						/* Inline comments So Ignore */
 \n { line_num++; }
 %%
-static void comment(void)
-{
-	int c;
-	while ((c = input()) != 0)
-		if (c == '*')
-		{
-			while ((c = input()) == '*')
-				;
-
-			if (c == '/')
-				return;
-
-			if (c == 0)
-				break;
-		}
-}

@@ -11,7 +11,7 @@ union Node{
 	class fieldDecls* fields;
 	class fieldDecl* field;
 	class Vars* vars;
-  class Var* var;
+	class Var* var;
 	class methodDecls* methods;
 	class methodDecl* method;
 	class Block* block;
@@ -20,7 +20,6 @@ union Node{
 	class Stmts* stmts;
 	class Stmt* stmt;
 	class Expr* expr;
-	class varDecls var_decls;
 	class calloutArg* callout_arg;
 	class calloutArgs* callout_args;
 	class Params* parameters;
@@ -30,89 +29,99 @@ union Node{
 	class Location* location;
 	class Assignment* assignment;
 	class Literal* literal;
+	class stringList* mylist;
 
 	Node(){
 		number = 0;
 		value = NULL;
-		decls = NULL;
-		decl = NULL;
+		fields = NULL;
+		field = NULL;
+		methods = NULL;
+		method = NULL;
+		var_decls = NULL;
 		stmts = NULL;
-		stmt = NULL;
+		callout_args = NULL;
+		method_args = NULL;
 	}
 	~Node(){};
 };
+
 typedef union Node YYSTYPE;
+
 #define YYSTYPE_IS_DECLARED 1
 /* Classes
-   class Prog;
-   class fieldDecls;
-   class fieldDecl;
-   class Vars;
-   class Var;
-   class methodDecls;
-   class methodDecl;
-   class Args;
-   class Arg;
-   class Block;
-   class varDecls;
-   class Stmts;
-   class Stmt;
-   class Assignment;
-	 class Block;
-	 class forStmt;
-	 class ifElseStmt;
-	 class returnStmt;
-	 class breakStmt;
-	 class continueStmt;
-   class Expr;
-   class methodCall;
-   class Method;
-	 class methodArgs;
-	 class calloutCall;
-   class calloutArgs;
-   class calloutArg;
-   class EnclExpr;
-   class binExpr;
-	 class unExpr;
-   class Location;
-   class Literal;
-   class intLiteral;
-   class boolLiteral;
-   class charLiteral;
-	 class stringLiteral;
- */
+class Prog;
+class fieldDecls;
+class fieldDecl;
+class Vars;
+class Var;
+class methodDecls;
+class methodDecl;
+class Args;
+class Arg;
+class Block;
+class varDecls;
+class Stmts;
+class Stmt;
+class Assignment;
+class Block;
+class Params;
+class forStmt;
+class ifElseStmt;
+class returnStmt;
+class breakStmt;
+class continueStmt;
+class Expr;
+class methodCall;
+class Method;
+class methodArgs;
+class calloutCall;
+class calloutArgs;
+class calloutArg;
+class EnclExpr;
+class binExpr;
+class unExpr;
+class Location;
+class Literal;
+class intLiteral;
+class boolLiteral;
+class charLiteral;
+class stringLiteral;
+*/
 
 class Var{
-	private:
-		string declType;
-		string name;
-		string dataType;
-		unsigned int length;
-	public:
-		/* Constructors */
-		Var(string,string,unsigned int);
-		Var(string,string);
-		/* Methods */
-		void setDataType(string);
-		void traverse();
+private:
+	string declType;
+	string name;
+	string dataType;
+	unsigned int length;
+public:
+	/* Constructors */
+	Var(string,string,unsigned int);
+	Var(string,string);
+	/* Methods */
+	void setDataType(string);
+	void traverse();
 };
 
 class Vars{
 private:
-	vector<class Var*> varsList;
+	vector<class Var*> vars_list;
+	int cnt;
 public:
-	Vars();
+	Vars(){}
 	void push_back(class Var*);
-	void push_back_list(class Vars*);
+	vector<class Var*> getVarsList();
 	void traverse();
-}
+};
+
 class fieldDecl{
 private:
 	string dataType;
-	vector<class Vars* var> varList;
+	vector<class Var*> var_list;
 public:
 	fieldDecl(string,class Vars*);
-	vector<class Vars* var> Var* getVarsList();
+	vector<class Var*> getVarsList();
 	void traverse();
 };
 
@@ -122,7 +131,7 @@ private:
 	int cnt;
 public:
 	fieldDecls();
-	void push_back(class Decl*);
+	void push_back(class fieldDecl*);
 	void traverse();
 };
 
@@ -141,59 +150,7 @@ private:
 	class Expr* expr;
 public:
 	EnclExpr(class Expr*);
-	string toString();
 	void traverse();
-};
-
-class methodCall:public Stmt,public Expr{
-private:
-	string method_name;
-public:
-	virtual void traverse();
-};
-
-class calloutCall:public methodCall{
-private:
-	class calloutArgs* args;
-public:
-	calloutCall();
-	void traverse();
-};
-
-class Method:public methodCall{
-private:
-	class Params* args;
-public:
-	Method();
-	void traverse();
-};
-
-class Params{
-private:
-	vector<class Expr*> expr_list;
-	int cnt;
-public:
-	Params();
-	void push_back(class Expr*);
-	void traverse();
-};
-
-class calloutArg{
-private:
-	class Expr* expr;
-public:
-	calloutArg(class Expr*);
-	calloutArg(string literal);
-	void traverse();
-};
-
-class calloutArgs{
-private:
-	vector<class calloutArg*> args_list;
-public:
-	calloutArgs();
-	void traverse();
-	void push_back(class calloutArg*);
 };
 
 class unExpr:public Expr{
@@ -287,13 +244,66 @@ public:
 	void push_back(class Stmt*);
 	void traverse();
 };
+class methodCall:public Stmt,public Expr{
+protected:
+	string method_name;
+public:
+	virtual void traverse(){}
+};
+
+class calloutCall:public methodCall{
+private:
+	class calloutArgs* args;
+public:
+	calloutCall(string, class calloutArgs*);
+	void traverse();
+};
+
+class Method:public methodCall{
+private:
+	class Params* params;
+public:
+	Method(string, class Params*);
+	void traverse();
+};
+
+class Params{
+private:
+	vector<class Expr*> expr_list;
+	int cnt;
+public:
+	Params();
+	void push_back(class Expr*);
+	void traverse();
+};
+
+class calloutArg{
+private:
+	class Expr* expr;
+public:
+	calloutArg(class Expr*);
+	calloutArg(string literal);
+	void traverse();
+};
+
+class calloutArgs{
+private:
+	vector<class calloutArg*> args_list;
+	int cnt;
+public:
+	calloutArgs();
+	void traverse();
+	void push_back(class calloutArg*);
+};
+
 
 class Assignment:public Stmt{
 private:
 	class Location* loc;
 	class Expr* expr;
+	string opr;
 public:
-	Assignment(class Location*, class Expr*);
+	Assignment(class Location*, string, class Expr*);
 	void traverse();
 };
 
@@ -305,16 +315,26 @@ public:
 	Block(class varDecls*,class Stmts*);
 	void traverse();
 };
+
 class varDecl{
 private:
+	string type;
 	vector<string> var_list;
 	int cnt;
 public:
-	varDecl();
+	varDecl(string,class stringList*);
 	void push_back(string);
 	void traverse();
 };
 
+class stringList{
+private:
+	vector<string> list;
+public:
+	stringList(){}
+	void push_back(string);
+	vector<string> getList();
+};
 class varDecls{
 private:
 	vector<class varDecl*> decl_list;
@@ -327,11 +347,12 @@ public:
 
 class forStmt:public Stmt{
 private:
+	string var;
 	class Expr* init;
 	class Expr* condition;
-	class Block* block;
+	class Block* body;
 public:
-	forStmt(class Expr*, class Expr*, class Block*);
+	forStmt(string, class Expr*, class Expr*, class Block*);
 	void traverse();
 };
 
@@ -360,9 +381,9 @@ public:
 };
 
 class continueStmt:public Stmt{
-	public:
-		 continueStmt(){}
-		 void traverse();
+public:
+	continueStmt(){}
+	void traverse();
 };
 
 class methodDecl{
@@ -370,7 +391,7 @@ private:
 	string type;
 	string name;
 	class methodArgs* arg_list;
-	class Block* block;
+	class Block* body;
 public:
 	methodDecl(string type, string name, class methodArgs*, class Block*);
 	void traverse();
@@ -389,6 +410,7 @@ public:
 class methodArgs{
 private:
 	vector<class methodArg*> arg_list;
+	int cnt;
 public:
 	methodArgs();
 	void push_back(class methodArg*);
@@ -398,7 +420,7 @@ public:
 class methodArg{
 private:
 	string type;
-	string id;
+	string name;
 public:
 	methodArg(string,string);
 	void traverse();
@@ -406,9 +428,10 @@ public:
 
 class Prog{
 private:
-	class Stmts* stmts;
-	class Decls* decls;
+	string name;
+	class methodDecls* methods;
+	class fieldDecls* fields;
 public:
-	Prog(class Decls*,class Stmts*);
+	Prog(string name,class fieldDecls*,class methodDecls*);
 	void traverse();
 };
