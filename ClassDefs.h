@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-
+using namespace llvm;
 enum exprType { binary = 1, location = 2, literal = 3, enclExpr = 4 , Unexpr = 5};
 enum literalType { Int = 1, Bool = 2, Char = 3, String = 4 };
 union Node{
@@ -88,8 +88,10 @@ class boolLiteral;
 class charLiteral;
 class stringLiteral;
 */
-
-class Var{
+class astNode{
+	virtual Value* codegen();
+}
+class Var:public astNode{
 private:
 	string declType; /* rray or Normal */
 	string name; /* Name of the variable */
@@ -102,9 +104,10 @@ public:
 	/* Methods */
 	void setDataType(string); /* Set the data Type */
 	void traverse();
+	Value* codegen;
 };
 
-class Vars{
+class Vars:public astNode{
 private:
 	vector<class Var*> vars_list;
 	int cnt;
@@ -113,9 +116,10 @@ public:
 	void push_back(class Var*);
 	vector<class Var*> getVarsList();
 	void traverse();
+	Value* codegen();
 };
 
-class fieldDecl{
+class fieldDecl:public astNode{
 private:
 	string dataType; /* Field declaration can have datatype and vaariables */
 	vector<class Var*> var_list;
@@ -123,9 +127,10 @@ public:
 	fieldDecl(string,class Vars*);
 	vector<class Var*> getVarsList();
 	void traverse();
+	Value* codegen();
 };
 
-class fieldDecls{
+class fieldDecls:public astNode{
 private:
 	vector<class fieldDecl*> decl_list;
 	int cnt;
@@ -133,9 +138,10 @@ public:
 	fieldDecls();
 	void push_back(class fieldDecl*);
 	void traverse();
+	Value* codegen();
 };
 
-class Expr{
+class Expr:public astNode{
 protected:
 	exprType etype; /* Binary or unary or literal or location */
 public:
@@ -143,6 +149,7 @@ public:
 	exprType getEtype();
 	virtual string toString(){}
 	virtual void traverse(){}
+	virtual Value* codegen(){}
 };
 
 class EnclExpr:public Expr{
@@ -151,6 +158,7 @@ private:
 public:
 	EnclExpr(class Expr*);
 	void traverse();
+	Value* codegen();
 };
 
 class unExpr:public Expr{
@@ -160,6 +168,7 @@ private:
 public:
 	unExpr(string,class Expr*);
 	void traverse();
+	Value* codegen();
 };
 
 class binExpr:public Expr{
@@ -170,6 +179,7 @@ private:
 public:
 	binExpr(class Expr*, string, class Expr*);
 	void traverse();
+	Value* codegen();
 };
 
 class Location:public Expr{
@@ -193,6 +203,7 @@ public:
 	virtual void traverse(){}
 	virtual int getValue(){}
 	virtual string toString(){}
+	virtual Value* codegen(){}
 };
 
 class intLiteral:public Literal{
@@ -203,6 +214,7 @@ public:
 	void traverse();
 	int getValue();
 	string toString();
+	Value* codegen();
 };
 
 class boolLiteral:public Literal{
@@ -212,6 +224,7 @@ public:
 	boolLiteral(string);
 	void traverse();
 	string toString();
+	Value* codegen();
 };
 
 class charLiteral:public Literal{
@@ -220,6 +233,7 @@ private:
 public:
 	charLiteral(string);
 	void traverse();
+	Value* codegen();
 };
 
 class stringLiteral:public Literal{
@@ -228,14 +242,16 @@ private:
 public:
 	stringLiteral(string);
 	void traverse();
+	Value* codegen();
 };
 
-class Stmt{
+class Stmt:public astNode{
 public:
 	virtual void traverse(){}
+	virtual Value* codegen(){}
 };
 
-class Stmts{
+class Stmts:public astNode{
 private:
 	vector<class Stmt*> stmts;
 	int cnt;
@@ -243,12 +259,14 @@ public:
 	Stmts();
 	void push_back(class Stmt*);
 	void traverse();
+	Value* codegen();
 };
 class methodCall:public Stmt,public Expr{
 protected:
 	string method_name;
 public:
 	virtual void traverse(){}
+	virtual Value* codegen(){}
 };
 
 class calloutCall:public methodCall{
@@ -257,6 +275,7 @@ private:
 public:
 	calloutCall(string, class calloutArgs*);
 	void traverse();
+	Value* codegen();
 };
 
 class Method:public methodCall{
@@ -265,9 +284,10 @@ private:
 public:
 	Method(string, class Params*);
 	void traverse();
+	Value* codegen();
 };
 
-class Params{
+class Params:public astNode{
 private:
 	vector<class Expr*> expr_list;
 	int cnt;
@@ -275,18 +295,20 @@ public:
 	Params();
 	void push_back(class Expr*);
 	void traverse();
+	Value* codegen();
 };
 
-class calloutArg{
+class calloutArg:public astNode{
 private:
 	class Expr* expr;
 public:
 	calloutArg(class Expr*);
 	calloutArg(string literal);
 	void traverse();
+	Value* codegen();
 };
 
-class calloutArgs{
+class calloutArgs:public astNode{
 private:
 	vector<class calloutArg*> args_list;
 	int cnt;
@@ -294,6 +316,7 @@ public:
 	calloutArgs();
 	void traverse();
 	void push_back(class calloutArg*);
+	Value* codegen();
 };
 
 
@@ -305,6 +328,7 @@ private:
 public:
 	Assignment(class Location*, string, class Expr*);
 	void traverse();
+	Value* codegen();
 };
 
 class Block:public Stmt{
@@ -314,9 +338,10 @@ private:
 public:
 	Block(class varDecls*,class Stmts*);
 	void traverse();
+	Value* codegen();
 };
 
-class varDecl{
+class varDecl:public astNode{
 private:
 	string type; /* type of variable declaraion */
 	vector<string> var_list; /* list of variables */
@@ -325,6 +350,7 @@ public:
 	varDecl(string,class stringList*);
 	void push_back(string);
 	void traverse();
+	Value* codegen();
 };
 
 class stringList{
@@ -335,7 +361,7 @@ public:
 	void push_back(string);
 	vector<string> getList();
 };
-class varDecls{
+class varDecls:public astNode{
 private:
 	vector<class varDecl*> decl_list;
 	int cnt;
@@ -343,6 +369,7 @@ public:
 	varDecls();
 	void push_back(class varDecl*);
 	void traverse();
+	Value* codegen();
 };
 
 class forStmt:public Stmt{
@@ -354,6 +381,7 @@ private:
 public:
 	forStmt(string, class Expr*, class Expr*, class Block*);
 	void traverse();
+	Value* codegen();
 };
 
 class ifElseStmt:public Stmt{
@@ -364,6 +392,7 @@ private:
 public:
 	ifElseStmt(class Expr*, class Block*, class Block*);
 	void traverse();
+	Value* codegen();
 };
 
 class returnStmt:public Stmt{
@@ -372,21 +401,24 @@ private:
 public:
 	returnStmt(class Expr*);
 	void traverse();
+	Value* codegen();
 };
 
 class breakStmt:public Stmt{
 public:
 	breakStmt(){}
 	void traverse();
+	Value* codegen();
 };
 
 class continueStmt:public Stmt{
 public:
 	continueStmt(){}
 	void traverse();
+	Value* codegen*();
 };
 
-class methodDecl{
+class methodDecl:public astNode{
 private:
 	string type; /* return type of the function */
 	string name; /* name of the function */
@@ -395,9 +427,10 @@ private:
 public:
 	methodDecl(string type, string name, class methodArgs*, class Block*);
 	void traverse();
+	Function* codegen();
 };
 
-class methodDecls{
+class methodDecls:public astNode{
 private:
 	vector< class methodDecl* > decl_list;
 	int cnt;
@@ -405,9 +438,10 @@ public:
 	methodDecls();
 	void push_back(class methodDecl*);
 	void traverse();
+	Value* codegen();
 };
 
-class methodArgs{
+class methodArgs:public astNode{
 private:
 	vector<class methodArg*> arg_list;
 	int cnt;
@@ -415,18 +449,20 @@ public:
 	methodArgs();
 	void push_back(class methodArg*);
 	void traverse();
+	Value* codegen();
 };
 
-class methodArg{
+class methodArg:public astNode{
 private:
 	string type; /* type of the argument int/boolean */
 	string name; /* name of argument */
 public:
 	methodArg(string,string);
 	void traverse();
+	Value* codegen();
 };
 
-class Prog{
+class Prog:public astNode{
 private:
 	string name; /* name of the class */
 	class methodDecls* methods; /* list of methods */
@@ -434,4 +470,5 @@ private:
 public:
 	Prog(string name,class fieldDecls*,class methodDecls*);
 	void traverse();
+	Value* codegen();
 };
