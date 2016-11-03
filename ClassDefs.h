@@ -88,12 +88,22 @@ class boolLiteral;
 class charLiteral;
 class stringLiteral;
 */
+class reportError{
+	/* Class for error handling */
+    public:
+        static llvm::Value* ErrorV(string str) {
+            cout<<str<<endl;
+            return 0;
+        }
+};
+
 class astNode{
 	virtual Value* codegen();
-}
+};
+
 class Var:public astNode{
 private:
-	string declType; /* rray or Normal */
+	string declType; /* Array or Normal */
 	string name; /* Name of the variable */
 	string dataType; /* type of variable */
 	unsigned int length; /* if it is an Array then length */
@@ -101,10 +111,12 @@ public:
 	/* Constructors */
 	Var(string,string,unsigned int);
 	Var(string,string);
+	bool isArray();
 	/* Methods */
 	void setDataType(string); /* Set the data Type */
 	void traverse();
-	Value* codegen;
+	string getName();
+	Value* codegen()=0;
 };
 
 class Vars:public astNode{
@@ -116,7 +128,7 @@ public:
 	void push_back(class Var*);
 	vector<class Var*> getVarsList();
 	void traverse();
-	Value* codegen();
+	Value* codegen()=0;
 };
 
 class fieldDecl:public astNode{
@@ -194,6 +206,7 @@ public:
 	string getVar();/* returns the var name */
 	bool is_array(); /* tells if its array or not */
 	class Expr* getExpr();
+	Value* codegen();
 };
 
 class Literal:public Expr{
@@ -233,7 +246,6 @@ private:
 public:
 	charLiteral(string);
 	void traverse();
-	Value* codegen();
 };
 
 class stringLiteral:public Literal{
@@ -242,7 +254,6 @@ private:
 public:
 	stringLiteral(string);
 	void traverse();
-	Value* codegen();
 };
 
 class Stmt:public astNode{
@@ -295,7 +306,8 @@ public:
 	Params();
 	void push_back(class Expr*);
 	void traverse();
-	Value* codegen();
+	vector<class Expr*> getExprList();
+	Value* codegen()=0;
 };
 
 class calloutArg:public astNode{
@@ -316,9 +328,9 @@ public:
 	calloutArgs();
 	void traverse();
 	void push_back(class calloutArg*);
-	Value* codegen();
+	vector<class calloutArg*> getArgsList();
+	Value* codegen()=0;
 };
-
 
 class Assignment:public Stmt{
 private:
@@ -350,7 +362,7 @@ public:
 	varDecl(string,class stringList*);
 	void push_back(string);
 	void traverse();
-	Value* codegen();
+	Value* codegen(map<string,llvm::AllocaInst *>&);
 };
 
 class stringList{
@@ -369,7 +381,7 @@ public:
 	varDecls();
 	void push_back(class varDecl*);
 	void traverse();
-	Value* codegen();
+	Value* codegen(map<string,llvm::AllocaInst *>&);
 };
 
 class forStmt:public Stmt{
