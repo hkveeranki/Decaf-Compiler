@@ -3,9 +3,10 @@ class Program{
 
 	boolean func(int a, int b){
 		for i=0, a+b{
-			if(a[i]==5)
+			if(a == 5)
 			{
-				p = (10 && func(true, false));
+				boolean p;
+				p = func(10, 5);
 			}
 		}
 		return false;

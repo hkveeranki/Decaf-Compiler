@@ -1,7 +1,26 @@
 #include <bits/stdc++.h>
+#include <llvm/IR/Module.h>
+#include <llvm/IR/Function.h>
+#include <llvm/IR/Type.h>
+#include <llvm/IR/DerivedTypes.h>
+#include <llvm/IR/LLVMContext.h>
+#include <llvm/Target/TargetMachine.h>
+#include <llvm/IR/PassManager.h>
+#include <llvm/IR/Instructions.h>
+#include <llvm/IR/CallingConv.h>
+#include <llvm/Bitcode/ReaderWriter.h>
+#include <llvm/IR/Verifier.h>
+//#include <llvm/Assembly/PrintModulePass.h>
+#include <llvm/IR/IRBuilder.h>
+//#include <llvm/ModuleProvider.h>
+#include <llvm/Support/TargetSelect.h>
+#include <llvm/ExecutionEngine/GenericValue.h>
+#include <llvm/ExecutionEngine/MCJIT.h>
+#include <llvm/Support/raw_ostream.h>
 
 using namespace std;
 using namespace llvm;
+
 enum exprType { binary = 1, location = 2, literal = 3, enclExpr = 4 , Unexpr = 5};
 enum literalType { Int = 1, Bool = 2, Char = 3, String = 4 };
 union Node{
@@ -98,7 +117,7 @@ class reportError{
 };
 
 class astNode{
-	virtual Value* codegen();
+	virtual Value* codegen(){}
 };
 
 class Var:public astNode{
@@ -116,7 +135,8 @@ public:
 	void setDataType(string); /* Set the data Type */
 	void traverse();
 	string getName();
-	Value* codegen()=0;
+	Value* codegen();
+	int getLength(){return length;}
 };
 
 class Vars:public astNode{
@@ -128,7 +148,7 @@ public:
 	void push_back(class Var*);
 	vector<class Var*> getVarsList();
 	void traverse();
-	Value* codegen()=0;
+	Value* codegen();
 };
 
 class fieldDecl:public astNode{
@@ -158,7 +178,7 @@ protected:
 	exprType etype; /* Binary or unary or literal or location */
 public:
 	void setEtype(exprType x){etype = x;}
-	exprType getEtype();
+	exprType getEtype(){return etype;}
 	virtual string toString(){}
 	virtual void traverse(){}
 	virtual Value* codegen(){}
@@ -307,7 +327,7 @@ public:
 	void push_back(class Expr*);
 	void traverse();
 	vector<class Expr*> getExprList();
-	Value* codegen()=0;
+	Value* codegen();
 };
 
 class calloutArg:public astNode{
@@ -329,7 +349,7 @@ public:
 	void traverse();
 	void push_back(class calloutArg*);
 	vector<class calloutArg*> getArgsList();
-	Value* codegen()=0;
+	Value* codegen();
 };
 
 class Assignment:public Stmt{
@@ -427,7 +447,7 @@ class continueStmt:public Stmt{
 public:
 	continueStmt(){}
 	void traverse();
-	Value* codegen*();
+	Value* codegen();
 };
 
 class methodDecl:public astNode{
@@ -460,6 +480,7 @@ private:
 public:
 	methodArgs();
 	void push_back(class methodArg*);
+	vector<class methodArg*> getArgList();
 	void traverse();
 	Value* codegen();
 };
@@ -470,6 +491,8 @@ private:
 	string name; /* name of argument */
 public:
 	methodArg(string,string);
+	string getName();
+	string getType();
 	void traverse();
 	Value* codegen();
 };
@@ -483,4 +506,5 @@ public:
 	Prog(string name,class fieldDecls*,class methodDecls*);
 	void traverse();
 	Value* codegen();
+	void generateCode();
 };

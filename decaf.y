@@ -7,6 +7,7 @@
   extern "C" FILE *yyin;
   extern "C" int line_num;
   extern union Node yylval;
+  extern "C" int errors;
   void yyerror(const char *s);
   class Prog* start = NULL;
   int errors=0;
@@ -171,7 +172,7 @@ Method_Call:
 	| CALLOUT OP STRING Callout_Args CP {$$ = new calloutCall(string($3),$4);}
 	;
 Params:
-	Expression {$$ = new Params();}
+	Expression {$$ = new Params();$$->push_back($1);}
 	| Params COMMA Expression {$$->push_back($3);}
 	;
 
@@ -228,13 +229,15 @@ int main(int argc, char **argv) {
 		exit(-1);
 	}
 	yyin = input;
-
 	do {
 		yyparse();
 	} while (!feof(yyin));
 	printf("Success\n");
 	if(start){
-		start->traverse();
+    //start->traverse();
+		start->codegen();
+    if(errors == 0)
+      start->generateCode();
 	}
 }
 void yyerror(const char *s){
