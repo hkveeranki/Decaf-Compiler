@@ -6,12 +6,14 @@ class Program{
 			if(a == 5)
 			{
 				boolean p;
-				p = func(10, 5);
+				p = func(sqr(a), 5);
+				return p;
 			}
 		}
-		return false;
+		return true;
 	}
 	int sqr(int a){
+		a = a*a;
 		return a*a;
 	}
 

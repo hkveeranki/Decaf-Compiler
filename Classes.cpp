@@ -752,9 +752,9 @@ Value* returnStmt::codegen(){
   llvm::Value *V;
   if(ret != NULL){
     V = ret->codegen();
-    ReturnInst::Create(getGlobalContext(),V);
+    return V;
   }
-  return ReturnInst::Create(getGlobalContext());;
+  return V;
 }
 
 Value* breakStmt::codegen(){
@@ -862,6 +862,7 @@ Value* Prog::codegen(){
   return V;
 }
 void Prog::generateCode(){
+  cout << "Generating LLVM IR Code\n";
   TheModule->dump();
 }
 

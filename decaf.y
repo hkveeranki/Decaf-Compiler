@@ -232,12 +232,16 @@ int main(int argc, char **argv) {
 	do {
 		yyparse();
 	} while (!feof(yyin));
-	printf("Success\n");
+	printf("Semanitcal Analysis Success\n");
 	if(start){
     //start->traverse();
 		start->codegen();
-    if(errors == 0)
+    if(errors == 0){
       start->generateCode();
+    }
+    else{
+      cout << errors << " Errors found\n";
+    }
 	}
 }
 void yyerror(const char *s){
