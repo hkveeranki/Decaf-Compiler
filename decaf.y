@@ -234,9 +234,11 @@ int main(int argc, char **argv) {
 	} while (!feof(yyin));
 	printf("Semanitcal Analysis Success\n");
 	if(start){
-    //start->traverse();
+    //start->traverse(); /* Traversals */
+    /* Do the code generation part */
 		start->codegen();
     if(errors == 0){
+      /* Print the code */
       start->generateCode();
     }
     else{

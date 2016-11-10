@@ -22,6 +22,8 @@ static FunctionPassManager *TheFPM;
 
 static AllocaInst *CreateEntryBlockAlloca(Function *TheFunction, const std::string &VarName, string type) {
   /* Allocates memory for local variables  on the stack of the function */
+
+  /* Get the builder for current context */
   IRBuilder<> TmpB(&TheFunction->getEntryBlock(), TheFunction->getEntryBlock().begin());
   AllocaInst* Alloca;
   if(type == "int"){
@@ -565,8 +567,6 @@ Value* Method::codegen(){
   }
   vector<class Expr*> args_list = params->getExprList();
   if(calle->arg_size() != args_list.size()){
-    //outs(calle->arg_size());
-    //outs(args_list.size());
     errors++;
     return reportError::ErrorV("Incorrect Number of Parameters Passed");
   }
@@ -611,7 +611,6 @@ Value* Assignment::codegen(){
     tmp_args.push_back(Builder.getInt32(0));
     tmp_args.push_back(index);
     Value *cur = Builder.CreateGEP(cur, tmp_args, loc->getVar()+"_IDX");
-    //outs("Array");
   }
   return Builder.CreateStore(val, cur);
 }
@@ -824,12 +823,11 @@ Function* methodDecl::codegen(){
   Idx = 0;
 
   /* Allocate memory for the arguments passed */
-//outs(argNames.size());
   for (auto &Arg : F->args()) {
     if(Idx == arg_size){break;}
     AllocaInst *Alloca = CreateEntryBlockAlloca(F, argNames[Idx],argTypes[Idx]);
     Builder.CreateStore(&Arg, Alloca);
-  //  outs(argNames[Idx]);
+
     NamedValues[argNames[Idx]] = Alloca;
     Idx++;
   }
