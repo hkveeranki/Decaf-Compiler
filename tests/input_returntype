@@ -1,0 +1,17 @@
+class Program{
+	int x,y[100];
+	void func(int a, int b){
+		for i=0, a+b{
+			if(a == 5)
+			{
+				boolean p;
+				p = func(sqr(a), 5);
+			}
+		}
+	}
+	int sqr(int a){
+		a = a*a;
+		return a*a;
+	}
+
+}
