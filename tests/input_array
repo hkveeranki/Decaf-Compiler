@@ -6,7 +6,9 @@ class Program{
 			if(a[i] == 5)
 			{
 				boolean p;
-				p = func(sqr(a), 5);
+				int val;
+				val = callout("sqr",a);
+				p = func(val, 5);
 				return p;
 			}
 		}

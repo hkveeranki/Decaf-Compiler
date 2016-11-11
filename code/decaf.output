@@ -1,0 +1,2275 @@
+Grammar
+
+    0 $accept: Program $end
+
+    1 Program: CLASS ID OB Field_declarations Method_declarations CB
+
+    2 Field_declarations: %empty
+    3                   | Field_declarations Field_declaration SC
+
+    4 Field_declaration: TYPE Variables
+
+    5 Variables: Variable
+    6          | Variables COMMA Variable
+
+    7 Variable: ID
+    8         | ID OSB INTEGER CSB
+
+    9 Method_declarations: %empty
+   10                    | Method_declaration Method_declarations
+
+   11 Method_declaration: TYPE ID Method_Args Block
+   12                   | VOID ID Method_Args Block
+
+   13 Method_Args: OP CP
+   14            | OP TYPE ID Method_Arg CP
+
+   15 Method_Arg: %empty
+   16           | COMMA TYPE ID Method_Arg
+
+   17 Block: OB Var_declarations Statements CB
+
+   18 Var_declarations: %empty
+   19                 | Var_declaration SC Var_declarations
+
+   20 Var_declaration: TYPE ID Var_names
+
+   21 Var_names: %empty
+   22          | COMMA ID Var_names
+
+   23 Statements: %empty
+   24           | Statements Statement
+
+   25 Statement: Assignment
+   26          | Method_Call SC
+   27          | IF OP Expression CP Block
+   28          | IF OP Expression CP Block ELSE Block
+   29          | FOR ID EQ Expression COMMA Expression Block
+   30          | RETURN SC
+   31          | RETURN Expression SC
+   32          | BREAK SC
+   33          | CONTINUE SC
+   34          | Block
+
+   35 Assignment: Location EQ Expression SC
+   36           | Location SUBEQ Expression SC
+   37           | Location ADDEQ Expression SC
+
+   38 Method_Call: ID OP Params CP
+   39            | CALLOUT OP STRING Callout_Args CP
+
+   40 Params: Expression
+   41       | Params COMMA Expression
+
+   42 Location: ID
+   43         | ID OSB Expression CSB
+
+   44 Expression: Location
+   45           | Method_Call
+   46           | Literal
+   47           | Expression ADD Expression
+   48           | Expression SUB Expression
+   49           | Expression MUL Expression
+   50           | Expression DIV Expression
+   51           | Expression MOD Expression
+   52           | Expression LT Expression
+   53           | Expression GT Expression
+   54           | Expression LE Expression
+   55           | Expression GE Expression
+   56           | Expression EQUAL Expression
+   57           | Expression NOT_EQUAL Expression
+   58           | Expression COND_OR Expression
+   59           | Expression COND_AND Expression
+   60           | SUB Expression
+   61           | NOT Expression
+   62           | OP Expression CP
+
+   63 Callout_Args: %empty
+   64             | Callout_Args COMMA Callout_Arg
+
+   65 Callout_Arg: Expression
+   66            | STRING
+
+   67 Literal: INTEGER
+   68        | CHAR
+   69        | BOOLEAN
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+CLASS (258) 1
+CALLOUT (259) 39
+RETURN (260) 30 31
+BREAK (261) 32
+CONTINUE (262) 33
+IF (263) 27 28
+ELSE (264) 28
+FOR (265) 29
+COMMA (266) 6 16 22 29 41 64
+SC (267) 3 19 26 30 31 32 33 35 36 37
+BOOLEAN (268) 69
+CHAR (269) 68
+STRING (270) 39 66
+TYPE (271) 4 11 14 16 20
+ID (272) 1 7 8 11 12 14 16 20 22 29 38 42 43
+VOID (273) 12
+INTEGER (274) 8 67
+OB (275) 1 17
+CB (276) 1 17
+OSB (277) 8 43
+CSB (278) 8 43
+OP (279) 13 14 27 28 38 39 62
+CP (280) 13 14 27 28 38 39 62
+COND_AND (281) 59
+COND_OR (282) 58
+NOT (283) 61
+ADD (284) 47
+SUB (285) 48 60
+MUL (286) 49
+DIV (287) 50
+MOD (288) 51
+LT (289) 52
+GT (290) 53
+LE (291) 54
+GE (292) 55
+EQUAL (293) 56
+NOT_EQUAL (294) 57
+EQ (295) 29 35
+ADDEQ (296) 37
+SUBEQ (297) 36
+
+
+Nonterminals, with rules where they appear
+
+$accept (43)
+    on left: 0
+Program (44)
+    on left: 1, on right: 0
+Field_declarations (45)
+    on left: 2 3, on right: 1 3
+Field_declaration (46)
+    on left: 4, on right: 3
+Variables (47)
+    on left: 5 6, on right: 4 6
+Variable (48)
+    on left: 7 8, on right: 5 6
+Method_declarations (49)
+    on left: 9 10, on right: 1 10
+Method_declaration (50)
+    on left: 11 12, on right: 10
+Method_Args (51)
+    on left: 13 14, on right: 11 12
+Method_Arg (52)
+    on left: 15 16, on right: 14 16
+Block (53)
+    on left: 17, on right: 11 12 27 28 29 34
+Var_declarations (54)
+    on left: 18 19, on right: 17 19
+Var_declaration (55)
+    on left: 20, on right: 19
+Var_names (56)
+    on left: 21 22, on right: 20 22
+Statements (57)
+    on left: 23 24, on right: 17 24
+Statement (58)
+    on left: 25 26 27 28 29 30 31 32 33 34, on right: 24
+Assignment (59)
+    on left: 35 36 37, on right: 25
+Method_Call (60)
+    on left: 38 39, on right: 26 45
+Params (61)
+    on left: 40 41, on right: 38 41
+Location (62)
+    on left: 42 43, on right: 35 36 37 44
+Expression (63)
+    on left: 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61
+    62, on right: 27 28 29 31 35 36 37 40 41 43 47 48 49 50 51 52 53
+    54 55 56 57 58 59 60 61 62 65
+Callout_Args (64)
+    on left: 63 64, on right: 39 64
+Callout_Arg (65)
+    on left: 65 66, on right: 64
+Literal (66)
+    on left: 67 68 69, on right: 46
+
+
+State 0
+
+    0 $accept: . Program $end
+
+    CLASS  shift, and go to state 1
+
+    Program  go to state 2
+
+
+State 1
+
+    1 Program: CLASS . ID OB Field_declarations Method_declarations CB
+
+    ID  shift, and go to state 3
+
+
+State 2
+
+    0 $accept: Program . $end
+
+    $end  shift, and go to state 4
+
+
+State 3
+
+    1 Program: CLASS ID . OB Field_declarations Method_declarations CB
+
+    OB  shift, and go to state 5
+
+
+State 4
+
+    0 $accept: Program $end .
+
+    $default  accept
+
+
+State 5
+
+    1 Program: CLASS ID OB . Field_declarations Method_declarations CB
+
+    $default  reduce using rule 2 (Field_declarations)
+
+    Field_declarations  go to state 6
+
+
+State 6
+
+    1 Program: CLASS ID OB Field_declarations . Method_declarations CB
+    3 Field_declarations: Field_declarations . Field_declaration SC
+
+    TYPE  shift, and go to state 7
+    VOID  shift, and go to state 8
+
+    $default  reduce using rule 9 (Method_declarations)
+
+    Field_declaration    go to state 9
+    Method_declarations  go to state 10
+    Method_declaration   go to state 11
+
+
+State 7
+
+    4 Field_declaration: TYPE . Variables
+   11 Method_declaration: TYPE . ID Method_Args Block
+
+    ID  shift, and go to state 12
+
+    Variables  go to state 13
+    Variable   go to state 14
+
+
+State 8
+
+   12 Method_declaration: VOID . ID Method_Args Block
+
+    ID  shift, and go to state 15
+
+
+State 9
+
+    3 Field_declarations: Field_declarations Field_declaration . SC
+
+    SC  shift, and go to state 16
+
+
+State 10
+
+    1 Program: CLASS ID OB Field_declarations Method_declarations . CB
+
+    CB  shift, and go to state 17
+
+
+State 11
+
+   10 Method_declarations: Method_declaration . Method_declarations
+
+    TYPE  shift, and go to state 18
+    VOID  shift, and go to state 8
+
+    $default  reduce using rule 9 (Method_declarations)
+
+    Method_declarations  go to state 19
+    Method_declaration   go to state 11
+
+
+State 12
+
+    7 Variable: ID .
+    8         | ID . OSB INTEGER CSB
+   11 Method_declaration: TYPE ID . Method_Args Block
+
+    OSB  shift, and go to state 20
+    OP   shift, and go to state 21
+
+    $default  reduce using rule 7 (Variable)
+
+    Method_Args  go to state 22
+
+
+State 13
+
+    4 Field_declaration: TYPE Variables .
+    6 Variables: Variables . COMMA Variable
+
+    COMMA  shift, and go to state 23
+
+    $default  reduce using rule 4 (Field_declaration)
+
+
+State 14
+
+    5 Variables: Variable .
+
+    $default  reduce using rule 5 (Variables)
+
+
+State 15
+
+   12 Method_declaration: VOID ID . Method_Args Block
+
+    OP  shift, and go to state 21
+
+    Method_Args  go to state 24
+
+
+State 16
+
+    3 Field_declarations: Field_declarations Field_declaration SC .
+
+    $default  reduce using rule 3 (Field_declarations)
+
+
+State 17
+
+    1 Program: CLASS ID OB Field_declarations Method_declarations CB .
+
+    $default  reduce using rule 1 (Program)
+
+
+State 18
+
+   11 Method_declaration: TYPE . ID Method_Args Block
+
+    ID  shift, and go to state 25
+
+
+State 19
+
+   10 Method_declarations: Method_declaration Method_declarations .
+
+    $default  reduce using rule 10 (Method_declarations)
+
+
+State 20
+
+    8 Variable: ID OSB . INTEGER CSB
+
+    INTEGER  shift, and go to state 26
+
+
+State 21
+
+   13 Method_Args: OP . CP
+   14            | OP . TYPE ID Method_Arg CP
+
+    TYPE  shift, and go to state 27
+    CP    shift, and go to state 28
+
+
+State 22
+
+   11 Method_declaration: TYPE ID Method_Args . Block
+
+    OB  shift, and go to state 29
+
+    Block  go to state 30
+
+
+State 23
+
+    6 Variables: Variables COMMA . Variable
+
+    ID  shift, and go to state 31
+
+    Variable  go to state 32
+
+
+State 24
+
+   12 Method_declaration: VOID ID Method_Args . Block
+
+    OB  shift, and go to state 29
+
+    Block  go to state 33
+
+
+State 25
+
+   11 Method_declaration: TYPE ID . Method_Args Block
+
+    OP  shift, and go to state 21
+
+    Method_Args  go to state 22
+
+
+State 26
+
+    8 Variable: ID OSB INTEGER . CSB
+
+    CSB  shift, and go to state 34
+
+
+State 27
+
+   14 Method_Args: OP TYPE . ID Method_Arg CP
+
+    ID  shift, and go to state 35
+
+
+State 28
+
+   13 Method_Args: OP CP .
+
+    $default  reduce using rule 13 (Method_Args)
+
+
+State 29
+
+   17 Block: OB . Var_declarations Statements CB
+
+    TYPE  shift, and go to state 36
+
+    $default  reduce using rule 18 (Var_declarations)
+
+    Var_declarations  go to state 37
+    Var_declaration   go to state 38
+
+
+State 30
+
+   11 Method_declaration: TYPE ID Method_Args Block .
+
+    $default  reduce using rule 11 (Method_declaration)
+
+
+State 31
+
+    7 Variable: ID .
+    8         | ID . OSB INTEGER CSB
+
+    OSB  shift, and go to state 20
+
+    $default  reduce using rule 7 (Variable)
+
+
+State 32
+
+    6 Variables: Variables COMMA Variable .
+
+    $default  reduce using rule 6 (Variables)
+
+
+State 33
+
+   12 Method_declaration: VOID ID Method_Args Block .
+
+    $default  reduce using rule 12 (Method_declaration)
+
+
+State 34
+
+    8 Variable: ID OSB INTEGER CSB .
+
+    $default  reduce using rule 8 (Variable)
+
+
+State 35
+
+   14 Method_Args: OP TYPE ID . Method_Arg CP
+
+    COMMA  shift, and go to state 39
+
+    $default  reduce using rule 15 (Method_Arg)
+
+    Method_Arg  go to state 40
+
+
+State 36
+
+   20 Var_declaration: TYPE . ID Var_names
+
+    ID  shift, and go to state 41
+
+
+State 37
+
+   17 Block: OB Var_declarations . Statements CB
+
+    $default  reduce using rule 23 (Statements)
+
+    Statements  go to state 42
+
+
+State 38
+
+   19 Var_declarations: Var_declaration . SC Var_declarations
+
+    SC  shift, and go to state 43
+
+
+State 39
+
+   16 Method_Arg: COMMA . TYPE ID Method_Arg
+
+    TYPE  shift, and go to state 44
+
+
+State 40
+
+   14 Method_Args: OP TYPE ID Method_Arg . CP
+
+    CP  shift, and go to state 45
+
+
+State 41
+
+   20 Var_declaration: TYPE ID . Var_names
+
+    COMMA  shift, and go to state 46
+
+    $default  reduce using rule 21 (Var_names)
+
+    Var_names  go to state 47
+
+
+State 42
+
+   17 Block: OB Var_declarations Statements . CB
+   24 Statements: Statements . Statement
+
+    CALLOUT   shift, and go to state 48
+    RETURN    shift, and go to state 49
+    BREAK     shift, and go to state 50
+    CONTINUE  shift, and go to state 51
+    IF        shift, and go to state 52
+    FOR       shift, and go to state 53
+    ID        shift, and go to state 54
+    OB        shift, and go to state 29
+    CB        shift, and go to state 55
+
+    Block        go to state 56
+    Statement    go to state 57
+    Assignment   go to state 58
+    Method_Call  go to state 59
+    Location     go to state 60
+
+
+State 43
+
+   19 Var_declarations: Var_declaration SC . Var_declarations
+
+    TYPE  shift, and go to state 36
+
+    $default  reduce using rule 18 (Var_declarations)
+
+    Var_declarations  go to state 61
+    Var_declaration   go to state 38
+
+
+State 44
+
+   16 Method_Arg: COMMA TYPE . ID Method_Arg
+
+    ID  shift, and go to state 62
+
+
+State 45
+
+   14 Method_Args: OP TYPE ID Method_Arg CP .
+
+    $default  reduce using rule 14 (Method_Args)
+
+
+State 46
+
+   22 Var_names: COMMA . ID Var_names
+
+    ID  shift, and go to state 63
+
+
+State 47
+
+   20 Var_declaration: TYPE ID Var_names .
+
+    $default  reduce using rule 20 (Var_declaration)
+
+
+State 48
+
+   39 Method_Call: CALLOUT . OP STRING Callout_Args CP
+
+    OP  shift, and go to state 64
+
+
+State 49
+
+   30 Statement: RETURN . SC
+   31          | RETURN . Expression SC
+
+    CALLOUT  shift, and go to state 48
+    SC       shift, and go to state 65
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 74
+    Literal      go to state 75
+
+
+State 50
+
+   32 Statement: BREAK . SC
+
+    SC  shift, and go to state 76
+
+
+State 51
+
+   33 Statement: CONTINUE . SC
+
+    SC  shift, and go to state 77
+
+
+State 52
+
+   27 Statement: IF . OP Expression CP Block
+   28          | IF . OP Expression CP Block ELSE Block
+
+    OP  shift, and go to state 78
+
+
+State 53
+
+   29 Statement: FOR . ID EQ Expression COMMA Expression Block
+
+    ID  shift, and go to state 79
+
+
+State 54
+
+   38 Method_Call: ID . OP Params CP
+   42 Location: ID .
+   43         | ID . OSB Expression CSB
+
+    OSB  shift, and go to state 80
+    OP   shift, and go to state 81
+
+    $default  reduce using rule 42 (Location)
+
+
+State 55
+
+   17 Block: OB Var_declarations Statements CB .
+
+    $default  reduce using rule 17 (Block)
+
+
+State 56
+
+   34 Statement: Block .
+
+    $default  reduce using rule 34 (Statement)
+
+
+State 57
+
+   24 Statements: Statements Statement .
+
+    $default  reduce using rule 24 (Statements)
+
+
+State 58
+
+   25 Statement: Assignment .
+
+    $default  reduce using rule 25 (Statement)
+
+
+State 59
+
+   26 Statement: Method_Call . SC
+
+    SC  shift, and go to state 82
+
+
+State 60
+
+   35 Assignment: Location . EQ Expression SC
+   36           | Location . SUBEQ Expression SC
+   37           | Location . ADDEQ Expression SC
+
+    EQ     shift, and go to state 83
+    ADDEQ  shift, and go to state 84
+    SUBEQ  shift, and go to state 85
+
+
+State 61
+
+   19 Var_declarations: Var_declaration SC Var_declarations .
+
+    $default  reduce using rule 19 (Var_declarations)
+
+
+State 62
+
+   16 Method_Arg: COMMA TYPE ID . Method_Arg
+
+    COMMA  shift, and go to state 39
+
+    $default  reduce using rule 15 (Method_Arg)
+
+    Method_Arg  go to state 86
+
+
+State 63
+
+   22 Var_names: COMMA ID . Var_names
+
+    COMMA  shift, and go to state 46
+
+    $default  reduce using rule 21 (Var_names)
+
+    Var_names  go to state 87
+
+
+State 64
+
+   39 Method_Call: CALLOUT OP . STRING Callout_Args CP
+
+    STRING  shift, and go to state 88
+
+
+State 65
+
+   30 Statement: RETURN SC .
+
+    $default  reduce using rule 30 (Statement)
+
+
+State 66
+
+   69 Literal: BOOLEAN .
+
+    $default  reduce using rule 69 (Literal)
+
+
+State 67
+
+   68 Literal: CHAR .
+
+    $default  reduce using rule 68 (Literal)
+
+
+State 68
+
+   67 Literal: INTEGER .
+
+    $default  reduce using rule 67 (Literal)
+
+
+State 69
+
+   62 Expression: OP . Expression CP
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 89
+    Literal      go to state 75
+
+
+State 70
+
+   61 Expression: NOT . Expression
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 90
+    Literal      go to state 75
+
+
+State 71
+
+   60 Expression: SUB . Expression
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 91
+    Literal      go to state 75
+
+
+State 72
+
+   45 Expression: Method_Call .
+
+    $default  reduce using rule 45 (Expression)
+
+
+State 73
+
+   44 Expression: Location .
+
+    $default  reduce using rule 44 (Expression)
+
+
+State 74
+
+   31 Statement: RETURN Expression . SC
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    SC         shift, and go to state 92
+    COND_AND   shift, and go to state 93
+    COND_OR    shift, and go to state 94
+    ADD        shift, and go to state 95
+    SUB        shift, and go to state 96
+    MUL        shift, and go to state 97
+    DIV        shift, and go to state 98
+    MOD        shift, and go to state 99
+    LT         shift, and go to state 100
+    GT         shift, and go to state 101
+    LE         shift, and go to state 102
+    GE         shift, and go to state 103
+    EQUAL      shift, and go to state 104
+    NOT_EQUAL  shift, and go to state 105
+
+
+State 75
+
+   46 Expression: Literal .
+
+    $default  reduce using rule 46 (Expression)
+
+
+State 76
+
+   32 Statement: BREAK SC .
+
+    $default  reduce using rule 32 (Statement)
+
+
+State 77
+
+   33 Statement: CONTINUE SC .
+
+    $default  reduce using rule 33 (Statement)
+
+
+State 78
+
+   27 Statement: IF OP . Expression CP Block
+   28          | IF OP . Expression CP Block ELSE Block
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 106
+    Literal      go to state 75
+
+
+State 79
+
+   29 Statement: FOR ID . EQ Expression COMMA Expression Block
+
+    EQ  shift, and go to state 107
+
+
+State 80
+
+   43 Location: ID OSB . Expression CSB
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 108
+    Literal      go to state 75
+
+
+State 81
+
+   38 Method_Call: ID OP . Params CP
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Params       go to state 109
+    Location     go to state 73
+    Expression   go to state 110
+    Literal      go to state 75
+
+
+State 82
+
+   26 Statement: Method_Call SC .
+
+    $default  reduce using rule 26 (Statement)
+
+
+State 83
+
+   35 Assignment: Location EQ . Expression SC
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 111
+    Literal      go to state 75
+
+
+State 84
+
+   37 Assignment: Location ADDEQ . Expression SC
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 112
+    Literal      go to state 75
+
+
+State 85
+
+   36 Assignment: Location SUBEQ . Expression SC
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 113
+    Literal      go to state 75
+
+
+State 86
+
+   16 Method_Arg: COMMA TYPE ID Method_Arg .
+
+    $default  reduce using rule 16 (Method_Arg)
+
+
+State 87
+
+   22 Var_names: COMMA ID Var_names .
+
+    $default  reduce using rule 22 (Var_names)
+
+
+State 88
+
+   39 Method_Call: CALLOUT OP STRING . Callout_Args CP
+
+    $default  reduce using rule 63 (Callout_Args)
+
+    Callout_Args  go to state 114
+
+
+State 89
+
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+   62           | OP Expression . CP
+
+    CP         shift, and go to state 115
+    COND_AND   shift, and go to state 93
+    COND_OR    shift, and go to state 94
+    ADD        shift, and go to state 95
+    SUB        shift, and go to state 96
+    MUL        shift, and go to state 97
+    DIV        shift, and go to state 98
+    MOD        shift, and go to state 99
+    LT         shift, and go to state 100
+    GT         shift, and go to state 101
+    LE         shift, and go to state 102
+    GE         shift, and go to state 103
+    EQUAL      shift, and go to state 104
+    NOT_EQUAL  shift, and go to state 105
+
+
+State 90
+
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+   61           | NOT Expression .
+
+    $default  reduce using rule 61 (Expression)
+
+
+State 91
+
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+   60           | SUB Expression .
+
+    MUL  shift, and go to state 97
+    DIV  shift, and go to state 98
+    MOD  shift, and go to state 99
+
+    $default  reduce using rule 60 (Expression)
+
+
+State 92
+
+   31 Statement: RETURN Expression SC .
+
+    $default  reduce using rule 31 (Statement)
+
+
+State 93
+
+   59 Expression: Expression COND_AND . Expression
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 116
+    Literal      go to state 75
+
+
+State 94
+
+   58 Expression: Expression COND_OR . Expression
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 117
+    Literal      go to state 75
+
+
+State 95
+
+   47 Expression: Expression ADD . Expression
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 118
+    Literal      go to state 75
+
+
+State 96
+
+   48 Expression: Expression SUB . Expression
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 119
+    Literal      go to state 75
+
+
+State 97
+
+   49 Expression: Expression MUL . Expression
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 120
+    Literal      go to state 75
+
+
+State 98
+
+   50 Expression: Expression DIV . Expression
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 121
+    Literal      go to state 75
+
+
+State 99
+
+   51 Expression: Expression MOD . Expression
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 122
+    Literal      go to state 75
+
+
+State 100
+
+   52 Expression: Expression LT . Expression
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 123
+    Literal      go to state 75
+
+
+State 101
+
+   53 Expression: Expression GT . Expression
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 124
+    Literal      go to state 75
+
+
+State 102
+
+   54 Expression: Expression LE . Expression
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 125
+    Literal      go to state 75
+
+
+State 103
+
+   55 Expression: Expression GE . Expression
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 126
+    Literal      go to state 75
+
+
+State 104
+
+   56 Expression: Expression EQUAL . Expression
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 127
+    Literal      go to state 75
+
+
+State 105
+
+   57 Expression: Expression NOT_EQUAL . Expression
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 128
+    Literal      go to state 75
+
+
+State 106
+
+   27 Statement: IF OP Expression . CP Block
+   28          | IF OP Expression . CP Block ELSE Block
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    CP         shift, and go to state 129
+    COND_AND   shift, and go to state 93
+    COND_OR    shift, and go to state 94
+    ADD        shift, and go to state 95
+    SUB        shift, and go to state 96
+    MUL        shift, and go to state 97
+    DIV        shift, and go to state 98
+    MOD        shift, and go to state 99
+    LT         shift, and go to state 100
+    GT         shift, and go to state 101
+    LE         shift, and go to state 102
+    GE         shift, and go to state 103
+    EQUAL      shift, and go to state 104
+    NOT_EQUAL  shift, and go to state 105
+
+
+State 107
+
+   29 Statement: FOR ID EQ . Expression COMMA Expression Block
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 130
+    Literal      go to state 75
+
+
+State 108
+
+   43 Location: ID OSB Expression . CSB
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    CSB        shift, and go to state 131
+    COND_AND   shift, and go to state 93
+    COND_OR    shift, and go to state 94
+    ADD        shift, and go to state 95
+    SUB        shift, and go to state 96
+    MUL        shift, and go to state 97
+    DIV        shift, and go to state 98
+    MOD        shift, and go to state 99
+    LT         shift, and go to state 100
+    GT         shift, and go to state 101
+    LE         shift, and go to state 102
+    GE         shift, and go to state 103
+    EQUAL      shift, and go to state 104
+    NOT_EQUAL  shift, and go to state 105
+
+
+State 109
+
+   38 Method_Call: ID OP Params . CP
+   41 Params: Params . COMMA Expression
+
+    COMMA  shift, and go to state 132
+    CP     shift, and go to state 133
+
+
+State 110
+
+   40 Params: Expression .
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    COND_AND   shift, and go to state 93
+    COND_OR    shift, and go to state 94
+    ADD        shift, and go to state 95
+    SUB        shift, and go to state 96
+    MUL        shift, and go to state 97
+    DIV        shift, and go to state 98
+    MOD        shift, and go to state 99
+    LT         shift, and go to state 100
+    GT         shift, and go to state 101
+    LE         shift, and go to state 102
+    GE         shift, and go to state 103
+    EQUAL      shift, and go to state 104
+    NOT_EQUAL  shift, and go to state 105
+
+    $default  reduce using rule 40 (Params)
+
+
+State 111
+
+   35 Assignment: Location EQ Expression . SC
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    SC         shift, and go to state 134
+    COND_AND   shift, and go to state 93
+    COND_OR    shift, and go to state 94
+    ADD        shift, and go to state 95
+    SUB        shift, and go to state 96
+    MUL        shift, and go to state 97
+    DIV        shift, and go to state 98
+    MOD        shift, and go to state 99
+    LT         shift, and go to state 100
+    GT         shift, and go to state 101
+    LE         shift, and go to state 102
+    GE         shift, and go to state 103
+    EQUAL      shift, and go to state 104
+    NOT_EQUAL  shift, and go to state 105
+
+
+State 112
+
+   37 Assignment: Location ADDEQ Expression . SC
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    SC         shift, and go to state 135
+    COND_AND   shift, and go to state 93
+    COND_OR    shift, and go to state 94
+    ADD        shift, and go to state 95
+    SUB        shift, and go to state 96
+    MUL        shift, and go to state 97
+    DIV        shift, and go to state 98
+    MOD        shift, and go to state 99
+    LT         shift, and go to state 100
+    GT         shift, and go to state 101
+    LE         shift, and go to state 102
+    GE         shift, and go to state 103
+    EQUAL      shift, and go to state 104
+    NOT_EQUAL  shift, and go to state 105
+
+
+State 113
+
+   36 Assignment: Location SUBEQ Expression . SC
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    SC         shift, and go to state 136
+    COND_AND   shift, and go to state 93
+    COND_OR    shift, and go to state 94
+    ADD        shift, and go to state 95
+    SUB        shift, and go to state 96
+    MUL        shift, and go to state 97
+    DIV        shift, and go to state 98
+    MOD        shift, and go to state 99
+    LT         shift, and go to state 100
+    GT         shift, and go to state 101
+    LE         shift, and go to state 102
+    GE         shift, and go to state 103
+    EQUAL      shift, and go to state 104
+    NOT_EQUAL  shift, and go to state 105
+
+
+State 114
+
+   39 Method_Call: CALLOUT OP STRING Callout_Args . CP
+   64 Callout_Args: Callout_Args . COMMA Callout_Arg
+
+    COMMA  shift, and go to state 137
+    CP     shift, and go to state 138
+
+
+State 115
+
+   62 Expression: OP Expression CP .
+
+    $default  reduce using rule 62 (Expression)
+
+
+State 116
+
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+   59           | Expression COND_AND Expression .
+
+    ADD  shift, and go to state 95
+    SUB  shift, and go to state 96
+    MUL  shift, and go to state 97
+    DIV  shift, and go to state 98
+    MOD  shift, and go to state 99
+    LT   shift, and go to state 100
+    GT   shift, and go to state 101
+    LE   shift, and go to state 102
+    GE   shift, and go to state 103
+
+    $default  reduce using rule 59 (Expression)
+
+
+State 117
+
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   58           | Expression COND_OR Expression .
+   59           | Expression . COND_AND Expression
+
+    ADD  shift, and go to state 95
+    SUB  shift, and go to state 96
+    MUL  shift, and go to state 97
+    DIV  shift, and go to state 98
+    MOD  shift, and go to state 99
+    LT   shift, and go to state 100
+    GT   shift, and go to state 101
+    LE   shift, and go to state 102
+    GE   shift, and go to state 103
+
+    $default  reduce using rule 58 (Expression)
+
+
+State 118
+
+   47 Expression: Expression . ADD Expression
+   47           | Expression ADD Expression .
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    MUL  shift, and go to state 97
+    DIV  shift, and go to state 98
+    MOD  shift, and go to state 99
+
+    $default  reduce using rule 47 (Expression)
+
+
+State 119
+
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   48           | Expression SUB Expression .
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    MUL  shift, and go to state 97
+    DIV  shift, and go to state 98
+    MOD  shift, and go to state 99
+
+    $default  reduce using rule 48 (Expression)
+
+
+State 120
+
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   49           | Expression MUL Expression .
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    $default  reduce using rule 49 (Expression)
+
+
+State 121
+
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   50           | Expression DIV Expression .
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    $default  reduce using rule 50 (Expression)
+
+
+State 122
+
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   51           | Expression MOD Expression .
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    $default  reduce using rule 51 (Expression)
+
+
+State 123
+
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   52           | Expression LT Expression .
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    ADD  shift, and go to state 95
+    SUB  shift, and go to state 96
+    MUL  shift, and go to state 97
+    DIV  shift, and go to state 98
+    MOD  shift, and go to state 99
+
+    $default  reduce using rule 52 (Expression)
+
+
+State 124
+
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   53           | Expression GT Expression .
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    ADD  shift, and go to state 95
+    SUB  shift, and go to state 96
+    MUL  shift, and go to state 97
+    DIV  shift, and go to state 98
+    MOD  shift, and go to state 99
+
+    $default  reduce using rule 53 (Expression)
+
+
+State 125
+
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   54           | Expression LE Expression .
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    ADD  shift, and go to state 95
+    SUB  shift, and go to state 96
+    MUL  shift, and go to state 97
+    DIV  shift, and go to state 98
+    MOD  shift, and go to state 99
+
+    $default  reduce using rule 54 (Expression)
+
+
+State 126
+
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   55           | Expression GE Expression .
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    ADD  shift, and go to state 95
+    SUB  shift, and go to state 96
+    MUL  shift, and go to state 97
+    DIV  shift, and go to state 98
+    MOD  shift, and go to state 99
+
+    $default  reduce using rule 55 (Expression)
+
+
+State 127
+
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   56           | Expression EQUAL Expression .
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    COND_AND  shift, and go to state 93
+    COND_OR   shift, and go to state 94
+    ADD       shift, and go to state 95
+    SUB       shift, and go to state 96
+    MUL       shift, and go to state 97
+    DIV       shift, and go to state 98
+    MOD       shift, and go to state 99
+    LT        shift, and go to state 100
+    GT        shift, and go to state 101
+    LE        shift, and go to state 102
+    GE        shift, and go to state 103
+
+    $default  reduce using rule 56 (Expression)
+
+
+State 128
+
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   57           | Expression NOT_EQUAL Expression .
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    COND_AND  shift, and go to state 93
+    COND_OR   shift, and go to state 94
+    ADD       shift, and go to state 95
+    SUB       shift, and go to state 96
+    MUL       shift, and go to state 97
+    DIV       shift, and go to state 98
+    MOD       shift, and go to state 99
+    LT        shift, and go to state 100
+    GT        shift, and go to state 101
+    LE        shift, and go to state 102
+    GE        shift, and go to state 103
+
+    $default  reduce using rule 57 (Expression)
+
+
+State 129
+
+   27 Statement: IF OP Expression CP . Block
+   28          | IF OP Expression CP . Block ELSE Block
+
+    OB  shift, and go to state 29
+
+    Block  go to state 139
+
+
+State 130
+
+   29 Statement: FOR ID EQ Expression . COMMA Expression Block
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    COMMA      shift, and go to state 140
+    COND_AND   shift, and go to state 93
+    COND_OR    shift, and go to state 94
+    ADD        shift, and go to state 95
+    SUB        shift, and go to state 96
+    MUL        shift, and go to state 97
+    DIV        shift, and go to state 98
+    MOD        shift, and go to state 99
+    LT         shift, and go to state 100
+    GT         shift, and go to state 101
+    LE         shift, and go to state 102
+    GE         shift, and go to state 103
+    EQUAL      shift, and go to state 104
+    NOT_EQUAL  shift, and go to state 105
+
+
+State 131
+
+   43 Location: ID OSB Expression CSB .
+
+    $default  reduce using rule 43 (Location)
+
+
+State 132
+
+   41 Params: Params COMMA . Expression
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 141
+    Literal      go to state 75
+
+
+State 133
+
+   38 Method_Call: ID OP Params CP .
+
+    $default  reduce using rule 38 (Method_Call)
+
+
+State 134
+
+   35 Assignment: Location EQ Expression SC .
+
+    $default  reduce using rule 35 (Assignment)
+
+
+State 135
+
+   37 Assignment: Location ADDEQ Expression SC .
+
+    $default  reduce using rule 37 (Assignment)
+
+
+State 136
+
+   36 Assignment: Location SUBEQ Expression SC .
+
+    $default  reduce using rule 36 (Assignment)
+
+
+State 137
+
+   64 Callout_Args: Callout_Args COMMA . Callout_Arg
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    STRING   shift, and go to state 142
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 143
+    Callout_Arg  go to state 144
+    Literal      go to state 75
+
+
+State 138
+
+   39 Method_Call: CALLOUT OP STRING Callout_Args CP .
+
+    $default  reduce using rule 39 (Method_Call)
+
+
+State 139
+
+   27 Statement: IF OP Expression CP Block .
+   28          | IF OP Expression CP Block . ELSE Block
+
+    ELSE  shift, and go to state 145
+
+    $default  reduce using rule 27 (Statement)
+
+
+State 140
+
+   29 Statement: FOR ID EQ Expression COMMA . Expression Block
+
+    CALLOUT  shift, and go to state 48
+    BOOLEAN  shift, and go to state 66
+    CHAR     shift, and go to state 67
+    ID       shift, and go to state 54
+    INTEGER  shift, and go to state 68
+    OP       shift, and go to state 69
+    NOT      shift, and go to state 70
+    SUB      shift, and go to state 71
+
+    Method_Call  go to state 72
+    Location     go to state 73
+    Expression   go to state 146
+    Literal      go to state 75
+
+
+State 141
+
+   41 Params: Params COMMA Expression .
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    COND_AND   shift, and go to state 93
+    COND_OR    shift, and go to state 94
+    ADD        shift, and go to state 95
+    SUB        shift, and go to state 96
+    MUL        shift, and go to state 97
+    DIV        shift, and go to state 98
+    MOD        shift, and go to state 99
+    LT         shift, and go to state 100
+    GT         shift, and go to state 101
+    LE         shift, and go to state 102
+    GE         shift, and go to state 103
+    EQUAL      shift, and go to state 104
+    NOT_EQUAL  shift, and go to state 105
+
+    $default  reduce using rule 41 (Params)
+
+
+State 142
+
+   66 Callout_Arg: STRING .
+
+    $default  reduce using rule 66 (Callout_Arg)
+
+
+State 143
+
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+   65 Callout_Arg: Expression .
+
+    COND_AND   shift, and go to state 93
+    COND_OR    shift, and go to state 94
+    ADD        shift, and go to state 95
+    SUB        shift, and go to state 96
+    MUL        shift, and go to state 97
+    DIV        shift, and go to state 98
+    MOD        shift, and go to state 99
+    LT         shift, and go to state 100
+    GT         shift, and go to state 101
+    LE         shift, and go to state 102
+    GE         shift, and go to state 103
+    EQUAL      shift, and go to state 104
+    NOT_EQUAL  shift, and go to state 105
+
+    $default  reduce using rule 65 (Callout_Arg)
+
+
+State 144
+
+   64 Callout_Args: Callout_Args COMMA Callout_Arg .
+
+    $default  reduce using rule 64 (Callout_Args)
+
+
+State 145
+
+   28 Statement: IF OP Expression CP Block ELSE . Block
+
+    OB  shift, and go to state 29
+
+    Block  go to state 147
+
+
+State 146
+
+   29 Statement: FOR ID EQ Expression COMMA Expression . Block
+   47 Expression: Expression . ADD Expression
+   48           | Expression . SUB Expression
+   49           | Expression . MUL Expression
+   50           | Expression . DIV Expression
+   51           | Expression . MOD Expression
+   52           | Expression . LT Expression
+   53           | Expression . GT Expression
+   54           | Expression . LE Expression
+   55           | Expression . GE Expression
+   56           | Expression . EQUAL Expression
+   57           | Expression . NOT_EQUAL Expression
+   58           | Expression . COND_OR Expression
+   59           | Expression . COND_AND Expression
+
+    OB         shift, and go to state 29
+    COND_AND   shift, and go to state 93
+    COND_OR    shift, and go to state 94
+    ADD        shift, and go to state 95
+    SUB        shift, and go to state 96
+    MUL        shift, and go to state 97
+    DIV        shift, and go to state 98
+    MOD        shift, and go to state 99
+    LT         shift, and go to state 100
+    GT         shift, and go to state 101
+    LE         shift, and go to state 102
+    GE         shift, and go to state 103
+    EQUAL      shift, and go to state 104
+    NOT_EQUAL  shift, and go to state 105
+
+    Block  go to state 148
+
+
+State 147
+
+   28 Statement: IF OP Expression CP Block ELSE Block .
+
+    $default  reduce using rule 28 (Statement)
+
+
+State 148
+
+   29 Statement: FOR ID EQ Expression COMMA Expression Block .
+
+    $default  reduce using rule 29 (Statement)

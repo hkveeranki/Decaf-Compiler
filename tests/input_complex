@@ -1,0 +1,17 @@
+class Program{
+	int x,y[100];
+	boolean func(int a, int b){
+		int val;
+		val = 0;
+		for i=0, a+b{
+			boolean p;
+			val += callout("sqr",a);
+		}
+		return val;
+	}
+	int sqr(int a){
+		a = a*a;
+		return a*a;
+	}
+
+}
