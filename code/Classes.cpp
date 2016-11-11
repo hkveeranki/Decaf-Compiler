@@ -7,6 +7,7 @@ using namespace llvm;
 
 #define TBS printTabs()
 #define outs(x)cout<<#x<<" is "<<x<<endl
+ofstream out("XML_Vistor.txt");
 int tabs_needed = 0;
 const int tab_width = 4;
 extern int errors;
@@ -119,7 +120,7 @@ EnclExpr::EnclExpr(class Expr* expr){
 }
 
 calloutCall::calloutCall(string method_name, class calloutArgs* args){
-  this->method_name = method_name;
+  this->method_name = method_name.substr(1,method_name.length()-2);
   this->args = args;
 }
 

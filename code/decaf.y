@@ -203,7 +203,7 @@ Expression:
 	;
 
 Callout_Args:
-	Callout_Arg {$$ = new calloutArgs(); $$->push_back($1);}
+  {$$ = new calloutArgs();}
 	| Callout_Args COMMA Callout_Arg {$$->push_back($3);}
 	;
 Callout_Arg:
@@ -234,7 +234,7 @@ int main(int argc, char **argv) {
 	} while (!feof(yyin));
 	printf("Semantical Analysis Success\n");
 	if(start){
-    //start->traverse(); /* Traversals */
+    start->traverse(); /* Traversals */
     /* Do the code generation part */
 		start->codegen();
     if(errors == 0){
