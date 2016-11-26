@@ -230,7 +230,7 @@ forStmt::forStmt(string loc, class Expr* init, class Expr* cond, class Block* bl
 ifElseStmt::ifElseStmt(class Expr* cond, class Block* block1, class Block* block2){
   this->condition = cond;
   this->if_block = block1;
-  this->else_block = block1;
+  this->else_block = block2;
 }
 
 returnStmt::returnStmt(class Expr* expr){
@@ -695,10 +695,10 @@ Value* forStmt::codegen(){
   }
 
   Builder.CreateICmpULE(Variable, cond, "loopcondition");
-
+  Value *condVal = Builder.CreateICmpNE(cond, ConstantInt::get(cond->getType(), 0), "loopcond");
   BasicBlock *loopEndBlock = Builder.GetInsertBlock();
   BasicBlock *afterBB = BasicBlock::Create(getGlobalContext(), "afterloop", TheFunction);
-  Builder.CreateCondBr(cond, loop_body, afterBB);
+  Builder.CreateCondBr(condVal, loop_body, afterBB);
 
   Builder.SetInsertPoint(afterBB);
   Variable->addIncoming(nextval, loopEndBlock);
@@ -723,9 +723,8 @@ Value* ifElseStmt::codegen(){
   BasicBlock *ifBlock = BasicBlock::Create(Context, "if", TheFunction);
   BasicBlock *elseBlock = BasicBlock::Create(Context, "else");
   BasicBlock *nextBlock = BasicBlock::Create(Context, "ifcont");
-//  Value* testval = ConstantInt::get(cond->getType(), 0, true);
-  //cond = Builder.CreateICmpNE(cond,testval,"ifcond");
-  Builder.CreateCondBr(cond, elseBlock, ifBlock);
+  Builder.CreateCondBr(cond, ifBlock, elseBlock);
+
   Builder.SetInsertPoint(ifBlock);
 
   Value* ifval  = if_block->codegen();
@@ -738,9 +737,13 @@ Value* ifElseStmt::codegen(){
 
   TheFunction->getBasicBlockList().push_back(elseBlock);
   Builder.SetInsertPoint(elseBlock);
-  Value* elseval = else_block->codegen();
-  if(elseval == 0){
-    return 0;
+  Value* elseval;
+  if(else_block != NULL)
+  {
+    elseval = else_block->codegen();
+    if(elseval == 0){
+      return 0;
+    }
   }
   Builder.CreateBr(nextBlock);
   elseBlock = Builder.GetInsertBlock();
@@ -749,7 +752,10 @@ Value* ifElseStmt::codegen(){
 
   PHINode *PN = Builder.CreatePHI(Type::getInt32Ty(getGlobalContext()), 2,"iftmp");
   PN->addIncoming(ifval, ifBlock);
-  PN->addIncoming(elseval, elseBlock);
+  if(else_block != NULL)
+  {
+    PN->addIncoming(elseval, elseBlock);
+  }
   return PN;
 }
 

@@ -1,77 +1,54 @@
 <program>
-    <field_declarations count="0">
+    <field_declarations count="1">
+        Normal
+        <declaration name="x" type="int" />
     </field_declarations>
-    <method_declarations count="2">
-        <method_declaration return_type="int name="gcd">
+    <method_declarations count="1">
+        <method_declaration return_type="boolean name="main">
             <method_args count="2">
                 <method_arg name="b" type="int" />
                 <method_arg name="a" type="int" />
             </method_args>
             <block>
                 <variable_declarations count="0">
-                <statements count="1">
-                    <if_else_statement>
-                        <condition>
-                            <binary_expression type="Compare_equal">
-                                <identifier name="b" />
-                                <integer value="0" />
-                            </binary_expression>
-                        </condition>
-                        <ifblock>
-                            <block>
-                                <variable_declarations count="0">
-                                <statements count="2">
-                                    <callout function="printf">
-                                        <string value="%d " />
-                                        <identifier name="a" />
-                                    </callout>
-                                    <return_statement>
-                                        <identifier name="a" />
-                                    </return_statement>
-                                </statements>
-                            </block>
-                        </ifblock>
-                        <else_block>
-                            <block>
-                                <variable_declarations count="0">
-                                <statements count="2">
-                                    <callout function="printf">
-                                        <string value="%d " />
-                                        <identifier name="a" />
-                                    </callout>
-                                    <return_statement>
-                                        <identifier name="a" />
-                                    </return_statement>
-                                </statements>
-                            </block>
-                        </elseblock>
-                    </if_else_statement>
-                </statements>
-            </block>
-        </method_declaration>
-        <method_declaration return_type="void name="main">
-            <method_args count="0">
-            </method_args>
-            <block>
-                <variable_declarations count="1">
-                    <declaration type="int">
-                        <variable name="b">
                 <statements count="2">
-                    <assignment>
-                        <LHS name ="b">
-                        </LHS>
-                        <operation ="Equal_assign">
-                        <RHS>
-                            <method_call function="gcd">
-                                    <integer value="13" />
-                                    <integer value="121" />
-                            </method_call>
-                        </RHS>
-                    </assignment>
-                    <callout function="printf">
-                        <string value="%d" />
-                        <identifier name="b" />
-                    </callout>
+                    <for_statement>
+                        <initialisation>
+                            <variable name="i" />
+                            <integer value="0" />
+                        </initialisation>
+                        <condition>
+                            <integer value="99" />
+                        </condition>
+                            <block>
+                                <variable_declarations count="0">
+                                <statements count="1">
+                                    <if_else_statement>
+                                        <condition>
+                                            <binary_expression type="Compare_equal">
+                                                <identifier name="a" />
+                                                <integer value="5" />
+                                            </binary_expression>
+                                        </condition>
+                                        <ifblock>
+                                            <block>
+                                                <variable_declarations count="1">
+                                                    <declaration type="boolean">
+                                                        <variable name="p">
+                                                <statements count="1">
+                                                    <return_statement>
+                                                        <identifier name="p" />
+                                                    </return_statement>
+                                                </statements>
+                                            </block>
+                                        </ifblock>
+                                    </if_else_statement>
+                                </statements>
+                            </block>
+                    </for_statement>
+                    <return_statement>
+                        <boolean value="true" />
+                    </return_statement>
                 </statements>
             </block>
         </method_declaration>

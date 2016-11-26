@@ -1,44 +1,40 @@
 ; ModuleID = 'Decaf compiler jit'
 
-@0 = private unnamed_addr constant [4 x i8] c"%d \00"
-@1 = private unnamed_addr constant [4 x i8] c"%d \00"
-@2 = private unnamed_addr constant [3 x i8] c"%d\00"
+@x = external global i32*
 
-define i32 @gcd(i32 %b, i32 %a) {
+define i1 @main(i32 %b, i32 %a) {
 entry:
+  %p = alloca i32
+  %i = alloca i32
   %a2 = alloca i32
   %b1 = alloca i32
   store i32 %b, i32* %b1
   store i32 %a, i32* %a2
-  %b3 = load i32, i32* %b1
-  %equalcomparetmp = icmp eq i32 %b3, 0
-  br label %else
-if:                                               ; preds = %entry
+  store i32 0, i32* %i
+  br label %loop
+
+loop:                                             ; preds = %ifcont, %entry
+  %i3 = phi i32 [ 0, %entry ], [ %NextVal, %ifcont ]
   %a4 = load i32, i32* %a2
-  %0 = call i32 @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @0, i32 0, i32 0), i32 %a4)
-  %a5 = load i32, i32* %a2
+  %equalcomparetmp = icmp eq i32 %a4, 5
+  br i1 %equalcomparetmp, label %if, label %else
+
+if:                                               ; preds = %loop
+  store i32 0, i32* %p
+  %p5 = load i32, i32* %p
   br label %ifcont
 
-else:                                             ; preds = %entry
-  %a6 = load i32, i32* %a2
-  %1 = call i32 @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @1, i32 0, i32 0), i32 %a6)
-  %a7 = load i32, i32* %a2
+else:                                             ; preds = %loop
   br label %ifcont
 
 ifcont:                                           ; preds = %else, %if
-  %iftmp = phi i32 [ %a5, %if ], [ %a7, %else ]
-  ret i32 %iftmp
-}
+  %iftmp = phi i32 [ %p5, %if ]
+  %i6 = load i32, i32* %i
+  %NextVal = add i32 %i6, 1
+  store i32 %NextVal, i32* %i
+  %loopcondition = icmp ule i32 %i3, 99
+  br i1 true, label %loop, label %afterloop
 
-declare i32 @printf(i8*, i32)
-
-define void @main() {
-entry:
-  %b = alloca i32
-  store i32 0, i32* %b
-  %0 = call i32 @gcd(i32 13, i32 121)
-  store i32 %0, i32* %b
-  %b1 = load i32, i32* %b
-  %1 = call i32 @printf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @2, i32 0, i32 0), i32 %b1)
-  ret void
+afterloop:                                        ; preds = %ifcont
+  ret i1 true
 }
