@@ -1,7 +1,7 @@
 TARGET=mycomp
 all=$(TARGET)
-CC = clang++
-CFLAGS = -lfl -ldl `llvm-config --cxxflags --cppflags mcjit native --ldflags --libs core` -ltinfo -lpthread
+CC = g++
+CFLAGS = -lfl `llvm-config-3.8 --cxxflags --cppflags mcjit native --ldflags --libs core` -ltinfo -lpthread -ldl
 FLAGS=-w -Wno-deprecated -g -std=c++11
 all: $(TARGET)
 $(TARGET): lex.yy.c decaf.tab.c Classes.cpp ClassDefs.h

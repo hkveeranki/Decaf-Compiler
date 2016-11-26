@@ -274,6 +274,7 @@ private:
 public:
 	stringLiteral(string);
 	void traverse();
+	Value* codegen();
 };
 
 class Stmt:public astNode{

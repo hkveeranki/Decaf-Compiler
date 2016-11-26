@@ -188,7 +188,7 @@ charLiteral::charLiteral(string val){
 }
 
 stringLiteral::stringLiteral(string val){
-  this->value = val;
+  this->value = val.substr(1,val.length()-2);
   this->ltype = literalType::String;
 }
 
@@ -387,27 +387,23 @@ vector<string> stringList::getList(){
 /* --------------------- Code Generators ---------------------*/
 
 Value* fieldDecl::codegen(){
-  llvm::Type *ty;
-  if(dataType == "int"){
-    ty = Type::getInt32Ty(Context);
-  }
-  else if(dataType == "boolean"){
-    ty = Type::getInt1Ty(Context);
-  }
-  else{
-    /* Not a valid Type so Raise an error */
-    errors++;
-    return reportError::ErrorV("Invalid Data Type for the field declaration");
-  }
   for(int i = 0; i < var_list.size(); i++){
     /* Allocate one location of global variable for all */
     class Var* var = var_list[i];
+    llvm::Type *ty;
+    if(dataType == "int"){
+      ty = Type::getInt32Ty(Context);
+    }
+    else if(dataType == "boolean"){
+      ty = Type::getInt1Ty(Context);
+    }
     if(var->isArray()){
-      PointerType* PointerTy_1 = PointerType::getUnqual(llvm::ArrayType::get(ty,var->getLength()));
-      GlobalVariable* gv = new GlobalVariable(*TheModule,PointerTy_1,false,GlobalValue::CommonLinkage,0,var->getName());
+      PointerType* PointerTy_1 = PointerType::get(ArrayType::get(ty,var->getLength()),0);
+      GlobalVariable* gv = new GlobalVariable(*TheModule,ArrayType::get(ty,var->getLength()),false,GlobalValue::CommonLinkage,0,var->getName());
     }
     else{
-      GlobalVariable* gv = new GlobalVariable(*TheModule, ty, false,GlobalValue::CommonLinkage, 0, var->getName());
+      PointerType* ptrTy = PointerType::get(ty,0);
+      GlobalVariable* gv = new GlobalVariable(*TheModule,ptrTy , false,GlobalValue::ExternalLinkage, 0, var->getName());
     }
   }
   Value* v = ConstantInt::get(getGlobalContext(), APInt(32,1));
@@ -518,6 +514,10 @@ Value* boolLiteral::codegen(){
   return v;
 }
 
+Value* stringLiteral::codegen(){
+  return Builder.CreateGlobalStringPtr(value.c_str());
+}
+
 Value* Stmts::codegen(){
   Value* v = ConstantInt::get(getGlobalContext(), llvm::APInt(32,1));
   for(int i = 0; i < stmts.size(); i++){
@@ -527,29 +527,31 @@ Value* Stmts::codegen(){
 }
 
 Value* calloutCall::codegen(){
-  Function* calle = TheModule->getFunction(method_name);
-  if(calle == 0){
-    errors++;
-    return reportError::ErrorV("Unknown Function name" + method_name);
-  }
-  // Check if sufficient number of parameters are passed
-  vector<class calloutArg*> args_list = args->getArgsList();
-  if(calle->arg_size() != args_list.size()){
-    errors++;
-    return reportError::ErrorV("Incorrect Number of Parameters Passed");
-  }
-  // Add all the arguments to the function stack
+
+  vector<llvm::Type *> argTypes;
   vector<Value* > Args;
+  vector<class calloutArg*> args_list = args->getArgsList();
   for(int i = 0; i < args_list.size(); i++){
-    Args.push_back(args_list[i]->codegen());
-    if(Args.back() == 0){
+    Value* tmp = args_list[i]->codegen();
+    if(tmp == 0){
       // Some thing is wrong with the args passed
       return 0;
     }
+    Args.push_back(tmp);
+    argTypes.push_back(tmp->getType());
   }
-  Value* v = Builder.CreateCall(calle,Args,"callouttmp");
-  return v;
-}
+
+  llvm::ArrayRef<llvm::Type*>  argsRef(argTypes);
+  llvm::ArrayRef<llvm::Value*>  funcargs(Args);
+  llvm::FunctionType *FType = FunctionType::get(Type::getInt32Ty(Context), argsRef, false);
+  Constant* func = TheModule->getOrInsertFunction(method_name, FType);
+  if(!func){
+      cout << "Error inbuilt" << endl;
+      return 0;
+  }
+    Value* v = Builder.CreateCall(func, funcargs);
+    return v;
+  }
 
 Value* calloutArg::codegen(){
   if(expr == NULL){
@@ -578,7 +580,7 @@ Value* Method::codegen(){
       return 0;
     }
   }
-  Value* v = Builder.CreateCall(calle,Args,"methodcalltmp");
+  Value* v = Builder.CreateCall(calle,Args);
   return v;
 }
 
@@ -718,11 +720,14 @@ Value* ifElseStmt::codegen(){
     return reportError::ErrorV("Invalid Expression in the IF");
   }
   Function* TheFunction = Builder.GetInsertBlock()->getParent();
-  BasicBlock *ifBlock = BasicBlock::Create(Context, "then", TheFunction);
+  BasicBlock *ifBlock = BasicBlock::Create(Context, "if", TheFunction);
   BasicBlock *elseBlock = BasicBlock::Create(Context, "else");
   BasicBlock *nextBlock = BasicBlock::Create(Context, "ifcont");
-  Builder.CreateCondBr(cond, ifBlock, elseBlock);
+//  Value* testval = ConstantInt::get(cond->getType(), 0, true);
+  //cond = Builder.CreateICmpNE(cond,testval,"ifcond");
+  Builder.CreateCondBr(cond, elseBlock, ifBlock);
   Builder.SetInsertPoint(ifBlock);
+
   Value* ifval  = if_block->codegen();
   if(ifval == 0){
     return 0;
@@ -741,6 +746,7 @@ Value* ifElseStmt::codegen(){
   elseBlock = Builder.GetInsertBlock();
   TheFunction->getBasicBlockList().push_back(nextBlock);
   Builder.SetInsertPoint(nextBlock);
+
   PHINode *PN = Builder.CreatePHI(Type::getInt32Ty(getGlobalContext()), 2,"iftmp");
   PN->addIncoming(ifval, ifBlock);
   PN->addIncoming(elseval, elseBlock);
@@ -838,7 +844,10 @@ Function* methodDecl::codegen(){
   Value *RetVal = body->codegen();
   if(RetVal){
     /* make this the return value */
-    Builder.CreateRet(RetVal);
+    if(type != "void")
+      Builder.CreateRet(RetVal);
+    else
+      Builder.CreateRetVoid();
     /* Verify the function */
     verifyFunction(*F);
     return F;

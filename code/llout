@@ -1,0 +1,44 @@
+; ModuleID = 'Decaf compiler jit'
+
+@0 = private unnamed_addr constant [4 x i8] c"%d \00"
+@1 = private unnamed_addr constant [4 x i8] c"%d \00"
+@2 = private unnamed_addr constant [3 x i8] c"%d\00"
+
+define i32 @gcd(i32 %b, i32 %a) {
+entry:
+  %a2 = alloca i32
+  %b1 = alloca i32
+  store i32 %b, i32* %b1
+  store i32 %a, i32* %a2
+  %b3 = load i32, i32* %b1
+  %equalcomparetmp = icmp eq i32 %b3, 0
+  br label %else
+if:                                               ; preds = %entry
+  %a4 = load i32, i32* %a2
+  %0 = call i32 @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @0, i32 0, i32 0), i32 %a4)
+  %a5 = load i32, i32* %a2
+  br label %ifcont
+
+else:                                             ; preds = %entry
+  %a6 = load i32, i32* %a2
+  %1 = call i32 @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @1, i32 0, i32 0), i32 %a6)
+  %a7 = load i32, i32* %a2
+  br label %ifcont
+
+ifcont:                                           ; preds = %else, %if
+  %iftmp = phi i32 [ %a5, %if ], [ %a7, %else ]
+  ret i32 %iftmp
+}
+
+declare i32 @printf(i8*, i32)
+
+define void @main() {
+entry:
+  %b = alloca i32
+  store i32 0, i32* %b
+  %0 = call i32 @gcd(i32 13, i32 121)
+  store i32 %0, i32* %b
+  %b1 = load i32, i32* %b
+  %1 = call i32 @printf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @2, i32 0, i32 0), i32 %b1)
+  ret void
+}
