@@ -189,6 +189,7 @@ charLiteral::charLiteral(string val){
 
 stringLiteral::stringLiteral(string val){
   this->value = val.substr(1,val.length()-2);
+  cout << this->value << endl;
   this->ltype = literalType::String;
 }
 
@@ -515,7 +516,7 @@ Value* boolLiteral::codegen(){
 }
 
 Value* stringLiteral::codegen(){
-  return Builder.CreateGlobalStringPtr(value.c_str());
+  return Builder.CreateGlobalStringPtr(value);
 }
 
 Value* Stmts::codegen(){
@@ -694,11 +695,10 @@ Value* forStmt::codegen(){
     return reportError::ErrorV("Invalid Condition");
   }
 
-  Builder.CreateICmpULE(Variable, cond, "loopcondition");
-  Value *condVal = Builder.CreateICmpNE(cond, ConstantInt::get(cond->getType(), 0), "loopcond");
+  cond = Builder.CreateICmpULE(Variable, cond, "loopcondition");
   BasicBlock *loopEndBlock = Builder.GetInsertBlock();
   BasicBlock *afterBB = BasicBlock::Create(getGlobalContext(), "afterloop", TheFunction);
-  Builder.CreateCondBr(condVal, loop_body, afterBB);
+  Builder.CreateCondBr(cond, loop_body, afterBB);
 
   Builder.SetInsertPoint(afterBB);
   Variable->addIncoming(nextval, loopEndBlock);
