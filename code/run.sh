@@ -8,5 +8,5 @@ fi
 echo "Compiling..."
 make -j4 # Compile the code
 echo "Producing the output LLVM IR Code"
-./a.out $1
+./a.out $1 2>llout
 echo "Done"

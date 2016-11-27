@@ -11,6 +11,6 @@ lex.yy.c: decaf.l
 decaf.tab.c: decaf.y
 	bison -vd decaf.y
 clean:
-	rm *.c decaf.tab.h *.output
+	rm *.c decaf.tab.h *.output llout
 veryclean:
 	rm -f *.c decaf.tab.h a.out XML_* *.output

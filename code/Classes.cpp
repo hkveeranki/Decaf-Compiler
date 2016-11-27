@@ -83,6 +83,26 @@ string getOperation(string opr){
   }
 }
 
+string replace_newline(string str){
+  size_t index = 0;
+  string search="\\n";
+//  cout << "Called replace for " << str << endl;
+  while (true) {
+    /* Locate the substring to replace. */
+    index = str.find(search, index);
+    if (index == std::string::npos) break;
+
+    /* Make the replacement. */
+  //  cout << "Replaced\n";
+    str.erase( index, search.length() );
+    str.insert( index, "\n" );
+
+    /* Advance index forward so the next iteration doesn't pick it up as well. */
+    index += 1;
+  }
+  return str;
+}
+
 void printTabs(){
   for(int i = 0; i < tabs_needed; i++){
     for(int j = 0; j < tab_width; j++)
@@ -188,8 +208,10 @@ charLiteral::charLiteral(string val){
 }
 
 stringLiteral::stringLiteral(string val){
-  this->value = val.substr(1,val.length()-2);
-  cout << this->value << endl;
+
+  val = val.substr(1,val.length()-2);
+  val = replace_newline(val);
+  this->value = val;
   this->ltype = literalType::String;
 }
 
@@ -491,6 +513,9 @@ Value* Location::codegen(){
     }
   }
   Value* V = NamedValues[var];
+  if (V== 0){
+    V = TheModule->getGlobalVariable(var);
+  }
   if(V == 0){
     errors++;
     return reportError::ErrorV("Unknown Variable name " + var);
@@ -547,12 +572,11 @@ Value* calloutCall::codegen(){
   llvm::FunctionType *FType = FunctionType::get(Type::getInt32Ty(Context), argsRef, false);
   Constant* func = TheModule->getOrInsertFunction(method_name, FType);
   if(!func){
-      cout << "Error inbuilt" << endl;
-      return 0;
+    return reportError::ErrorV("Error in inbuilt function. Unknown Function name " + method_name);
   }
-    Value* v = Builder.CreateCall(func, funcargs);
-    return v;
-  }
+  Value* v = Builder.CreateCall(func, funcargs);
+  return v;
+}
 
 Value* calloutArg::codegen(){
   if(expr == NULL){
@@ -588,6 +612,9 @@ Value* Method::codegen(){
 Value* Assignment::codegen(){
 
   Value* cur = NamedValues[loc->getVar()];
+  if (cur == 0){
+    cur = TheModule->getGlobalVariable(loc->getVar());
+  }
   if(cur == 0){
     errors++;
     return reportError::ErrorV("Unknown Variable Name");
@@ -695,7 +722,7 @@ Value* forStmt::codegen(){
     return reportError::ErrorV("Invalid Condition");
   }
 
-  cond = Builder.CreateICmpULE(Variable, cond, "loopcondition");
+  cond = Builder.CreateICmpULT(Variable, cond, "loopcondition");
   BasicBlock *loopEndBlock = Builder.GetInsertBlock();
   BasicBlock *afterBB = BasicBlock::Create(getGlobalContext(), "afterloop", TheFunction);
   Builder.CreateCondBr(cond, loop_body, afterBB);
@@ -851,9 +878,9 @@ Function* methodDecl::codegen(){
   if(RetVal){
     /* make this the return value */
     if(type != "void")
-      Builder.CreateRet(RetVal);
+    Builder.CreateRet(RetVal);
     else
-      Builder.CreateRetVoid();
+    Builder.CreateRetVoid();
     /* Verify the function */
     verifyFunction(*F);
     return F;

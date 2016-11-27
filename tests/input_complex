@@ -1,16 +1,23 @@
 class Program{
-	int x,y[100];
-	boolean func(int a, int b){
+	int x,y;
+	void main(){
+		int a,b,ans;
+		a = 10;
+		b = 20;
+		ans = func(a,b);
+		callout("printf","ans is %d\n",ans);
+	}
+	int func(int a, int b){
 		int val;
 		val = 0;
-		for i=0, a+b{
+		for i=1, a+b{
 			boolean p;
-			val += callout("sqr",a);
+			val += sqr(i);
+			callout("printf","i is %d | val is %d\n",i,val);
 		}
 		return val;
 	}
 	int sqr(int a){
-		a = a*a;
 		return a*a;
 	}
 
