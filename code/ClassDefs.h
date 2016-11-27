@@ -23,6 +23,7 @@ using namespace llvm;
 
 enum exprType { binary = 1, location = 2, literal = 3, enclExpr = 4 , Unexpr = 5};
 enum literalType { Int = 1, Bool = 2, Char = 3, String = 4 };
+enum stmtType { Return = 1, NonReturn = 2};
 union Node{
 	int number;
 	char* value;
@@ -278,9 +279,13 @@ public:
 };
 
 class Stmt:public astNode{
+protected:
+		stmtType stype;
 public:
 	virtual void traverse(){}
 	virtual Value* codegen(){}
+	void setStype(stmtType x){this->stype = x;}
+	stmtType getStype(){return this->stype;}
 };
 
 class Stmts:public astNode{
@@ -291,6 +296,7 @@ public:
 	Stmts();
 	void push_back(class Stmt*);
 	void traverse();
+	bool has_return();
 	Value* codegen();
 };
 class methodCall:public Stmt,public Expr{
@@ -371,6 +377,7 @@ private:
 public:
 	Block(class varDecls*,class Stmts*);
 	void traverse();
+	bool has_return();
 	Value* codegen();
 };
 
@@ -439,14 +446,14 @@ public:
 
 class breakStmt:public Stmt{
 public:
-	breakStmt(){}
+	breakStmt(){this->stype = stmtType::NonReturn;}
 	void traverse();
 	Value* codegen();
 };
 
 class continueStmt:public Stmt{
 public:
-	continueStmt(){}
+	continueStmt(){this->stype = stmtType::NonReturn;}
 	void traverse();
 	Value* codegen();
 };

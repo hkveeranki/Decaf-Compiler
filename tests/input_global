@@ -1,0 +1,27 @@
+class Program{
+	int x,y[100],t[100];
+	void main(){
+		for i=0, 99{
+			y[i] = 100-i;
+		}
+		sort(99);
+		callout("printf","Sorted Array is");
+		for i=0, 99{
+			callout("printf","%d ",y[i]);
+		}
+		callout("printf","\n");
+	}
+	void sort(int n){
+		int temp;
+		for c=0, n-1{
+			for d=0, n-c-1{
+				boolean swapped;
+				if(y[d]>y[d+1]){
+					temp = y[d];
+					y[d] = y[d+1];
+					y[d+1] = temp;
+				}
+			}
+		}
+	}
+}

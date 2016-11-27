@@ -220,12 +220,14 @@ Stmts::Stmts(){
 }
 
 Assignment::Assignment(class Location* loc, string oper, class Expr* expr){
+  this->stype = stmtType::NonReturn;
   this->loc = loc;
   this->opr = oper;
   this->expr = expr;
 }
 
 Block::Block(class varDecls* vars, class Stmts* stmts){
+  this->stype = stmtType::NonReturn;
   this->decls_list = vars;
   this->stmts_list = stmts;
 }
@@ -244,6 +246,7 @@ varDecls::varDecls(){
 }
 
 forStmt::forStmt(string loc, class Expr* init, class Expr* cond, class Block* block){
+  this->stype = stmtType::NonReturn;
   this->var = loc;
   this->init = init;
   this->condition = cond;
@@ -251,12 +254,14 @@ forStmt::forStmt(string loc, class Expr* init, class Expr* cond, class Block* bl
 }
 
 ifElseStmt::ifElseStmt(class Expr* cond, class Block* block1, class Block* block2){
+  this->stype = stmtType::NonReturn;
   this->condition = cond;
   this->if_block = block1;
   this->else_block = block2;
 }
 
 returnStmt::returnStmt(class Expr* expr){
+  this->stype = stmtType::Return;
   this->ret = expr;
 }
 
@@ -360,6 +365,20 @@ bool Location::is_array(){
   return location_type.compare("Array") == 0;
 }
 
+bool Block::has_return(){
+  return stmts_list->has_return();
+}
+
+bool Stmts::has_return(){
+  for(int i = 0; i < stmts.size(); i++){
+    if(stmts[i]->getStype() == stmtType::Return){
+      return true;
+    }
+  }
+  return false;
+}
+
+
 class Expr* Location::getExpr(){
   return expr;
 }
@@ -421,8 +440,10 @@ Value* fieldDecl::codegen(){
       ty = Type::getInt1Ty(Context);
     }
     if(var->isArray()){
+      ArrayType* arrType = ArrayType::get(ty,var->getLength());
       PointerType* PointerTy_1 = PointerType::get(ArrayType::get(ty,var->getLength()),0);
-      GlobalVariable* gv = new GlobalVariable(*TheModule,ArrayType::get(ty,var->getLength()),false,GlobalValue::CommonLinkage,0,var->getName());
+      GlobalVariable* gv = new GlobalVariable(*TheModule,arrType,false,GlobalValue::ExternalLinkage,0,var->getName());
+      gv->setInitializer(ConstantAggregateZero::get(arrType));
     }
     else{
       PointerType* ptrTy = PointerType::get(ty,0);
@@ -447,6 +468,9 @@ Value* EnclExpr::codegen(){
 
 Value* unExpr::codegen(){
   Value* v = body->codegen();
+  if(body->getEtype() == exprType::location){
+    v = Builder.CreateLoad(v);
+  }
   if(opr == "-"){
     return Builder.CreateNeg(v,"negtmp");
   }
@@ -458,6 +482,12 @@ Value* unExpr::codegen(){
 Value* binExpr::codegen(){
   Value* left = lhs->codegen();
   Value* right = rhs->codegen();
+  if(lhs->getEtype() == exprType::location){
+    left = Builder.CreateLoad(left);
+  }
+  if(rhs->getEtype() == exprType::location){
+    right = Builder.CreateLoad(right);
+  }
   if(left == 0){
     errors++;
     return reportError::ErrorV("Error in left operand of " + opr);
@@ -504,23 +534,32 @@ Value* binExpr::codegen(){
 }
 
 Value* Location::codegen(){
-  Value* index = ConstantInt::get(llvm::getGlobalContext(), llvm::APInt(32,1));
-  if(this->expr != NULL){
-    index = expr->codegen();
-    if(index == 0){
-      errors++;
-      return reportError::ErrorV("Invalid array index");
-    }
-  }
   Value* V = NamedValues[var];
   if (V== 0){
-    V = TheModule->getGlobalVariable(var);
+    V = TheModule->getNamedGlobal(var);
   }
   if(V == 0){
     errors++;
     return reportError::ErrorV("Unknown Variable name " + var);
   }
-  return Builder.CreateLoad(V,var);
+  if(this->location_type != "Array"){
+    return V;
+  }
+  if(this->expr != NULL){
+    Value* index = expr->codegen();
+    if(expr->getEtype() == exprType::location){
+      index = Builder.CreateLoad(index);
+    }
+    if(index == 0){
+      errors++;
+      return reportError::ErrorV("Invalid array index");
+    }
+    vector<Value*> array_index;
+    array_index.push_back(Builder.getInt32(0));
+    array_index.push_back(index);
+    V = Builder.CreateGEP(V, array_index, var+"_Index");
+    return V;
+  }
 }
 
 Value* intLiteral::codegen(){
@@ -583,7 +622,11 @@ Value* calloutArg::codegen(){
     errors++;
     return reportError::ErrorV("Invalid Callout Arg");
   }
-  return expr->codegen();
+  Value* v = expr->codegen();
+  if(expr->getEtype() == exprType::location){
+    v = Builder.CreateLoad(v);
+  }
+  return v;
 }
 
 Value* Method::codegen(){
@@ -599,11 +642,15 @@ Value* Method::codegen(){
   }
   vector<Value* > Args;
   for(int i = 0; i < args_list.size(); i++){
-    Args.push_back(args_list[i]->codegen());
-    if(Args.back() == 0){
+    Value* argval = args_list[i]->codegen();
+    if(args_list[i]->getEtype() == exprType::location){
+      argval = Builder.CreateLoad(argval);
+    }
+    if(argval == 0){
       // Some thing is wrong with the args passed
       return 0;
     }
+    Args.push_back(argval);
   }
   Value* v = Builder.CreateCall(calle,Args);
   return v;
@@ -621,28 +668,25 @@ Value* Assignment::codegen(){
   }
 
   Value* val = expr->codegen();
+  if(expr->getEtype() == exprType::location){
+    val = Builder.CreateLoad(val);
+  }
+
+  Value* lhs = loc->codegen();
+  cur = Builder.CreateLoad(lhs);
 
   if(val == 0){
     errors++;
     return reportError::ErrorV("Error in right hand side of the Assignment");
   }
 
-
   if(opr == "+="){
-    val = Builder.CreateAdd(Builder.CreateLoad(cur,loc->getVar()), val,"addEqualToTmp");
+    val = Builder.CreateAdd(cur, val,"addEqualToTmp");
   }
   else if (opr == "-="){
-    val = Builder.CreateSub(Builder.CreateLoad(cur,loc->getVar()), val,"subEqualToTmp");
+    val = Builder.CreateSub(cur, val,"subEqualToTmp");
   }
-  if(loc->is_array()){
-    /* If it is an array get the pointer */
-    Value* index = loc->getExpr()->codegen();
-    std::vector<llvm::Value *> tmp_args;
-    tmp_args.push_back(Builder.getInt32(0));
-    tmp_args.push_back(index);
-    Value *cur = Builder.CreateGEP(cur, tmp_args, loc->getVar()+"_IDX");
-  }
-  return Builder.CreateStore(val, cur);
+  return Builder.CreateStore(val, lhs);
 }
 
 Value* Block::codegen(){
@@ -676,8 +720,8 @@ Value* varDecl::codegen(map<string,llvm::AllocaInst *>& Old_vals){
       Alloca = CreateEntryBlockAlloca(TheFunction,var,"int");
     }
     else if (type == "boolean"){
-      initval = ConstantInt::get(getGlobalContext(),APInt(32,0));
-      Alloca = CreateEntryBlockAlloca(TheFunction,var,"int");
+      initval = ConstantInt::get(getGlobalContext(),APInt(1,0));
+      Alloca = CreateEntryBlockAlloca(TheFunction,var,"boolean");
     }
     Builder.CreateStore(initval,Alloca);
     /* Store the old value to old_vals and new value to named values */
@@ -696,6 +740,7 @@ Value* forStmt::codegen(){
   Function *TheFunction = Builder.GetInsertBlock()->getParent();
   llvm::AllocaInst *Alloca = CreateEntryBlockAlloca(TheFunction, var, "int");
   Builder.CreateStore(start, Alloca);
+  Value* step_val = ConstantInt::get(getGlobalContext(),APInt(32,1));
   BasicBlock *preheaderBB = Builder.GetInsertBlock();
   BasicBlock* loop_body = BasicBlock::Create(getGlobalContext(), "loop", TheFunction);
   Builder.CreateBr(loop_body);
@@ -710,7 +755,6 @@ Value* forStmt::codegen(){
   if(body->codegen() == 0) {
     return 0;
   }
-  Value* step_val = ConstantInt::get(getGlobalContext(),APInt(32,1));
 
   Value* cur = Builder.CreateLoad(Alloca, var);
   Value* nextval = Builder.CreateAdd(cur,step_val,"NextVal");
@@ -722,7 +766,7 @@ Value* forStmt::codegen(){
     return reportError::ErrorV("Invalid Condition");
   }
 
-  cond = Builder.CreateICmpULT(Variable, cond, "loopcondition");
+  cond = Builder.CreateICmpULE(nextval, cond, "loopcondition");
   BasicBlock *loopEndBlock = Builder.GetInsertBlock();
   BasicBlock *afterBB = BasicBlock::Create(getGlobalContext(), "afterloop", TheFunction);
   Builder.CreateCondBr(cond, loop_body, afterBB);
@@ -777,19 +821,33 @@ Value* ifElseStmt::codegen(){
   TheFunction->getBasicBlockList().push_back(nextBlock);
   Builder.SetInsertPoint(nextBlock);
 
-  PHINode *PN = Builder.CreatePHI(Type::getInt32Ty(getGlobalContext()), 2,"iftmp");
-  PN->addIncoming(ifval, ifBlock);
-  if(else_block != NULL)
-  {
-    PN->addIncoming(elseval, elseBlock);
+  bool phi_if = false,phi_else = false;
+  if(if_block->has_return()){
+    phi_if = true;
   }
-  return PN;
+  if(else_block != NULL){
+      phi_else = true;
+  }
+  if(phi_if){
+    PHINode *PN = Builder.CreatePHI(Type::getInt32Ty(getGlobalContext()), 2,"iftmp");
+    PN->addIncoming(ifval, ifBlock);
+    if(phi_else){
+        PN->addIncoming(elseval, elseBlock);
+    }
+    return PN;
+  }
+
+  Value *V = ConstantInt::get(getGlobalContext(), APInt(32,0));
+  return V;
 }
 
 Value* returnStmt::codegen(){
   llvm::Value *V;
   if(ret != NULL){
     V = ret->codegen();
+    if(ret->getEtype() == exprType::location){
+      V = Builder.CreateLoad(V);
+    }
     return V;
   }
   return V;
@@ -811,7 +869,6 @@ Function* methodDecl::codegen(){
   vector<class methodArg*> args = arg_list->getArgList();
   vector<Type*> arguments;
   int arg_size = args.size();
-
   for(int i = 0; i < args.size(); i++){
     /* Iterate over the arguments and get the types of them in llvm */
     string arg_type = args[i]->getType();
