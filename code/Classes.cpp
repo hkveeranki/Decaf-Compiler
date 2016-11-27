@@ -371,7 +371,7 @@ bool Block::has_return(){
 
 bool Stmts::has_return(){
   for(int i = 0; i < stmts.size(); i++){
-    if(stmts[i]->getStype() == stmtType::Return){
+    if(stmts[i]->has_return()){
       return true;
     }
   }
@@ -825,12 +825,13 @@ Value* ifElseStmt::codegen(){
   if(if_block->has_return()){
     phi_if = true;
   }
-  if(else_block != NULL){
+  if(else_block != NULL && else_block->has_return()){
       phi_else = true;
   }
-  if(phi_if){
+  if(phi_if||phi_else){
     PHINode *PN = Builder.CreatePHI(Type::getInt32Ty(getGlobalContext()), 2,"iftmp");
-    PN->addIncoming(ifval, ifBlock);
+    if(phi_if)
+      PN->addIncoming(ifval, ifBlock);
     if(phi_else){
         PN->addIncoming(elseval, elseBlock);
     }

@@ -284,6 +284,7 @@ protected:
 public:
 	virtual void traverse(){}
 	virtual Value* codegen(){}
+	virtual bool has_return(){return false;}
 	void setStype(stmtType x){this->stype = x;}
 	stmtType getStype(){return this->stype;}
 };
@@ -420,6 +421,7 @@ private:
 	class Block* body; /* body of the loop */
 public:
 	forStmt(string, class Expr*, class Expr*, class Block*);
+	bool has_return(){this->body->has_return();}
 	void traverse();
 	Value* codegen();
 };
@@ -433,6 +435,16 @@ public:
 	ifElseStmt(class Expr*, class Block*, class Block*);
 	void traverse();
 	Value* codegen();
+	bool has_return(){
+		bool status = false;
+		if(if_block != NULL){
+			status = status | if_block->has_return();
+		}
+		if(else_block != NULL){
+			status = status | if_block->has_return();
+		}
+		return status;
+	}
 };
 
 class returnStmt:public Stmt{
@@ -442,6 +454,7 @@ public:
 	returnStmt(class Expr*);
 	void traverse();
 	Value* codegen();
+	bool has_return(){return true;}
 };
 
 class breakStmt:public Stmt{

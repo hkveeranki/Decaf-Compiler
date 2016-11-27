@@ -2,7 +2,7 @@ class Program{
 	void main(){
 		int b;
 		b = gcd(11,121);
-		callout("printf","gcd is %d",b);
+		callout("printf","gcd is %d\n",b);
 	}
 	int gcd(int x, int y) {
 		if(x == y) {
