@@ -1,0 +1,5 @@
+cmake-build-debug
+src/*.txt
+*/a.out
+a.out
+.idea/
