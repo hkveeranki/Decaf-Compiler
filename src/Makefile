@@ -13,4 +13,4 @@ decaf.tab.c: decaf.y
 clean:
 	rm -f *.c decaf.tab.h *.output llout
 veryclean:
-	rm -f *.c decaf.tab.h a.out XML_* *.output
+	rm -f *.c decaf.tab.h a.ofstream1 XML_* *.output

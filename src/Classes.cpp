@@ -1,15 +1,14 @@
 #include <bits/stdc++.h>
 
 #include "ClassDefs.h"
+#include "utilities.h"
 
 using namespace std;
 using namespace llvm;
-
-#define TBS printTabs()
 #define out1(x)cout<<#x<<" is "<<x<<endl
-ofstream out("XML_Vistor.txt");
+ofstream ofstream1("XML_Vistor.txt");
 int tabs_needed = 0;
-const int tab_width = 4;
+#define TBS printTabs(tabs_needed, ofstream1)
 extern int errors;
 
 /* Usefull Variables */
@@ -19,9 +18,11 @@ static IRBuilder<> Builder(Context);
 static std::map<std::string, llvm::AllocaInst *> NamedValues;
 static FunctionPassManager *TheFPM;
 
-/* Usefull Functions */
-
+/*
+ * Memory Allocators
+ */
 static AllocaInst *CreateEntryBlockAlloca(Function *TheFunction, const std::string &VarName, string type) {
+
     /* Allocates memory for local variables  on the stack of the function */
 
     /* Get the builder for current context */
@@ -35,68 +36,8 @@ static AllocaInst *CreateEntryBlockAlloca(Function *TheFunction, const std::stri
     return Alloca;
 }
 
-string getOperation(string opr) {
-    if (opr.compare("+") == 0) {
-        return string("Addition");
-    } else if (opr.compare("-") == 0) {
-        return string("Subtraction");
-    } else if (opr.compare("*") == 0) {
-        return string("Multiplication");
-    } else if (opr.compare("/") == 0) {
-        return string("Division");
-    } else if (opr.compare("%") == 0) {
-        return string("Modulus");
-    } else if (opr.compare("<") == 0) {
-        return string("Less_than");
-    } else if (opr.compare(">") == 0) {
-        return string("Greater_than");
-    } else if (opr.compare("<=") == 0) {
-        return string("Less_than_Equal_to");
-    } else if (opr.compare(">=") == 0) {
-        return string("Greater_than_Equal_to");
-    } else if (opr.compare("==") == 0) {
-        return string("Compare_equal");
-    } else if (opr.compare("&&") == 0) {
-        return string("Conditional_and");
-    } else if (opr.compare("||") == 0) {
-        return string("Conditional_or");
-    } else if (opr.compare("=") == 0) {
-        return string("Equal_assign");
-    } else if (opr.compare("-=") == 0) {
-        return string("Subequal_assign");
-    } else if (opr.compare("=") == 0) {
-        return string("Addequal_assign");
-    }
-}
-
-string replace_newline(string str) {
-    size_t index = 0;
-    string search = "\\n";
-//  cout << "Called replace for " << str << endl;
-    while (true) {
-        /* Locate the substring to replace. */
-        index = str.find(search, index);
-        if (index == std::string::npos) break;
-
-        /* Make the replacement. */
-        //  cout << "Replaced\n";
-        str.erase(index, search.length());
-        str.insert(index, "\n");
-
-        /* Advance index forward so the next iteration doesn't pick it up as well. */
-        index += 1;
-    }
-    return str;
-}
-
-void printTabs() {
-    for (int i = 0; i < tabs_needed; i++) {
-        for (int j = 0; j < tab_width; j++)
-            out << " ";
-    }
-}
-
 /* --------------------- Constructors ---------------------*/
+
 Var::Var(string declType, string name, unsigned int length) {
     this->declType = declType;
     this->name = name;
@@ -219,7 +160,7 @@ Block::Block(class varDecls *vars, class Stmts *stmts) {
 }
 
 varDecl::varDecl(string data_type, class stringList *list) {
-    vector <string> tmp = list->getList();
+    vector<string> tmp = list->getList();
     this->type = data_type;
     this->cnt = 0;
     for (int i = 0; i < tmp.size(); i++) {
@@ -376,7 +317,7 @@ void Stmts::push_back(class Stmt *stmt) {
 
 void varDecl::push_back(string var) {
     var_list.push_back(var);
-    cnt++;
+    this->cnt++;
 }
 
 void varDecls::push_back(class varDecl *decl) {
@@ -408,7 +349,7 @@ void methodArgs::push_back(class methodArg *arg) {
     this->cnt++;
 }
 
-vector <string> stringList::getList() {
+vector<string> stringList::getList() {
     return this->list;
 }
 
@@ -528,13 +469,14 @@ Value *Location::codegen() {
             errors++;
             return reportError::ErrorV("Invalid array index");
         }
-        vector < Value * > array_index;
+        vector<Value *> array_index;
         array_index.push_back(Builder.getInt32(0));
         array_index.push_back(index);
         V = Builder.CreateGEP(V, array_index, var + "_Index");
         return V;
     }
 }
+
 
 Value *intLiteral::codegen() {
     Value *v = ConstantInt::get(Context, llvm::APInt(32, value));
@@ -567,8 +509,8 @@ Value *Stmts::codegen() {
 
 Value *calloutCall::codegen() {
 
-    vector < llvm::Type * > argTypes;
-    vector < Value * > Args;
+    vector<llvm::Type *> argTypes;
+    vector<Value *> Args;
     vector<class calloutArg *> args_list = args->getArgsList();
     for (int i = 0; i < args_list.size(); i++) {
         Value *tmp = args_list[i]->codegen();
@@ -580,8 +522,8 @@ Value *calloutCall::codegen() {
         argTypes.push_back(tmp->getType());
     }
 
-    llvm::ArrayRef < llvm::Type * > argsRef(argTypes);
-    llvm::ArrayRef < llvm::Value * > funcargs(Args);
+    llvm::ArrayRef<llvm::Type *> argsRef(argTypes);
+    llvm::ArrayRef<llvm::Value *> funcargs(Args);
     llvm::FunctionType *FType = FunctionType::get(Type::getInt32Ty(Context), argsRef, false);
     Constant *func = TheModule->getOrInsertFunction(method_name, FType);
     if (!func) {
@@ -614,7 +556,7 @@ Value *Method::codegen() {
         errors++;
         return reportError::ErrorV("Incorrect Number of Parameters Passed");
     }
-    vector < Value * > Args;
+    vector<Value *> Args;
     for (int i = 0; i < args_list.size(); i++) {
         Value *argval = args_list[i]->codegen();
         if (args_list[i]->getEtype() == exprType::location) {
@@ -663,7 +605,7 @@ Value *Assignment::codegen() {
 
 Value *Block::codegen() {
     Value *V = ConstantInt::get(Context, APInt(32, 1));
-    std::map < std::string, llvm::AllocaInst * > Old_vals;
+    std::map<std::string, llvm::AllocaInst *> Old_vals;
     V = decls_list->codegen(Old_vals);
     V = stmts_list->codegen();
     /* Adjust the values back to old values */
@@ -834,10 +776,10 @@ Value *continueStmt::codegen() {
 }
 
 Function *methodDecl::codegen() {
-    vector <string> argNames;
-    vector <string> argTypes;
+    vector<string> argNames;
+    vector<string> argTypes;
     vector<class methodArg *> args = arg_list->getArgList();
-    vector < Type * > arguments;
+    vector<Type *> arguments;
     int arg_size = args.size();
     for (int i = 0; i < args.size(); i++) {
         /* Iterate over the arguments and get the types of them in llvm */
@@ -969,14 +911,14 @@ Value *calloutArgs::codegen() {
 
 void fieldDecls::traverse() {
     TBS;
-    out << "<field_declarations count=\"" << cnt << "\">\n";
+    ofstream1 << "<field_declarations count=\"" << cnt << "\">\n";
     tabs_needed++;
     for (int i = 0; i < decl_list.size(); i++) {
         decl_list[i]->traverse();
     }
     tabs_needed--;
     TBS;
-    out << "</field_declarations>\n";
+    ofstream1 << "</field_declarations>\n";
 
 }
 
@@ -988,87 +930,87 @@ void fieldDecl::traverse() {
 
 void Var::traverse() {
     TBS;
-    out << declType << endl;
+    ofstream1 << declType << endl;
     TBS;
-    out << "<declaration name=\"" << name << "\" type=\"" << dataType << "\" ";
+    ofstream1 << "<declaration name=\"" << name << "\" type=\"" << dataType << "\" ";
     if (declType.compare("Array") == 0) {
-        out << "size=\"" << length << "\" ";
+        ofstream1 << "size=\"" << length << "\" ";
     }
-    out << "/>\n";
+    ofstream1 << "/>\n";
 }
 
 void Stmts::traverse() {
     TBS;
-    out << "<statements count=\"" << cnt << "\">\n";
+    ofstream1 << "<statements count=\"" << cnt << "\">\n";
     tabs_needed++;
     for (int i = 0; i < stmts.size(); i++) {
         stmts[i]->traverse();
     }
     tabs_needed--;
     TBS;
-    out << "</statements>\n";
+    ofstream1 << "</statements>\n";
 }
 
 void Assignment::traverse() {
     TBS;
-    out << "<assignment>\n";
+    ofstream1 << "<assignment>\n";
     tabs_needed++;
     TBS;
-    out << "<LHS name =\"" << loc->getVar() << "\">\n";
+    ofstream1 << "<LHS name =\"" << loc->getVar() << "\">\n";
     if (loc->is_array()) {
         tabs_needed++;
         loc->getExpr()->traverse();
         tabs_needed--;
     }
     TBS;
-    out << "</LHS>\n";
+    ofstream1 << "</LHS>\n";
     TBS;
-    out << "<operation =\"" << getOperation(opr) << "\">\n";
+    ofstream1 << "<operation =\"" << getOperation(opr) << "\">\n";
     TBS;
-    out << "<RHS>\n";
+    ofstream1 << "<RHS>\n";
     tabs_needed++;
     expr->traverse();
     tabs_needed--;
     TBS;
-    out << "</RHS>\n";
+    ofstream1 << "</RHS>\n";
     tabs_needed--;
     TBS;
-    out << "</assignment>\n";
+    ofstream1 << "</assignment>\n";
 }
 
 void Location::traverse() {
     TBS;
-    out << "<identifier name=\"" << var << "\"";
+    ofstream1 << "<identifier name=\"" << var << "\"";
     if (is_array()) {
-        out << ">\n";
+        ofstream1 << ">\n";
         tabs_needed++;
         expr->traverse();
         tabs_needed--;
         TBS;
-        out << "</identifier>\n";
+        ofstream1 << "</identifier>\n";
     } else {
-        out << " />\n";
+        ofstream1 << " />\n";
     }
 }
 
 void intLiteral::traverse() {
     TBS;
-    out << "<integer value=\"" << value << "\" />\n";
+    ofstream1 << "<integer value=\"" << value << "\" />\n";
 }
 
 void boolLiteral::traverse() {
     TBS;
-    out << "<boolean value=\"" << value << "\" />\n";
+    ofstream1 << "<boolean value=\"" << value << "\" />\n";
 }
 
 void charLiteral::traverse() {
     TBS;
-    out << "<char value=\"" << value << "\" />\n";
+    ofstream1 << "<char value=\"" << value << "\" />\n";
 }
 
 void stringLiteral::traverse() {
     TBS;
-    out << "<string value=\"" << value << "\" />\n";
+    ofstream1 << "<string value=\"" << value << "\" />\n";
 }
 
 void EnclExpr::traverse() {
@@ -1077,13 +1019,13 @@ void EnclExpr::traverse() {
 
 void binExpr::traverse() {
     TBS;
-    out << "<binary_expression type=\"" << getOperation(opr) << "\">\n";
+    ofstream1 << "<binary_expression type=\"" << getOperation(opr) << "\">\n";
     tabs_needed++;
     lhs->traverse();
     rhs->traverse();
     tabs_needed--;
     TBS;
-    out << "</binary_expression>\n";
+    ofstream1 << "</binary_expression>\n";
 }
 
 void unExpr::traverse() {
@@ -1092,28 +1034,28 @@ void unExpr::traverse() {
     if (opr == "!") {
         operation = "Unary NOT";
     }
-    out << "<unary_expression type=\"" << operation << "\">\n";
+    ofstream1 << "<unary_expression type=\"" << operation << "\">\n";
     tabs_needed++;
     body->traverse();
     tabs_needed--;
     TBS;
-    out << "</unary_expression>\n";
+    ofstream1 << "</unary_expression>\n";
 }
 
 void Block::traverse() {
     TBS;
-    out << "<block>\n";
+    ofstream1 << "<block>\n";
     tabs_needed++;
     decls_list->traverse();
     stmts_list->traverse();
     tabs_needed--;
     TBS;
-    out << "</block>\n";
+    ofstream1 << "</block>\n";
 }
 
 void varDecls::traverse() {
     TBS;
-    out << "<variable_declarations count=\"" << cnt << "\">\n";
+    ofstream1 << "<variable_declarations count=\"" << cnt << "\">\n";
     tabs_needed++;
     for (int i = 0; i < decl_list.size(); i++) {
         decl_list[i]->traverse();
@@ -1123,107 +1065,107 @@ void varDecls::traverse() {
 
 void varDecl::traverse() {
     TBS;
-    out << "<declaration type=\"" << type << "\">\n";
+    ofstream1 << "<declaration type=\"" << type << "\">\n";
     tabs_needed++;
     for (int i = 0; i < var_list.size(); i++) {
         TBS;
-        out << "<variable name=\"" << var_list[i] << "\">\n";
+        ofstream1 << "<variable name=\"" << var_list[i] << "\">\n";
     }
     tabs_needed--;
 }
 
 void forStmt::traverse() {
     TBS;
-    out << "<for_statement>\n";
+    ofstream1 << "<for_statement>\n";
     tabs_needed++;
     TBS;
-    out << "<initialisation>\n";
+    ofstream1 << "<initialisation>\n";
     tabs_needed++;
     TBS;
-    out << "<variable name=\"" << var << "\" />\n";
+    ofstream1 << "<variable name=\"" << var << "\" />\n";
     init->traverse();
     tabs_needed--;
     TBS;
-    out << "</initialisation>\n";
+    ofstream1 << "</initialisation>\n";
     TBS;
-    out << "<condition>\n";
+    ofstream1 << "<condition>\n";
     tabs_needed++;
     condition->traverse();
     tabs_needed--;
     TBS;
-    out << "</condition>\n";
+    ofstream1 << "</condition>\n";
     tabs_needed++;
     body->traverse();
     tabs_needed--;
     tabs_needed--;
     TBS;
-    out << "</for_statement>\n";
+    ofstream1 << "</for_statement>\n";
 }
 
 void ifElseStmt::traverse() {
     TBS;
-    out << "<if_else_statement>\n";
+    ofstream1 << "<if_else_statement>\n";
     tabs_needed++;
     TBS;
-    out << "<condition>\n";
+    ofstream1 << "<condition>\n";
     tabs_needed++;
     condition->traverse();
     tabs_needed--;
     TBS;
-    out << "</condition>\n";
+    ofstream1 << "</condition>\n";
     TBS;
-    out << "<ifblock>\n";
+    ofstream1 << "<ifblock>\n";
     tabs_needed++;
     if_block->traverse();
     tabs_needed--;
     TBS;
-    out << "</ifblock>\n";
+    ofstream1 << "</ifblock>\n";
     if (else_block != NULL) {
         TBS;
-        out << "<else_block>\n";
+        ofstream1 << "<else_block>\n";
         tabs_needed++;
         else_block->traverse();
         tabs_needed--;
         TBS;
-        out << "</elseblock>\n";
+        ofstream1 << "</elseblock>\n";
     }
     tabs_needed--;
     TBS;
-    out << "</if_else_statement>\n";
+    ofstream1 << "</if_else_statement>\n";
 }
 
 void breakStmt::traverse() {
     TBS;
-    out << "<break_statement />\n";
+    ofstream1 << "<break_statement />\n";
 }
 
 
 void continueStmt::traverse() {
     TBS;
-    out << "<continue_statement />\n";
+    ofstream1 << "<continue_statement />\n";
 }
 
 void returnStmt::traverse() {
     TBS;
     if (ret == NULL) {
-        out << "<return_statement />\n";
+        ofstream1 << "<return_statement />\n";
         return;
     }
-    out << "<return_statement>\n";
+    ofstream1 << "<return_statement>\n";
     tabs_needed++;
     ret->traverse();
     tabs_needed--;
     TBS;
-    out << "</return_statement>\n";
+    ofstream1 << "</return_statement>\n";
 
 }
 
 void calloutCall::traverse() {
     TBS;
-    out << "<callout function=\"" << method_name << "\">\n";
+    ofstream1 << "<callout function=\"" << method_name << "\">\n";
     args->traverse();
     TBS;
-    out << "</callout>\n";
+    ofstream1 << "</callout>\n";
 
 }
 
@@ -1241,12 +1183,12 @@ void calloutArg::traverse() {
 
 void Method::traverse() {
     TBS;
-    out << "<method_call function=\"" << method_name << "\">\n";
+    ofstream1 << "<method_call function=\"" << method_name << "\">\n";
     tabs_needed++;
     params->traverse();
     tabs_needed--;
     TBS;
-    out << "</method_call>\n";
+    ofstream1 << "</method_call>\n";
 }
 
 void Params::traverse() {
@@ -1259,52 +1201,52 @@ void Params::traverse() {
 
 void methodArgs::traverse() {
     TBS;
-    out << "<method_args count=\"" << cnt << "\">\n";
+    ofstream1 << "<method_args count=\"" << cnt << "\">\n";
     tabs_needed++;
     for (int i = 0; i < arg_list.size(); i++) {
         arg_list[i]->traverse();
     }
     tabs_needed--;
     TBS;
-    out << "</method_args>\n";
+    ofstream1 << "</method_args>\n";
 }
 
 void methodArg::traverse() {
     TBS;
-    out << "<method_arg name=\"" << name << "\" type=\"" << type << "\" />\n";
+    ofstream1 << "<method_arg name=\"" << name << "\" type=\"" << type << "\" />\n";
 }
 
 void methodDecl::traverse() {
     TBS;
-    out << "<method_declaration return_type=\"" << type << " name=\"" << name << "\">\n";
+    ofstream1 << "<method_declaration return_type=\"" << type << " name=\"" << name << "\">\n";
     tabs_needed++;
     arg_list->traverse();
     body->traverse();
     tabs_needed--;
     TBS;
-    out << "</method_declaration>\n";
+    ofstream1 << "</method_declaration>\n";
 }
 
 void methodDecls::traverse() {
     TBS;
-    out << "<method_declarations count=\"" << cnt << "\">\n";
+    ofstream1 << "<method_declarations count=\"" << cnt << "\">\n";
     tabs_needed++;
     for (int i = 0; i < decl_list.size(); i++) {
         decl_list[i]->traverse();
     }
     tabs_needed--;
     TBS;
-    out << "</method_declarations>\n";
+    ofstream1 << "</method_declarations>\n";
 
 }
 
 void Prog::traverse() {
     TBS;
-    out << "<program>\n";
+    ofstream1 << "<program>\n";
     tabs_needed++;
     fields->traverse();
     methods->traverse();
     tabs_needed--;
     TBS;
-    out << "</program>\n";
+    ofstream1 << "</program>\n";
 }

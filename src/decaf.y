@@ -232,7 +232,7 @@ int main(int argc, char **argv) {
 	do {
 		yyparse();
 	} while (!feof(yyin));
-	printf("Semantical Analysis Success\n");
+	cerr << "Semantical Analysis Success\n";
 	if(start){
     start->traverse(); /* Traversals */
     /* Do the code generation part */
@@ -242,7 +242,7 @@ int main(int argc, char **argv) {
       start->generateCode();
     }
     else{
-      cout << errors << " Errors found\n";
+      cerr << errors << " Errors found\n";
     }
 	}
 }
