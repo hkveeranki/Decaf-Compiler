@@ -1,0 +1,31 @@
+//
+// Created by harry7 on 7/4/18.
+//
+
+#ifndef DECAF_COMPILER_VARIABLEDECLARATION_H
+#define DECAF_COMPILER_VARIABLEDECLARATION_H
+
+#include "astNode.h"
+#include "stringList.h"
+#include "globals.h"
+#include <llvm/IR/Instructions.h>
+#include <map>
+#include <string>
+#include <vector>
+
+
+class variableDeclaration : public astNode {
+private:
+    std::string type; /* type of variable declaraion */
+    std::vector<std::string> var_list; /* list of variables */
+    int cnt;
+public:
+    variableDeclaration(std::string, class stringList *);
+
+    void push_back(std::string);
+
+    Value *generateCode(std::map<std::string, llvm::AllocaInst *> &, globals *);
+};
+
+
+#endif

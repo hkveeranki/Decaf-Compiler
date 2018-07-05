@@ -3,10 +3,10 @@
 //
 
 #include "location.h"
-#include "common.h"
+#include "utilities.h"
 #include "globals.h"
 
-Location::Location(string var, string location_type, class Expr *expr) {
+Location::Location(string var, string location_type, class Expression *expr) {
     this->var = var;
     this->location_type = location_type;
     this->expr = expr;
@@ -27,31 +27,31 @@ bool Location::is_array() {
     return location_type.compare("Array") == 0;
 }
 
-class Expr *Location::getExpr() {
+class Expression *Location::getExpr() {
     return expr;
 }
 
 
-Value *Location::codegen(globals *currentGlobals) {
+Value *Location::generateCode(globals *currentGlobals) {
     Value *V = currentGlobals->NamedValues[var];
     if (V == 0) {
         V = currentGlobals->TheModule->getNamedGlobal(var);
     }
     if (V == 0) {
         currentGlobals->errors++;
-        return reportError::ErrorV("Unknown Variable name " + var);
+        return reportError("Unknown Variable name " + var);
     }
     if (this->location_type != "Array") {
         return V;
     }
     if (this->expr != nullptr) {
-        Value *index = expr->codegen(currentGlobals);
+        Value *index = expr->generateCode(currentGlobals);
         if (expr->getEtype() == exprType::location) {
             index = currentGlobals->Builder->CreateLoad(index);
         }
         if (index == 0) {
             currentGlobals->errors++;
-            return reportError::ErrorV("Invalid array index");
+            return reportError("Invalid array index");
         }
         vector<Value *> array_index;
         array_index.push_back(currentGlobals->Builder->getInt32(0));

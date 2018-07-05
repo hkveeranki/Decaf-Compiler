@@ -9,11 +9,14 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/IR/IRBuilder.h>
 #include <string>
+#include <iostream>
+#include <llvm/IR/Value.h>
 #include "globals.h"
 
 using namespace std;
 
-std::string replace_newline(std::string);
+string replace_newline(string);
 
-AllocaInst *CreateEntryBlockAlloca(Function *TheFunction, string VarName, std::string type, globals* currentGlobals);
-#endif //DECAF_COMPILER_UTILITIES_H
+llvm::Value *reportError(string);
+
+#endif

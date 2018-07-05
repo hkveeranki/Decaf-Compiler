@@ -4,7 +4,7 @@
 
 #include "stringLiteral.h"
 #include "utilities.h"
-#include "common.h"
+
 
 #include <string>
 
@@ -15,6 +15,6 @@ stringLiteral::stringLiteral(std::string val) {
     this->ltype = literalType::String;
 }
 
-Value *stringLiteral::codegen(globals *currentGlobals) {
+Value *stringLiteral::generateCode(globals *currentGlobals) {
     return currentGlobals->Builder->CreateGlobalStringPtr(value);
 }

@@ -2,30 +2,32 @@
 // Created by harry7 on 7/4/18.
 //
 #include <utility>
-#include "common.h"
-#include "method.h"
-#include "params.h"
-#include "globals.h"
+#include <string>
 
-Method::Method(string method_name, class Params *params) {
+#include "globals.h"
+#include "method.h"
+#include "parameters.h"
+#include "utilities.h"
+
+Method::Method(std::string method_name, class Parameters *params) {
     this->method_name = std::move(method_name);
-    this->params = params;
+    this->parameters = params;
 }
 
-Value *Method::codegen(globals *currentGlobals) {
+Value *Method::generateCode(globals *currentGlobals) {
     Function *calle = currentGlobals->TheModule->getFunction(method_name);
     if (calle == 0) {
         currentGlobals->errors++;
-        return reportError::ErrorV("Unknown Function name" + method_name);
+        return reportError("Unknown Function name" + method_name);
     }
-    vector<class Expr *> args_list = params->getExprList();
+    vector<class Expression *> args_list = parameters->getExprList();
     if (calle->arg_size() != args_list.size()) {
         currentGlobals->errors++;
-        return reportError::ErrorV("Incorrect Number of Parameters Passed");
+        return reportError("Incorrect Number of Parameters Passed");
     }
     vector<Value *> Args;
     for (int i = 0; i < args_list.size(); i++) {
-        Value *argval = args_list[i]->codegen(currentGlobals);
+        Value *argval = args_list[i]->generateCode(currentGlobals);
         if (args_list[i]->getEtype() == exprType::location) {
             argval = currentGlobals->Builder->CreateLoad(argval);
         }

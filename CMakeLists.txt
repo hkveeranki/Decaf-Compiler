@@ -4,98 +4,77 @@ project(Decaf_Compiler)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_C_COMPILER ${CMAKE_CXX_COMPILER})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -ldl -lfl")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_FLEX_BISON_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/flex_bison_output)
 
+# Create the directory for flex and bison outputs
+file(MAKE_DIRECTORY ${CMAKE_FLEX_BISON_OUTPUT_DIRECTORY})
+
+# Setup the required Libraries
 find_package(LLVM REQUIRED CONFIG)
+message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
+message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 find_package(BISON)
 find_package(FLEX)
 
+# Link the directories which contain required libraries
 link_directories(/usr/lib/llvm-6.0/build/lib)
+
+# Add directories which has the header files that are used in the project
 include_directories(/usr/lib/llvm-6.0/build/include)
 include_directories(src)
+include_directories(src/class_definitions)
 
-BISON_TARGET(Parser src/decaf.ypp ${CMAKE_CURRENT_BINARY_DIR}/decaf.tab.cpp)
-FLEX_TARGET(Lexer src/decaf.l ${CMAKE_CURRENT_BINARY_DIR}/lex.yy.cc)
+# Make Lexical analyser and parser using flex and bison
+BISON_TARGET(Parser src/decaf_parser.ypp ${CMAKE_FLEX_BISON_OUTPUT_DIRECTORY}/decaf.tab.cpp)
+FLEX_TARGET(Lexer src/decaf_lexer.l ${CMAKE_FLEX_BISON_OUTPUT_DIRECTORY}/lex.yy.cc)
 
-add_library(decaf_core SHARED
+# Build the core functionality shared library
+add_library(coreLibrary SHARED
         src/utilities.cpp
-        src/utilities.h
-        src/var.cpp
-        src/var.h
-        src/astNode.h
-        src/vars.cpp src/vars.h
-        src/fieldDecl.cpp
-        src/fieldDecl.h
-        src/common.h
-        src/fieldDecls.cpp
-        src/fieldDecls.h
-        src/expr.h
-        src/enclExpr.cpp
-        src/enclExpr.h
-        src/unExpr.cpp
-        src/unExpr.h
-        src/binExpr.cpp
-        src/binExpr.h
+        src/variable.cpp
+        src/variables.cpp
+        src/fieldDeclaration.cpp
+        src/fieldDeclarations.cpp
+        src/enclosedExpression.cpp
+        src/unaryExpression.cpp
+        src/binaryExpression.cpp
         src/location.cpp
-        src/location.h
-        src/literal.h
-        src/intLiteral.cpp
-        src/intLiteral.h
+        src/integerLiteral.cpp
         src/boolLiteral.cpp
-        src/boolLiteral.h
         src/charLiteral.cpp
-        src/charLiteral.h
         src/stringLiteral.cpp
-        src/stringLiteral.h
-        src/stmt.h
-        src/stmts.cpp
-        src/stmts.h
-        src/methodCall.h
+        src/statements.cpp
         src/calloutCall.cpp
-        src/calloutCall.h
-        src/calloutArg.cpp
-        src/calloutArg.h
-        src/calloutArgs.cpp
-        src/calloutArgs.h
+        src/calloutArgument.cpp
+        src/calloutArguments.cpp
         src/method.cpp
-        src/method.h
-        src/params.cpp
-        src/params.h
+        src/parameters.cpp
         src/assignment.cpp
-        src/assignment.h
         src/block.cpp
-        src/block.h
-        src/varDecl.cpp
-        src/varDecl.h
+        src/variableDeclaration.cpp
         src/stringList.cpp
-        src/stringList.h
-        src/varDecls.cpp
-        src/varDecls.h
-        src/forStmt.cpp
-        src/forStmt.h
-        src/ifElseStmt.cpp
-        src/ifElseStmt.h
-        src/returnStmt.cpp
-        src/returnStmt.h
-        src/breakStmt.cpp
-        src/breakStmt.h
-        src/continueStmt.cpp
-        src/continueStmt.h
-        src/methodArg.cpp
-        src/methodArg.h
-        src/methodArgs.cpp
-        src/methodArgs.h
-        src/methodDecl.cpp
-        src/methodDecl.h
-        src/methodDecls.cpp
-        src/methodDecls.h
-        src/prog.cpp
-        src/prog.h
-        src/globals.cpp
-        src/globals.h)
+        src/variableDeclarations.cpp
+        src/forStatement.cpp
+        src/ifElseStatements.cpp
+        src/returnStatement.cpp
+        src/breakStatement.cpp
+        src/continueStatement.cpp
+        src/methodArgument.cpp
+        src/methodArguments.cpp
+        src/methodDeclaration.cpp
+        src/methodDeclarations.cpp
+        src/program.cpp
+        src/globals.cpp)
 
-add_executable(decaf_compiler ${FLEX_Lexer_OUTPUTS} ${BISON_Parser_OUTPUTS})
+# Add the main executable
+add_executable(decafCompiler
+        ${FLEX_Lexer_OUTPUTS}
+        ${BISON_Parser_OUTPUTS})
+target_include_directories(decafCompiler PRIVATE
+        ${CMAKE_FLEX_BISON_OUTPUT_DIRECTORY})
+target_link_libraries(decafCompiler coreLibrary)
+
 llvm_map_components_to_libnames(llvm_libs support core irreader mcjit)
-
-# Link against LLVM libraries
-target_link_libraries(decaf_compiler ${llvm_libs})
-target_link_libraries(decaf_compiler decaf_core)
+target_link_libraries(decafCompiler ${llvm_libs})
