@@ -1,31 +1,24 @@
 # Decaf-Compiler
+
 ## Description
 
 Compiler for [Decaf](https://parasol.tamu.edu/courses/decaf/students/decafOverview.pdf) Programming Language. Developed as a course project for Compilers course.
-Decaf  is  a  strongly-typed,  object-oriented  language  with  support  for  inh
-eritance  and  encapsulation. By design, it has many similarities with C/C++/Java, so you should find it fairly easy
-to pick up. But it is not an exact match to any of those languages.  The feature set has be
-en trimmed down and simplified to keep the programming projects manageable 
+Decaf is a strongly-typed, object-oriented language with support for inheritance and encapsulation. By design, it has many similarities with C/C++/Java, so you should find it fairly easy
+to pick up. But it is not an exact match to any of those languages. The feature set has been trimmed down and simplified to keep the programming projects manageable 
 
-## Repo structure
-- [src](./src) contains all the code
-    + [class_definitions](./src/class_definitions) contains definitions for all the classes
-- [docs](./docs) contain code documentation
-- [sample_inputs](./sample_inputs)` contain some sample Decaf programs
+## Approach
 
-## Building
-``` 
-mkdir build
-cd build/
-cmake ..
-make 
-``` 
-This will create an executable named `decaf_compiler` in `build/bin` directory
+- Firstly, we perform lexical analysis on the given code 
+and break down the input code into tokens.
+- Next we do semantic analysis and transform this set of tokens into an
+AST (Abstract Syntax tree) using _Vistor design pattern_ approach 
+- Once AST is prepared, we generate the _Intermediate Representation_
+ 
+## Frameworks used
+- [Flex](ftp://ftp.gnu.org/old-gnu/Manuals/flex-2.5.4/html_mono/flex.html) for lexical analysis 
+- [YACC](http://dinosaur.compilertools.net/yacc/) for semantic analysis
+- [LLVM](http://llvm.org/) for generating the IR
 
-## Running the executable
-```
-decaf_compiler <input_file> > <output_file>
-lli <output_file>
-```
-## Documentation
-Code Documentation can be found [here](/html/index.html) 
+## Reference
+- Code Documentation can be found [here](/html/index.html)
+- Instructions for running the code can be found [here](https://github.com/harry-7/Decaf-Compiler/blob/master/README.md)
