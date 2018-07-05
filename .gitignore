@@ -1,5 +1,4 @@
 cmake-build-debug
-CMakeLists.txt
 src/*.txt
 */a.ofstream1
 a.ofstream1

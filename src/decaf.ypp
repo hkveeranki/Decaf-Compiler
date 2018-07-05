@@ -1,13 +1,12 @@
 %{
-#include "ClassDefs.h"
+#include "prog.h"
 #include <bits/stdc++.h>
-
   extern "C" int yylex();
-  extern "C" int yyparse();
-  extern "C" FILE *yyin;
-  extern "C" int line_num;
+  extern int yyparse();
+  extern FILE *yyin;
+  extern int line_num;
   extern union Node yylval;
-  extern "C" int errors;
+  extern int errors;
   void yyerror(const char *s);
   class Prog* start = NULL;
   int errors=0;
@@ -234,7 +233,6 @@ int main(int argc, char **argv) {
 	} while (!feof(yyin));
 	cerr << "Semantical Analysis Success\n";
 	if(start){
-    start->traverse(); /* Traversals */
     /* Do the code generation part */
 		start->codegen();
     if(errors == 0){

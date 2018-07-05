@@ -1,8 +1,7 @@
 %{
-
 #include <bits/stdc++.h>
-#include "ClassDefs.h"
-#include "decaf.tab.h"
+#include "prog.h"
+#include "decaf.tab.hpp"
 #define YY_DECL extern "C" int yylex()
 	extern union Node yylval;
 	using namespace std;
