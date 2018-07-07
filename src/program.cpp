@@ -2,6 +2,7 @@
  * Implementation of the \ref  Program class
  */
 
+#include <llvm/Support/raw_ostream.h>
 #include "program.h"
 
 /**

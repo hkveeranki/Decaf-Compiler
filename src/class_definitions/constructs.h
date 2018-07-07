@@ -9,7 +9,7 @@
 #include <string>
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Instructions.h>
-#include <llvm/IR/PassManager.h>
+#include <llvm/IR/LegacyPassManager.h>
 #include <llvm/IR/IRBuilder.h>
 #include <string>
 
@@ -17,10 +17,13 @@ using namespace llvm;
 
 class Constructs {
 public:
-    /* Context is an opaque object that owns a lot of core LLVM data structures, such as the type and
-     * constant value tables. */
+    /**
+     * Context is an opaque object that owns a lot of core LLVM data structures, such as the type and
+     * constant value tables.
+     */
     LLVMContext Context;
-    /* TheModule is an LLVM construct that contains functions and global variables.
+    /**
+     * TheModule is an LLVM construct that contains functions and global variables.
      * In many ways, it is the top-level structure that the LLVM IR uses to contain code.
      * It will own the memory for all of the IR that we generate.
      */
@@ -38,7 +41,13 @@ public:
      * when generating code for their function body.
      */
     std::map<std::string, llvm::AllocaInst *> NamedValues;
-    /* Number of errors occured during IR generation */
+    /**
+     * A FunctionPassManager to hold and organize the LLVM optimizations that we want to run
+     */
+    llvm::legacy::FunctionPassManager *TheFPM;
+    /**
+     * Number of errors occured during IR generation
+     */
     int errors;
 
     Constructs();

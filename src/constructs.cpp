@@ -3,6 +3,10 @@
  */
 
 #include "constructs.h"
+#include "llvm/IR/Verifier.h"
+#include "llvm/Target/TargetMachine.h"
+#include "llvm/Transforms/Scalar.h"
+#include "llvm/Transforms/Scalar/GVN.h"
 
 /**
  * Constructor for the class
@@ -12,6 +16,15 @@ Constructs::Constructs() {
     this->Builder = new IRBuilder<>(Context);
     errors = 0;
     this->TheModule = new Module("Decaf compiler", Context);
+    this->TheFPM = new llvm::legacy::FunctionPassManager(TheModule);
+    TheFPM->add(createInstructionCombiningPass());
+    // Reassociate expressions.
+    TheFPM->add(createReassociatePass());
+    // Eliminate Common SubExpressions.
+    TheFPM->add(createGVNPass());
+    // Simplify the control flow graph (deleting unreachable blocks, etc).
+    TheFPM->add(createCFGSimplificationPass());
+    TheFPM->doInitialization();
 }
 
 /**

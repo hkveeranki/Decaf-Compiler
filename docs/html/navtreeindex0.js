@@ -29,9 +29,10 @@ var NAVTREEINDEX0 =
 "classBlock.html#af1d3390031be094872d8d78660565ebe":[0,0,3,2],
 "classConstructs.html":[0,0,10],
 "classConstructs.html#a2ba320842bc77b2f769e905639087568":[0,0,10,5],
-"classConstructs.html#a6d41ceb40fef28b9f779b58a8a01a8c1":[0,0,10,6],
+"classConstructs.html#a6d41ceb40fef28b9f779b58a8a01a8c1":[0,0,10,7],
 "classConstructs.html#a73ebc41657ca77e6f27adf86692b5f7e":[0,0,10,1],
 "classConstructs.html#ac2dabefa68078c755c3dd23712403290":[0,0,10,4],
+"classConstructs.html#ace741e4db3c9d5f888a14fdd213416b8":[0,0,10,6],
 "classConstructs.html#acf671258ef66c96ea9bfb982d83e40a2":[0,0,10,2],
 "classConstructs.html#ae5fa11252c15e760fc73065dfba90a1e":[0,0,10,3],
 "classConstructs.html#ae6f56256574469e466cc52de1856daf9":[0,0,10,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "unionNode.html#ad5e8b87fa488d0f97725ee09aa466cc7":[0,0,27,18],
 "unionNode.html#ad964097e5426b631bab07340c4a30ce2":[0,0,27,15],
 "unionNode.html#addee8f42a07562a86bbc3c0eed213cb5":[0,0,27,17],
-"unionNode.html#ae16165b801e34c3d66c6f0d36c0672db":[0,0,27,12],
-"unionNode.html#af5dfeb66f4098a82918aa3af132ac91f":[0,0,27,16]
+"unionNode.html#ae16165b801e34c3d66c6f0d36c0672db":[0,0,27,12]
 };

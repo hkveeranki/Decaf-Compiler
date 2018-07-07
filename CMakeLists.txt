@@ -76,5 +76,5 @@ target_include_directories(decafCompiler PRIVATE
         ${CMAKE_FLEX_BISON_OUTPUT_DIRECTORY})
 target_link_libraries(decafCompiler coreLibrary)
 
-llvm_map_components_to_libnames(llvm_libs support core irreader mcjit)
+llvm_map_components_to_libnames(llvm_libs support core irreader mcjit native)
 target_link_libraries(decafCompiler ${llvm_libs})

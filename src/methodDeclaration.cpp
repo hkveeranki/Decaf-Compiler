@@ -91,6 +91,7 @@ Function *methodDeclaration::generateCode(Constructs *compilerConstructs) {
             compilerConstructs->Builder->CreateRetVoid();
         /* Verify the function */
         verifyFunction(*F);
+        compilerConstructs->TheFPM->run(*F);
         return F;
     }
     /* In case of errors remove the function */

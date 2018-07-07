@@ -98,18 +98,17 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ae5fa11252c15e760fc73065dfba90a1e"><td class="memItemLeft" align="right" valign="top"><a id="ae5fa11252c15e760fc73065dfba90a1e"></a>
-LLVMContext&#160;</td><td class="memItemRight" valign="bottom"><b>Context</b></td></tr>
+<tr class="memitem:ae5fa11252c15e760fc73065dfba90a1e"><td class="memItemLeft" align="right" valign="top">LLVMContext&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConstructs.html#ae5fa11252c15e760fc73065dfba90a1e">Context</a></td></tr>
 <tr class="separator:ae5fa11252c15e760fc73065dfba90a1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d41ceb40fef28b9f779b58a8a01a8c1"><td class="memItemLeft" align="right" valign="top"><a id="a6d41ceb40fef28b9f779b58a8a01a8c1"></a>
-Module *&#160;</td><td class="memItemRight" valign="bottom"><b>TheModule</b></td></tr>
+<tr class="memitem:a6d41ceb40fef28b9f779b58a8a01a8c1"><td class="memItemLeft" align="right" valign="top">Module *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConstructs.html#a6d41ceb40fef28b9f779b58a8a01a8c1">TheModule</a></td></tr>
 <tr class="separator:a6d41ceb40fef28b9f779b58a8a01a8c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf671258ef66c96ea9bfb982d83e40a2"><td class="memItemLeft" align="right" valign="top">IRBuilder *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConstructs.html#acf671258ef66c96ea9bfb982d83e40a2">Builder</a></td></tr>
 <tr class="separator:acf671258ef66c96ea9bfb982d83e40a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ba320842bc77b2f769e905639087568"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, llvm::AllocaInst * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConstructs.html#a2ba320842bc77b2f769e905639087568">NamedValues</a></td></tr>
 <tr class="separator:a2ba320842bc77b2f769e905639087568"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2dabefa68078c755c3dd23712403290"><td class="memItemLeft" align="right" valign="top"><a id="ac2dabefa68078c755c3dd23712403290"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>errors</b></td></tr>
+<tr class="memitem:ace741e4db3c9d5f888a14fdd213416b8"><td class="memItemLeft" align="right" valign="top">llvm::legacy::FunctionPassManager *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConstructs.html#ace741e4db3c9d5f888a14fdd213416b8">TheFPM</a></td></tr>
+<tr class="separator:ace741e4db3c9d5f888a14fdd213416b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2dabefa68078c755c3dd23712403290"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConstructs.html#ac2dabefa68078c755c3dd23712403290">errors</a></td></tr>
 <tr class="separator:ac2dabefa68078c755c3dd23712403290"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -132,7 +131,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>errors</b></td></tr>
 </div><div class="memdoc">
 <p>Implementation of <a class="el" href="classConstructs.html">Constructs</a> class Constructor for the class Initialises the fields </p>
 
-<p class="definition">Definition at line <a class="el" href="constructs_8cpp_source.html#l00011">11</a> of file <a class="el" href="constructs_8cpp_source.html">constructs.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constructs_8cpp_source.html#l00015">15</a> of file <a class="el" href="constructs_8cpp_source.html">constructs.cpp</a>.</p>
 
 </div>
 </div>
@@ -178,7 +177,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>errors</b></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>alloca instruction for creating memory for given variable in the given function </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="constructs_8cpp_source.html#l00024">24</a> of file <a class="el" href="constructs_8cpp_source.html">constructs.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constructs_8cpp_source.html#l00037">37</a> of file <a class="el" href="constructs_8cpp_source.html">constructs.cpp</a>.</p>
 
 </div>
 </div>
@@ -196,7 +195,41 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>errors</b></td></tr>
 </div><div class="memdoc">
 <p>The Builder object is a helper object that makes it easy to generate LLVM instructions. Instances of the IRBuilder class template keep track of the current place to insert instructions and has methods to create new instructions. </p>
 
-<p class="definition">Definition at line <a class="el" href="constructs_8h_source.html#l00033">33</a> of file <a class="el" href="constructs_8h_source.html">constructs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constructs_8h_source.html#l00036">36</a> of file <a class="el" href="constructs_8h_source.html">constructs.h</a>.</p>
+
+</div>
+</div>
+<a id="ae5fa11252c15e760fc73065dfba90a1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5fa11252c15e760fc73065dfba90a1e">&#9670;&nbsp;</a></span>Context</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LLVMContext Constructs::Context</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Context is an opaque object that owns a lot of core LLVM data structures, such as the type and constant value tables. </p>
+
+<p class="definition">Definition at line <a class="el" href="constructs_8h_source.html#l00024">24</a> of file <a class="el" href="constructs_8h_source.html">constructs.h</a>.</p>
+
+</div>
+</div>
+<a id="ac2dabefa68078c755c3dd23712403290"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2dabefa68078c755c3dd23712403290">&#9670;&nbsp;</a></span>errors</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Constructs::errors</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Number of errors occured during IR generation </p>
+
+<p class="definition">Definition at line <a class="el" href="constructs_8h_source.html#l00051">51</a> of file <a class="el" href="constructs_8h_source.html">constructs.h</a>.</p>
 
 </div>
 </div>
@@ -213,7 +246,41 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>errors</b></td></tr>
 </div><div class="memdoc">
 <p>The NamedValues map keeps track of which values are defined in the current scope and what their LLVM representation is. (In other words, it is a symbol table for the code). In this form of Kaleidoscope, the only things that can be referenced are function parameters. As such, function parameters will be in this map when generating code for their function body. </p>
 
-<p class="definition">Definition at line <a class="el" href="constructs_8h_source.html#l00040">40</a> of file <a class="el" href="constructs_8h_source.html">constructs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="constructs_8h_source.html#l00043">43</a> of file <a class="el" href="constructs_8h_source.html">constructs.h</a>.</p>
+
+</div>
+</div>
+<a id="ace741e4db3c9d5f888a14fdd213416b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace741e4db3c9d5f888a14fdd213416b8">&#9670;&nbsp;</a></span>TheFPM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">llvm::legacy::FunctionPassManager* Constructs::TheFPM</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>A FunctionPassManager to hold and organize the LLVM optimizations that we want to run </p>
+
+<p class="definition">Definition at line <a class="el" href="constructs_8h_source.html#l00047">47</a> of file <a class="el" href="constructs_8h_source.html">constructs.h</a>.</p>
+
+</div>
+</div>
+<a id="a6d41ceb40fef28b9f779b58a8a01a8c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d41ceb40fef28b9f779b58a8a01a8c1">&#9670;&nbsp;</a></span>TheModule</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Module* Constructs::TheModule</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>TheModule is an LLVM construct that contains functions and global variables. In many ways, it is the top-level structure that the LLVM IR uses to contain code. It will own the memory for all of the IR that we generate. </p>
+
+<p class="definition">Definition at line <a class="el" href="constructs_8h_source.html#l00030">30</a> of file <a class="el" href="constructs_8h_source.html">constructs.h</a>.</p>
 
 </div>
 </div>
