@@ -1,18 +1,21 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * class to handle `continue` statements in the code
+ */
 
 #ifndef DECAF_COMPILER_CONTINUESTATEMENT_H
 #define DECAF_COMPILER_CONTINUESTATEMENT_H
 
 #include "statement.h"
-#include "globals.h"
+#include "constructs.h"
 
 class continueStatement : public Statement {
 public:
+    /**
+     * Constructor for the class
+     */
     continueStatement() { this->stype = stmtType::NonReturn; }
 
-    Value *generateCode(globals *currentGlobals);
+    Value *generateCode(Constructs *compilerConstructs) override;
 };
 
 #endif

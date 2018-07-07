@@ -1,54 +1,67 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * Implementation of \ref ifElseStatements class
+ */
 
 #include "ifElseStatements.h"
 #include "utilities.h"
 
-
-ifElseStatements::ifElseStatements(class Expression *cond, class Block *block1, class Block *block2) {
+/**
+ * Constructor for the class
+ * @param condition condition in the if
+ * @param block1 block for the if
+ * @param block2 block for else part
+ */
+ifElseStatements::ifElseStatements(class Expression *condition, class Block *block1, class Block *block2) {
     this->stype = stmtType::NonReturn;
-    this->condition = cond;
+    this->condition = condition;
     this->if_block = block1;
     this->else_block = block2;
 }
 
-Value *ifElseStatements::generateCode(globals *currentGlobals) {
-    Value *cond = condition->generateCode(currentGlobals);
-    if (cond == 0) {
-        currentGlobals->errors++;
+Value *ifElseStatements::generateCode(Constructs *compilerConstructs) {
+    /* Generate code for the condition */
+    Value *cond = condition->generateCode(compilerConstructs);
+    if (cond == nullptr) {
+        compilerConstructs->errors++;
         return reportError("Invalid Expression in the IF");
     }
-    Function *TheFunction = currentGlobals->Builder->GetInsertBlock()->getParent();
-    BasicBlock *ifBlock = BasicBlock::Create(currentGlobals->Context, "if", TheFunction);
-    BasicBlock *elseBlock = BasicBlock::Create(currentGlobals->Context, "else");
-    BasicBlock *nextBlock = BasicBlock::Create(currentGlobals->Context, "ifcont");
-    currentGlobals->Builder->CreateCondBr(cond, ifBlock, elseBlock);
 
-    currentGlobals->Builder->SetInsertPoint(ifBlock);
-
-    Value *ifval = if_block->generateCode(currentGlobals);
-    if (ifval == nullptr) {
-        return 0;
+    /* Create blocks for if, else and next part of the code */
+    Function *TheFunction = compilerConstructs->Builder->GetInsertBlock()->getParent();
+    BasicBlock *ifBlock = BasicBlock::Create(compilerConstructs->Context, "if", TheFunction);
+    BasicBlock *elseBlock = BasicBlock::Create(compilerConstructs->Context, "else");
+    BasicBlock *nextBlock = BasicBlock::Create(compilerConstructs->Context, "ifcont");
+    /// Create a conditional break and an insert point
+    compilerConstructs->Builder->CreateCondBr(cond, ifBlock, elseBlock);
+    compilerConstructs->Builder->SetInsertPoint(ifBlock);
+    /// generate the code for if block
+    Value *if_val = if_block->generateCode(compilerConstructs);
+    if (if_val == nullptr) {
+        return nullptr;
     }
+    /// Create a break for next part of the code after else block
+    compilerConstructs->Builder->CreateBr(nextBlock);
+    ifBlock = compilerConstructs->Builder->GetInsertBlock();
 
-    currentGlobals->Builder->CreateBr(nextBlock);
-    ifBlock = currentGlobals->Builder->GetInsertBlock();
-
+    /// Create insert point for else block
     TheFunction->getBasicBlockList().push_back(elseBlock);
-    currentGlobals->Builder->SetInsertPoint(elseBlock);
-    Value *elseval;
+    compilerConstructs->Builder->SetInsertPoint(elseBlock);
+    Value *else_val = nullptr;
+
     if (else_block != nullptr) {
-        elseval = else_block->generateCode(currentGlobals);
-        if (elseval == 0) {
-            return 0;
+        /// Generate code for else block
+        else_val = else_block->generateCode(compilerConstructs);
+        if (else_val == nullptr) {
+            return nullptr;
         }
     }
-    currentGlobals->Builder->CreateBr(nextBlock);
-    elseBlock = currentGlobals->Builder->GetInsertBlock();
+    // Create a break for the next part of the code
+    compilerConstructs->Builder->CreateBr(nextBlock);
+    elseBlock = compilerConstructs->Builder->GetInsertBlock();
     TheFunction->getBasicBlockList().push_back(nextBlock);
-    currentGlobals->Builder->SetInsertPoint(nextBlock);
+    compilerConstructs->Builder->SetInsertPoint(nextBlock);
 
+    /// Create phi nodes for if and else blocks if they have return value
     bool phi_if = false, phi_else = false;
     if (if_block->has_return()) {
         phi_if = true;
@@ -57,15 +70,30 @@ Value *ifElseStatements::generateCode(globals *currentGlobals) {
         phi_else = true;
     }
     if (phi_if || phi_else) {
-        PHINode *PN = currentGlobals->Builder->CreatePHI(Type::getInt32Ty(currentGlobals->Context), 2, "iftmp");
+        PHINode *PN = compilerConstructs->Builder->CreatePHI(Type::getInt32Ty(compilerConstructs->Context), 2, "iftmp");
         if (phi_if)
-            PN->addIncoming(ifval, ifBlock);
+            PN->addIncoming(if_val, ifBlock);
         if (phi_else) {
-            PN->addIncoming(elseval, elseBlock);
+            PN->addIncoming(else_val, elseBlock);
         }
         return PN;
     }
 
-    Value *V = ConstantInt::get(currentGlobals->Context, APInt(32, 0));
+    Value *V = ConstantInt::get(compilerConstructs->Context, APInt(32, 0));
     return V;
+}
+
+/**
+ * See if this block of if else statements return a value
+ * @return true if the return a value false otherwise
+ */
+bool ifElseStatements::has_return() {
+    bool status = false;
+    if (if_block != nullptr) {
+        status = status | if_block->has_return();
+    }
+    if (else_block != nullptr) {
+        status = status | if_block->has_return();
+    }
+    return status;
 }

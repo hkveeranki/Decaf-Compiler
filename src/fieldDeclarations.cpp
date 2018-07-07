@@ -1,22 +1,21 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * Implementation of \ref fieldDeclarations class
+ */
 
 #include "fieldDeclarations.h"
 
-fieldDeclarations::fieldDeclarations() {
-    this->cnt = 0;
+/**
+ * add a given field declaration to the list of declarations
+ * @param field_declaration given field declaration to be added
+ */
+void fieldDeclarations::push_back(class fieldDeclaration *field_declaration) {
+    declaration_list.push_back(field_declaration);
 }
 
-void fieldDeclarations::push_back(class fieldDeclaration *var) {
-    decl_list.push_back(var);
-    cnt++;
-}
-
-Value *fieldDeclarations::generateCode(globals* currentGlobals) {
-    for (auto &i : decl_list) {
-        i->generateCode(currentGlobals);
+Value *fieldDeclarations::generateCode(Constructs *compilerConstructs) {
+    for (auto &i : declaration_list) {
+        i->generateCode(compilerConstructs);
     }
-    Value *v = ConstantInt::get(currentGlobals->Context, APInt(32, 1));
+    Value *v = ConstantInt::get(compilerConstructs->Context, APInt(32, 1));
     return v;
 }

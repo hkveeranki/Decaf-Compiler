@@ -1,6 +1,6 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * class to deal with list of variables in a field declaration in the code
+ */
 
 #ifndef DECAF_COMPILER_VARIABLES_H
 #define DECAF_COMPILER_VARIABLES_H
@@ -16,17 +16,14 @@ using namespace llvm;
 
 class Variables : public astNode {
 private:
+    /// list of variables
     vector<class Variable *> vars_list;
-    int cnt;
 public:
     Variables() = default;
 
     void push_back(class Variable *);
 
     vector<class Variable *> getVarsList();
-
-    Value *generateCode(globals *currentGlobals);
-
 };
 
 

@@ -5,7 +5,7 @@
 #define YY_DECL extern "C" int yylex()
 	extern union Node yylval;
 	using namespace std;
-	int line_num = 0;
+	int line_num = 1;
 %}
 digit [0-9]
 letter [a-zA-Z]

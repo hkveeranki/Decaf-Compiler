@@ -1,20 +1,24 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * class to handle function calls to the methods of the form functionName() in the code
+ */
 
 #ifndef DECAF_COMPILER_METHODCALL_H
 #define DECAF_COMPILER_METHODCALL_H
 
-#include <string>
-#include "statement.h"
-#include "expression.h"
-#include "globals.h"
 
-class methodCall : public Statement, public Expression {
-protected:
-    std::string method_name;
+#include "functionCall.h"
+#include "constructs.h"
+#include <string>
+
+class methodCall : public functionCall {
+private:
+    /* Parameters passed to method call */
+    class Parameters *parameters;
+
 public:
-    virtual Value *generateCode(globals *currentGlobals) {}
+    methodCall(std::string, class Parameters *);
+
+    Value *generateCode(Constructs *compilerConstructs) override;
 };
 
 

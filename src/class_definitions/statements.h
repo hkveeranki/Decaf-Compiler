@@ -1,27 +1,27 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * class to deal with a set of continous statements in the code
+ */
 
 #ifndef DECAF_COMPILER_STMTS_H
 #define DECAF_COMPILER_STMTS_H
 
 #include "astNode.h"
 #include "statement.h"
-#include "globals.h"
+#include "constructs.h"
 #include <vector>
 
 class Statements : public astNode {
 private:
-    std::vector<class Statement *> stmts;
-    int cnt;
+    /* List of statements */
+    std::vector<class Statement *> statements_list;
 public:
-    Statements();
+    Statements() = default;
 
     void push_back(class Statement *);
 
     bool has_return();
 
-    Value *generateCode(globals *currentGlobals);
+    Value *generateCode(Constructs *compilerConstructs) override;
 };
 
 #endif

@@ -1,13 +1,14 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * Implementation of \ref stringLiteral class
+ */
 
 #include "stringLiteral.h"
 #include "utilities.h"
 
-
-#include <string>
-
+/**
+ * Constructor of the class
+ * @param val value of the string literal
+ */
 stringLiteral::stringLiteral(std::string val) {
     val = val.substr(1, val.length() - 2);
     val = replace_newline(val);
@@ -15,6 +16,6 @@ stringLiteral::stringLiteral(std::string val) {
     this->ltype = literalType::String;
 }
 
-Value *stringLiteral::generateCode(globals *currentGlobals) {
-    return currentGlobals->Builder->CreateGlobalStringPtr(value);
+Value *stringLiteral::generateCode(Constructs *compilerConstructs) {
+    return compilerConstructs->Builder->CreateGlobalStringPtr(value);
 }

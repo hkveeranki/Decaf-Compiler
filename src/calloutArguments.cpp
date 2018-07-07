@@ -1,26 +1,21 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * Implementation of the \ref  calloutArguments class
+ */
 
 #include "calloutArguments.h"
 
-#include "globals.h"
-
-
-calloutArguments::calloutArguments() {
-    this->cnt = 0;
-}
-
+/**
+ * add a given argument to the list of arguments
+ * @param arg argument to be added
+ */
 void calloutArguments::push_back(class calloutArgument *arg) {
     args_list.push_back(arg);
-    cnt++;
 }
 
+/**
+ * return the list of arguments in the class
+ * @return argument list for the callout statements
+ */
 std::vector<class calloutArgument *> calloutArguments::getArgsList() {
     return args_list;
-}
-
-Value *calloutArguments::generateCode(globals *currentGlobals) {
-    Value *V = ConstantInt::get(currentGlobals->Context, APInt(32, 0));
-    return V;
 }

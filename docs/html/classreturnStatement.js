@@ -1,6 +1,6 @@
 var classreturnStatement =
 [
     [ "returnStatement", "classreturnStatement.html#a4ae11d4dc8223d8e3777061903c4e445", null ],
-    [ "generateCode", "classreturnStatement.html#a40f733cd89edee973616b360e1973077", null ],
-    [ "has_return", "classreturnStatement.html#a5f3283324d575047adb2e4f2d3d6c277", null ]
+    [ "generateCode", "classreturnStatement.html#a1c513dbd281503b3e010cf10eb0078f9", null ],
+    [ "has_return", "classreturnStatement.html#a869e82c1e61a01750bd7fad85b496f40", null ]
 ];

@@ -1,6 +1,6 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * Utility functions needed for the compiler
+ */
 
 #ifndef DECAF_COMPILER_UTILITIES_H
 #define DECAF_COMPILER_UTILITIES_H
@@ -11,7 +11,7 @@
 #include <string>
 #include <iostream>
 #include <llvm/IR/Value.h>
-#include "globals.h"
+#include "constructs.h"
 
 using namespace std;
 

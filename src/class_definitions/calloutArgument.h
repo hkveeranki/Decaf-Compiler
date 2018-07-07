@@ -1,17 +1,18 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * class to handle an argument given to the callout statement
+ */
 
 #ifndef DECAF_COMPILER_CALLOUTARGUMENT_H
 #define DECAF_COMPILER_CALLOUTARGUMENT_H
 
 #include "astNode.h"
 #include "expression.h"
-#include "globals.h"
+#include "constructs.h"
 #include <string>
 
 class calloutArgument : public astNode {
 private:
+    /* Expression which is an argument to the callout statement */
     class Expression *expr;
 
 public:
@@ -19,7 +20,7 @@ public:
 
     explicit calloutArgument(std::string literal);
 
-    Value *generateCode(globals *currentGlobals);
+    Value *generateCode(Constructs *compilerConstructs) override;
 };
 
 

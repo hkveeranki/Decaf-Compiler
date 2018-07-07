@@ -1,13 +1,13 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * Class to deal with set of variable declarations in the code
+ */
 
 #ifndef DECAF_COMPILER_VARIABLEDECLARATIONS_H
 #define DECAF_COMPILER_VARIABLEDECLARATIONS_H
 
 #include "astNode.h"
 #include "variableDeclaration.h"
-#include "globals.h"
+#include "constructs.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -15,14 +15,14 @@
 
 class variableDeclarations : public astNode {
 private:
+    /* list of declarations */
     std::vector<class variableDeclaration *> decl_list;
-    int cnt;
 public:
-    variableDeclarations();
+    variableDeclarations() = default;
 
     void push_back(class variableDeclaration *);
 
-    Value *generateCode(std::map<std::string, llvm::AllocaInst *> &, globals *);
+    Value *generateCode(std::map<std::string, llvm::AllocaInst *> &, Constructs *);
 };
 
 

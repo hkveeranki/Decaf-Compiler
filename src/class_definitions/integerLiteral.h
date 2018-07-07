@@ -1,22 +1,22 @@
-//
-// Created by harry7 on 7/4/18.
-//
-
+/**
+ * class to handle integer literals in the code
+ */
 #ifndef DECAF_COMPILER_INTEGERLITERAL_H
 #define DECAF_COMPILER_INTEGERLITERAL_H
 
 #include "literal.h"
-#include "globals.h"
+#include "constructs.h"
 
 class integerLiteral : public Literal {
 private:
+    /* Value of the integer value */
     int value;
 public:
     explicit integerLiteral(int);
 
-    int getValue();
+    int getValue() override;
 
-    Value *generateCode(globals *currentGlobals);
+    Value *generateCode(Constructs *compilerConstructs) override;
 };
 
 

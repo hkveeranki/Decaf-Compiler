@@ -49,7 +49,7 @@ add_library(coreLibrary SHARED
         src/calloutCall.cpp
         src/calloutArgument.cpp
         src/calloutArguments.cpp
-        src/method.cpp
+        src/methodCall.cpp
         src/parameters.cpp
         src/assignment.cpp
         src/block.cpp
@@ -66,7 +66,7 @@ add_library(coreLibrary SHARED
         src/methodDeclaration.cpp
         src/methodDeclarations.cpp
         src/program.cpp
-        src/globals.cpp)
+        src/constructs.cpp)
 
 # Add the main executable
 add_executable(decafCompiler

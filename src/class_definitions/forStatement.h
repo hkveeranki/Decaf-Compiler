@@ -1,6 +1,6 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * class to deal with for statements in the code
+ */
 
 #ifndef DECAF_COMPILER_FORSTATEMENT_H
 #define DECAF_COMPILER_FORSTATEMENT_H
@@ -12,16 +12,24 @@
 
 class forStatement : public Statement {
 private:
-    std::string var;/* variable to be initialised */
-    class Expression *init; /* Value for initialisation */
-    class Expression *condition; /* condition for loop */
-    class Block *body; /* body of the loop */
+    /* variable to be initialised */
+    std::string var;
+
+    /* Value for initialisation */
+    class Expression *init;
+
+    /* condition for loop */
+    class Expression *condition;
+
+    /* body of the loop */
+    class Block *body;
+
 public:
     forStatement(std::string, class Expression *, class Expression *, class Block *);
 
-    bool has_return() { this->body->has_return(); }
+    bool has_return() override { this->body->has_return(); }
 
-    Value *generateCode(globals *currentGlobals);
+    Value *generateCode(Constructs *compilerConstructs) override;
 };
 
 

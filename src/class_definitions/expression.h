@@ -1,31 +1,30 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * Abstract class to define behaviour of an expression in decaf
+ */
 
 #ifndef DECAF_COMPILER_EXPR_H
 #define DECAF_COMPILER_EXPR_H
 
 
 #include "astNode.h"
-#include "globals.h"
+#include "constructs.h"
 #include <string>
 
 enum exprType {
-    binary = 1, location = 2, literal = 3, enclExpr = 4, Unexpr = 5
+    binary = 1, location = 2, literal = 3, enclExpr = 4, unExpr = 5
 };
 
 class Expression : public astNode {
 protected:
     exprType etype; /* Binary or unary or literal or location */
 public:
-
-    void setEtype(exprType x) { etype = x; }
+    Expression() = default;
 
     exprType getEtype() { return etype; }
 
     virtual std::string toString() {}
 
-    virtual Value *generateCode(globals *currentGlobals) {}
+    virtual Value *generateCode(Constructs *compilerConstructs) {}
 };
 
 #endif

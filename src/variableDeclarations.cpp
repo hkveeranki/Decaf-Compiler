@@ -1,24 +1,28 @@
-//
-// Created by harry7 on 7/4/18.
-//
-
+/**
+ * Implementation of \ref variableDeclarations class
+ */
 #include <string>
 #include "variableDeclarations.h"
-#include "globals.h"
 
-variableDeclarations::variableDeclarations() {
-    this->cnt = 0;
-}
+using namespace std;
 
+/**
+ * add a declaration to the list of declarations
+ * @param decl declaration to be added
+ */
 void variableDeclarations::push_back(class variableDeclaration *decl) {
     decl_list.push_back(decl);
-    cnt++;
 }
 
-Value *variableDeclarations::generateCode(std::map<std::string, AllocaInst *> &Old_vals, globals *currentGlobals) {
-    Value *v = ConstantInt::get(currentGlobals->Context, APInt(32, 1));
-    for (int i = 0; i < decl_list.size(); i++) {
-        v = decl_list[i]->generateCode(Old_vals, currentGlobals);
+Value *variableDeclarations::generateCode(map<string, AllocaInst *> &oldValues, Constructs *compilerConstructs) {
+
+    Value *v = ConstantInt::get(compilerConstructs->Context, APInt(32, 1));
+    for (auto &decl : decl_list) {
+        /// Generate the code for each declaration
+        v = decl->generateCode(oldValues, compilerConstructs);
+        if (v == nullptr) {
+            return v;
+        }
     }
     return v;
 }

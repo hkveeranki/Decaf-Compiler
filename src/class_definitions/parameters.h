@@ -1,26 +1,24 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * class to hold parameters passed during function calls namely method calls and callout calls
+ */
 
 #ifndef DECAF_COMPILER_PARAMETERS_H
 #define DECAF_COMPILER_PARAMETERS_H
 
 #include "astNode.h"
-#include "globals.h"
+#include "constructs.h"
 #include <vector>
 
 class Parameters : public astNode {
 private:
-    std::vector<class Expression *> expr_list;
-    int cnt;
+    /* list of parameters passed */
+    std::vector<class Expression *> params;
 public:
-    Parameters();
+    Parameters() = default;
 
     void push_back(class Expression *);
 
-    std::vector<class Expression *> getExprList();
-
-    Value *generateCode(globals *currentGlobals);
+    std::vector<class Expression *> getParams();
 };
 
 #endif

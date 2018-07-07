@@ -87,6 +87,8 @@ $(document).ready(function(){initNavTree('classmethodDeclaration.html','');});
 <div class="title">methodDeclaration Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="methodDeclaration_8h_source.html">methodDeclaration.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for methodDeclaration:</div>
 <div class="dyncontent">
@@ -106,17 +108,106 @@ Collaboration diagram for methodDeclaration:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a718a590ce268413be8d34b95163899a1"><td class="memItemLeft" align="right" valign="top"><a id="a718a590ce268413be8d34b95163899a1"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>methodDeclaration</b> (std::string type, std::string name, class <a class="el" href="classmethodArguments.html">methodArguments</a> *, class <a class="el" href="classBlock.html">Block</a> *)</td></tr>
-<tr class="separator:a718a590ce268413be8d34b95163899a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace65a9292dbca0e8f26ce63426ed54e5"><td class="memItemLeft" align="right" valign="top"><a id="ace65a9292dbca0e8f26ce63426ed54e5"></a>
-Function *&#160;</td><td class="memItemRight" valign="bottom"><b>generateCode</b> (<a class="el" href="classglobals.html">globals</a> *currentGlobals)</td></tr>
-<tr class="separator:ace65a9292dbca0e8f26ce63426ed54e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1dd727bebf99c55298eb06cde63fab8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmethodDeclaration.html#aa1dd727bebf99c55298eb06cde63fab8">methodDeclaration</a> (std::string return_type, std::string name, class <a class="el" href="classmethodArguments.html">methodArguments</a> *, class <a class="el" href="classBlock.html">Block</a> *)</td></tr>
+<tr class="separator:aa1dd727bebf99c55298eb06cde63fab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e2eef02ec23b6020277c9d8f512a13e"><td class="memItemLeft" align="right" valign="top">Function *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmethodDeclaration.html#a1e2eef02ec23b6020277c9d8f512a13e">generateCode</a> (<a class="el" href="classConstructs.html">Constructs</a> *compilerConstructs) override</td></tr>
+<tr class="separator:a1e2eef02ec23b6020277c9d8f512a13e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
+<div class="textblock"><p>class to deal method declarations in a Decaf program </p>
+
 <p class="definition">Definition at line <a class="el" href="methodDeclaration_8h_source.html#l00015">15</a> of file <a class="el" href="methodDeclaration_8h_source.html">methodDeclaration.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="aa1dd727bebf99c55298eb06cde63fab8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1dd727bebf99c55298eb06cde63fab8">&#9670;&nbsp;</a></span>methodDeclaration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">methodDeclaration::methodDeclaration </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>return_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class <a class="el" href="classmethodArguments.html">methodArguments</a> *&#160;</td>
+          <td class="paramname"><em>args</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class <a class="el" href="classBlock.html">Block</a> *&#160;</td>
+          <td class="paramname"><em>block</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Implementation of <a class="el" href="classmethodDeclaration.html">methodDeclaration</a> class Constructor for the class </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">return_type</td><td>return type of the function can be "int", "boolean" or "void" </td></tr>
+    <tr><td class="paramname">name</td><td>name of the function </td></tr>
+    <tr><td class="paramname">args</td><td>list of arguments for the function </td></tr>
+    <tr><td class="paramname">block</td><td>body of the function </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="methodDeclaration_8cpp_source.html#l00016">16</a> of file <a class="el" href="methodDeclaration_8cpp_source.html">methodDeclaration.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a1e2eef02ec23b6020277c9d8f512a13e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e2eef02ec23b6020277c9d8f512a13e">&#9670;&nbsp;</a></span>generateCode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Function * methodDeclaration::generateCode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classConstructs.html">Constructs</a> *&#160;</td>
+          <td class="paramname"><em>compilerConstructs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Generate the intermediate representation for the node </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">compilerConstructs</td><td>an instance of the <a class="el" href="classConstructs.html">Constructs</a> class which contains the data required for building the IR </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>generated IR representation </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classastNode.html">astNode</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="methodDeclaration_8cpp_source.html#l00025">25</a> of file <a class="el" href="methodDeclaration_8cpp_source.html">methodDeclaration.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="methodDeclaration_8h_source.html">methodDeclaration.h</a></li>
 <li><a class="el" href="methodDeclaration_8cpp_source.html">methodDeclaration.cpp</a></li>
 </ul>

@@ -1,26 +1,30 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * Abstract class for all the literals present in the code
+ */
 
 #ifndef DECAF_COMPILER_LITERAL_H
 #define DECAF_COMPILER_LITERAL_H
 
 #include <string>
 #include "expression.h"
-#include "globals.h"
+#include "constructs.h"
 
+/**
+ * enum to hold the type of literal
+ */
 enum literalType {
     Int = 1, Bool = 2, Char = 3, String = 4
 };
 
 class Literal : public Expression {
 protected:
-    literalType ltype; /* Integer bool or char */
+    /* Integer bool or char or String*/
+    literalType ltype;
 public:
 
     virtual int getValue() {}
 
-    virtual Value *generateCode(globals *currentGlobals) {}
+    virtual Value *generateCode(Constructs *compilerConstructs) {}
 };
 
 

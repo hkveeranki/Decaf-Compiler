@@ -1,25 +1,19 @@
-//
-// Created by harry7 on 7/4/18.
-//
-
+/**
+ * Implementation of \ref Parameters class
+ */
 #include "parameters.h"
-#include "globals.h"
-#include <vector>
 
-Parameters::Parameters() {
-    this->cnt = 0;
+/**
+ * Add a parameter to the list
+ * @param param parameter to be added
+ */
+void Parameters::push_back(class Expression *param) {
+    params.push_back(param);
 }
 
-void Parameters::push_back(class Expression *expr) {
-    expr_list.push_back(expr);
-    cnt++;
-}
-
-Value *Parameters::generateCode(globals *currentGlobals) {
-    Value *V = ConstantInt::get(currentGlobals->Context, APInt(32, 0));
-    return V;
-}
-
-std::vector<class Expression *> Parameters::getExprList() {
-    return expr_list;
+/**
+ * @return list of parameters
+ */
+std::vector<class Expression *> Parameters::getParams() {
+    return params;
 }

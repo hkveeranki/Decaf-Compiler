@@ -1,6 +1,6 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * Class to deal with list of strings in the parser
+ */
 
 #ifndef DECAF_COMPILER_STRINGLIST_H
 #define DECAF_COMPILER_STRINGLIST_H
@@ -10,7 +10,8 @@
 
 class stringList {
 private:
-    std::vector<std::string> list; /* class to store vector of strings */
+    /* list of of strings */
+    std::vector<std::string> list;
 public:
     stringList() = default;
 

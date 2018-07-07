@@ -87,6 +87,8 @@ $(document).ready(function(){initNavTree('classmethodDeclarations.html','');});
 <div class="title">methodDeclarations Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="methodDeclarations_8h_source.html">methodDeclarations.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for methodDeclarations:</div>
 <div class="dyncontent">
@@ -106,17 +108,80 @@ Collaboration diagram for methodDeclarations:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac86a778430a9fb04cd8e3e22934228b6"><td class="memItemLeft" align="right" valign="top"><a id="ac86a778430a9fb04cd8e3e22934228b6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>push_back</b> (class <a class="el" href="classmethodDeclaration.html">methodDeclaration</a> *)</td></tr>
+<tr class="memitem:ac86a778430a9fb04cd8e3e22934228b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmethodDeclarations.html#ac86a778430a9fb04cd8e3e22934228b6">push_back</a> (class <a class="el" href="classmethodDeclaration.html">methodDeclaration</a> *)</td></tr>
 <tr class="separator:ac86a778430a9fb04cd8e3e22934228b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae39c6cbb2974de54e30fabe09cfdaa5"><td class="memItemLeft" align="right" valign="top"><a id="aae39c6cbb2974de54e30fabe09cfdaa5"></a>
-Value *&#160;</td><td class="memItemRight" valign="bottom"><b>generateCode</b> (<a class="el" href="classglobals.html">globals</a> *currentGlobals)</td></tr>
-<tr class="separator:aae39c6cbb2974de54e30fabe09cfdaa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cdf24f3d94f061df5177ba1c53729d7"><td class="memItemLeft" align="right" valign="top">Value *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmethodDeclarations.html#a4cdf24f3d94f061df5177ba1c53729d7">generateCode</a> (<a class="el" href="classConstructs.html">Constructs</a> *compilerConstructs) override</td></tr>
+<tr class="separator:a4cdf24f3d94f061df5177ba1c53729d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="methodDeclarations_8h_source.html#l00013">13</a> of file <a class="el" href="methodDeclarations_8h_source.html">methodDeclarations.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+<div class="textblock"><p>class to handle all the method declarations in the decaf program </p>
+
+<p class="definition">Definition at line <a class="el" href="methodDeclarations_8h_source.html#l00012">12</a> of file <a class="el" href="methodDeclarations_8h_source.html">methodDeclarations.h</a>.</p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a4cdf24f3d94f061df5177ba1c53729d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cdf24f3d94f061df5177ba1c53729d7">&#9670;&nbsp;</a></span>generateCode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Value * methodDeclarations::generateCode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classConstructs.html">Constructs</a> *&#160;</td>
+          <td class="paramname"><em>compilerConstructs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Generate the intermediate representation for the node </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">compilerConstructs</td><td>an instance of the <a class="el" href="classConstructs.html">Constructs</a> class which contains the data required for building the IR </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>generated IR representation </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classastNode.html">astNode</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="methodDeclarations_8cpp_source.html#l00015">15</a> of file <a class="el" href="methodDeclarations_8cpp_source.html">methodDeclarations.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ac86a778430a9fb04cd8e3e22934228b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac86a778430a9fb04cd8e3e22934228b6">&#9670;&nbsp;</a></span>push_back()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void methodDeclarations::push_back </td>
+          <td>(</td>
+          <td class="paramtype">class <a class="el" href="classmethodDeclaration.html">methodDeclaration</a> *&#160;</td>
+          <td class="paramname"><em>declaration</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Implementation of <a class="el" href="classmethodDeclarations.html">methodDeclarations</a> class Add a declaration to the list </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">declaration</td><td>method declaration to be added </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="methodDeclarations_8cpp_source.html#l00011">11</a> of file <a class="el" href="methodDeclarations_8cpp_source.html">methodDeclarations.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="methodDeclarations_8h_source.html">methodDeclarations.h</a></li>
 <li><a class="el" href="methodDeclarations_8cpp_source.html">methodDeclarations.cpp</a></li>
 </ul>

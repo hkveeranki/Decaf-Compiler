@@ -6,6 +6,10 @@ var hierarchy =
       [ "Expression", "classExpression.html", [
         [ "binaryExpression", "classbinaryExpression.html", null ],
         [ "enclosedExpression", "classenclosedExpression.html", null ],
+        [ "functionCall", "classfunctionCall.html", [
+          [ "calloutCall", "classcalloutCall.html", null ],
+          [ "methodCall", "classmethodCall.html", null ]
+        ] ],
         [ "Literal", "classLiteral.html", [
           [ "boolLiteral", "classboolLiteral.html", null ],
           [ "charLiteral", "classcharLiteral.html", null ],
@@ -13,10 +17,6 @@ var hierarchy =
           [ "stringLiteral", "classstringLiteral.html", null ]
         ] ],
         [ "Location", "classLocation.html", null ],
-        [ "methodCall", "classmethodCall.html", [
-          [ "calloutCall", "classcalloutCall.html", null ],
-          [ "Method", "classMethod.html", null ]
-        ] ],
         [ "unaryExpression", "classunaryExpression.html", null ]
       ] ],
       [ "fieldDeclaration", "classfieldDeclaration.html", null ],
@@ -33,8 +33,8 @@ var hierarchy =
         [ "breakStatement", "classbreakStatement.html", null ],
         [ "continueStatement", "classcontinueStatement.html", null ],
         [ "forStatement", "classforStatement.html", null ],
+        [ "functionCall", "classfunctionCall.html", null ],
         [ "ifElseStatements", "classifElseStatements.html", null ],
-        [ "methodCall", "classmethodCall.html", null ],
         [ "returnStatement", "classreturnStatement.html", null ]
       ] ],
       [ "Statements", "classStatements.html", null ],
@@ -43,7 +43,7 @@ var hierarchy =
       [ "variableDeclarations", "classvariableDeclarations.html", null ],
       [ "Variables", "classVariables.html", null ]
     ] ],
-    [ "globals", "classglobals.html", null ],
+    [ "Constructs", "classConstructs.html", null ],
     [ "Node", "unionNode.html", null ],
     [ "stringList", "classstringList.html", null ]
 ];

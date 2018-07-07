@@ -87,6 +87,8 @@ $(document).ready(function(){initNavTree('classStatements.html','');});
 <div class="title">Statements Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="statements_8h_source.html">statements.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for Statements:</div>
 <div class="dyncontent">
@@ -106,20 +108,102 @@ Collaboration diagram for Statements:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a46715ddd2e3015b73136bdd34b90391e"><td class="memItemLeft" align="right" valign="top"><a id="a46715ddd2e3015b73136bdd34b90391e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>push_back</b> (class <a class="el" href="classStatement.html">Statement</a> *)</td></tr>
+<tr class="memitem:a46715ddd2e3015b73136bdd34b90391e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStatements.html#a46715ddd2e3015b73136bdd34b90391e">push_back</a> (class <a class="el" href="classStatement.html">Statement</a> *)</td></tr>
 <tr class="separator:a46715ddd2e3015b73136bdd34b90391e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85edda53b640ba23362a7f56b0cc6646"><td class="memItemLeft" align="right" valign="top"><a id="a85edda53b640ba23362a7f56b0cc6646"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>has_return</b> ()</td></tr>
+<tr class="memitem:a85edda53b640ba23362a7f56b0cc6646"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStatements.html#a85edda53b640ba23362a7f56b0cc6646">has_return</a> ()</td></tr>
 <tr class="separator:a85edda53b640ba23362a7f56b0cc6646"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a408086793ff2a796eb3b0b6029feaf"><td class="memItemLeft" align="right" valign="top"><a id="a0a408086793ff2a796eb3b0b6029feaf"></a>
-Value *&#160;</td><td class="memItemRight" valign="bottom"><b>generateCode</b> (<a class="el" href="classglobals.html">globals</a> *currentGlobals)</td></tr>
-<tr class="separator:a0a408086793ff2a796eb3b0b6029feaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95b7cf8f6a5a444349fb025417ec52a4"><td class="memItemLeft" align="right" valign="top">Value *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStatements.html#a95b7cf8f6a5a444349fb025417ec52a4">generateCode</a> (<a class="el" href="classConstructs.html">Constructs</a> *compilerConstructs) override</td></tr>
+<tr class="separator:a95b7cf8f6a5a444349fb025417ec52a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
+<div class="textblock"><p>class to deal with a set of continous statements in the code </p>
+
 <p class="definition">Definition at line <a class="el" href="statements_8h_source.html#l00013">13</a> of file <a class="el" href="statements_8h_source.html">statements.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a95b7cf8f6a5a444349fb025417ec52a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95b7cf8f6a5a444349fb025417ec52a4">&#9670;&nbsp;</a></span>generateCode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Value * Statements::generateCode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classConstructs.html">Constructs</a> *&#160;</td>
+          <td class="paramname"><em>compilerConstructs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Generate the intermediate representation for the node </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">compilerConstructs</td><td>an instance of the <a class="el" href="classConstructs.html">Constructs</a> class which contains the data required for building the IR </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>generated IR representation </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classastNode.html">astNode</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="statements_8cpp_source.html#l00019">19</a> of file <a class="el" href="statements_8cpp_source.html">statements.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a85edda53b640ba23362a7f56b0cc6646"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85edda53b640ba23362a7f56b0cc6646">&#9670;&nbsp;</a></span>has_return()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Statements::has_return </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Implementation of <a class="el" href="classStatements.html">Statements</a> class Tells whether this set of statements return anything </p><dl class="section return"><dt>Returns</dt><dd>true if the return something false otherwise </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="statements_8cpp_source.html#l00010">10</a> of file <a class="el" href="statements_8cpp_source.html">statements.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a46715ddd2e3015b73136bdd34b90391e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46715ddd2e3015b73136bdd34b90391e">&#9670;&nbsp;</a></span>push_back()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Statements::push_back </td>
+          <td>(</td>
+          <td class="paramtype">class <a class="el" href="classStatement.html">Statement</a> *&#160;</td>
+          <td class="paramname"><em>statement</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Add a given statement to the list of statements </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">statement</td><td>statement to be added </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="statements_8cpp_source.html#l00031">31</a> of file <a class="el" href="statements_8cpp_source.html">statements.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="statements_8h_source.html">statements.h</a></li>
 <li><a class="el" href="statements_8cpp_source.html">statements.cpp</a></li>
 </ul>

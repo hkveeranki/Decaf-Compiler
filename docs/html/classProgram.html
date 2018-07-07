@@ -88,6 +88,8 @@ $(document).ready(function(){initNavTree('classProgram.html','');});
 <div class="title">Program Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="program_8h_source.html">program.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for Program:</div>
 <div class="dyncontent">
@@ -102,32 +104,116 @@ Collaboration diagram for Program:</div>
 <div class="center"><img src="classProgram__coll__graph.png" border="0" usemap="#Program_coll__map" alt="Collaboration graph"/></div>
 <map name="Program_coll__map" id="Program_coll__map">
 <area shape="rect" id="node2" href="classastNode.html" title="astNode" alt="" coords="5,5,76,32"/>
-<area shape="rect" id="node3" href="classglobals.html" title="globals" alt="" coords="100,5,163,32"/>
+<area shape="rect" id="node3" href="classConstructs.html" title="Constructs" alt="" coords="100,5,187,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4559d22670c83be2c966b5bae66cdf4d"><td class="memItemLeft" align="right" valign="top"><a id="a4559d22670c83be2c966b5bae66cdf4d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Program</b> (string name, class <a class="el" href="classfieldDeclarations.html">fieldDeclarations</a> *, class <a class="el" href="classmethodDeclarations.html">methodDeclarations</a> *)</td></tr>
+<tr class="memitem:a4559d22670c83be2c966b5bae66cdf4d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgram.html#a4559d22670c83be2c966b5bae66cdf4d">Program</a> (string name, class <a class="el" href="classfieldDeclarations.html">fieldDeclarations</a> *, class <a class="el" href="classmethodDeclarations.html">methodDeclarations</a> *)</td></tr>
 <tr class="separator:a4559d22670c83be2c966b5bae66cdf4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8a1fb6c4920274b12def90a8d26ca0c"><td class="memItemLeft" align="right" valign="top"><a id="af8a1fb6c4920274b12def90a8d26ca0c"></a>
-Value *&#160;</td><td class="memItemRight" valign="bottom"><b>generateCode</b> () override</td></tr>
-<tr class="separator:af8a1fb6c4920274b12def90a8d26ca0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af37fd944f91423866fd26ce2cefbcc1f"><td class="memItemLeft" align="right" valign="top"><a id="af37fd944f91423866fd26ce2cefbcc1f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>generateCodeDump</b> ()</td></tr>
+<tr class="memitem:a87f55ebd6df607406adb4f81951c1192"><td class="memItemLeft" align="right" valign="top">Value *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgram.html#a87f55ebd6df607406adb4f81951c1192">generateCode</a> ()</td></tr>
+<tr class="separator:a87f55ebd6df607406adb4f81951c1192"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af37fd944f91423866fd26ce2cefbcc1f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProgram.html#af37fd944f91423866fd26ce2cefbcc1f">generateCodeDump</a> ()</td></tr>
 <tr class="separator:af37fd944f91423866fd26ce2cefbcc1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a25c7e84a1c6fad6c3d021c7ddbd9a562"><td class="memItemLeft" align="right" valign="top"><a id="a25c7e84a1c6fad6c3d021c7ddbd9a562"></a>
-<a class="el" href="classglobals.html">globals</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>currentGlobals</b></td></tr>
-<tr class="separator:a25c7e84a1c6fad6c3d021c7ddbd9a562"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94dabfdbccf5d3d71e89c0a3f1cde194"><td class="memItemLeft" align="right" valign="top"><a id="a94dabfdbccf5d3d71e89c0a3f1cde194"></a>
+<a class="el" href="classConstructs.html">Constructs</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>compilerConstructs</b></td></tr>
+<tr class="separator:a94dabfdbccf5d3d71e89c0a3f1cde194"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="program_8h_source.html#l00110">110</a> of file <a class="el" href="program_8h_source.html">program.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+<div class="textblock"><p>Class to deal with the entire decaf program </p>
+
+<p class="definition">Definition at line <a class="el" href="program_8h_source.html#l00118">118</a> of file <a class="el" href="program_8h_source.html">program.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a4559d22670c83be2c966b5bae66cdf4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4559d22670c83be2c966b5bae66cdf4d">&#9670;&nbsp;</a></span>Program()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Program::Program </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class <a class="el" href="classfieldDeclarations.html">fieldDeclarations</a> *&#160;</td>
+          <td class="paramname"><em>fields</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class <a class="el" href="classmethodDeclarations.html">methodDeclarations</a> *&#160;</td>
+          <td class="paramname"><em>methods</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Implementation of the <a class="el" href="classProgram.html">Program</a> class Constructor for the class </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>name of the decaf class </td></tr>
+    <tr><td class="paramname">fields</td><td>field Declarations of the class </td></tr>
+    <tr><td class="paramname">methods</td><td>method declarations of the class </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="program_8cpp_source.html#l00013">13</a> of file <a class="el" href="program_8cpp_source.html">program.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a87f55ebd6df607406adb4f81951c1192"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87f55ebd6df607406adb4f81951c1192">&#9670;&nbsp;</a></span>generateCode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Value * Program::generateCode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Generate the IR for the program </p>
+
+<p class="definition">Definition at line <a class="el" href="program_8cpp_source.html#l00023">23</a> of file <a class="el" href="program_8cpp_source.html">program.cpp</a>.</p>
+
+</div>
+</div>
+<a id="af37fd944f91423866fd26ce2cefbcc1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af37fd944f91423866fd26ce2cefbcc1f">&#9670;&nbsp;</a></span>generateCodeDump()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Program::generateCodeDump </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Dump the IR generated onto stdout </p>
+
+<p class="definition">Definition at line <a class="el" href="program_8cpp_source.html#l00043">43</a> of file <a class="el" href="program_8cpp_source.html">program.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="program_8h_source.html">program.h</a></li>
 <li><a class="el" href="program_8cpp_source.html">program.cpp</a></li>
 </ul>

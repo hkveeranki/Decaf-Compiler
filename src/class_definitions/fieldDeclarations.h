@@ -1,6 +1,6 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * class to deal with all field declarations in a decaf class
+ */
 
 #ifndef DECAF_COMPILER_FIELDDECLARATIONS_H
 #define DECAF_COMPILER_FIELDDECLARATIONS_H
@@ -13,14 +13,14 @@
 
 class fieldDeclarations : public astNode {
 private:
-    std::vector<class fieldDeclaration *> decl_list;
-    int cnt;
+    /* List of all declarations */
+    std::vector<class fieldDeclaration *> declaration_list;
 public:
-    fieldDeclarations();
+    fieldDeclarations() = default;
 
     void push_back(class fieldDeclaration *);
 
-    Value *generateCode(globals *currentGlobals);
+    Value *generateCode(Constructs *compilerConstructs) override;
 };
 
 

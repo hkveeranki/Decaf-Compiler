@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['returnstatement',['returnStatement',['../classreturnStatement.html',1,'']]]
+  ['namedvalues',['NamedValues',['../classConstructs.html#a2ba320842bc77b2f769e905639087568',1,'Constructs']]],
+  ['node',['Node',['../unionNode.html',1,'']]]
 ];

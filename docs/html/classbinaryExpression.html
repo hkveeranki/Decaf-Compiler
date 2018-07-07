@@ -108,16 +108,11 @@ Collaboration diagram for binaryExpression:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a93f2c3af0ec255ecd60567c89928c474"><td class="memItemLeft" align="right" valign="top"><a id="a93f2c3af0ec255ecd60567c89928c474"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>binaryExpression</b> (class <a class="el" href="classExpression.html">Expression</a> *, string, class <a class="el" href="classExpression.html">Expression</a> *)</td></tr>
+<tr class="memitem:a93f2c3af0ec255ecd60567c89928c474"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbinaryExpression.html#a93f2c3af0ec255ecd60567c89928c474">binaryExpression</a> (class <a class="el" href="classExpression.html">Expression</a> *, string, class <a class="el" href="classExpression.html">Expression</a> *)</td></tr>
 <tr class="separator:a93f2c3af0ec255ecd60567c89928c474"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0bbda285804c4c9d9bb4320d1e3d12c1"><td class="memItemLeft" align="right" valign="top"><a id="a0bbda285804c4c9d9bb4320d1e3d12c1"></a>
-Value *&#160;</td><td class="memItemRight" valign="bottom"><b>generateCode</b> (<a class="el" href="classglobals.html">globals</a> *currentGlobals)</td></tr>
-<tr class="separator:a0bbda285804c4c9d9bb4320d1e3d12c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13e892f3e897d428c1af69fe9c62d4d6"><td class="memItemLeft" align="right" valign="top">Value *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbinaryExpression.html#a13e892f3e897d428c1af69fe9c62d4d6">generateCode</a> (<a class="el" href="classConstructs.html">Constructs</a> *compilerConstructs) override</td></tr>
+<tr class="separator:a13e892f3e897d428c1af69fe9c62d4d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classExpression"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classExpression')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classExpression.html">Expression</a></td></tr>
-<tr class="memitem:adddb4edcb6707bec944cb89222c1ad4a inherit pub_methods_classExpression"><td class="memItemLeft" align="right" valign="top"><a id="adddb4edcb6707bec944cb89222c1ad4a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setEtype</b> (exprType x)</td></tr>
-<tr class="separator:adddb4edcb6707bec944cb89222c1ad4a inherit pub_methods_classExpression"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab96afcf7aa7e87d19529a92b8fe0c237 inherit pub_methods_classExpression"><td class="memItemLeft" align="right" valign="top"><a id="ab96afcf7aa7e87d19529a92b8fe0c237"></a>
 exprType&#160;</td><td class="memItemRight" valign="bottom"><b>getEtype</b> ()</td></tr>
 <tr class="separator:ab96afcf7aa7e87d19529a92b8fe0c237 inherit pub_methods_classExpression"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,7 +130,90 @@ exprType&#160;</td><td class="memItemRight" valign="bottom"><b>etype</b></td></t
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="binaryExpression_8h_source.html#l00014">14</a> of file <a class="el" href="binaryExpression_8h_source.html">binaryExpression.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a93f2c3af0ec255ecd60567c89928c474"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93f2c3af0ec255ecd60567c89928c474">&#9670;&nbsp;</a></span>binaryExpression()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">binaryExpression::binaryExpression </td>
+          <td>(</td>
+          <td class="paramtype">class <a class="el" href="classExpression.html">Expression</a> *&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>opr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class <a class="el" href="classExpression.html">Expression</a> *&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Implementation of <a class="el" href="classbinaryExpression.html">binaryExpression</a> class Constructor for <a class="el" href="classbinaryExpression.html">binaryExpression</a> class </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lhs</td><td>left hand side of the expression </td></tr>
+    <tr><td class="paramname">opr</td><td>operator present in the expression can be arithmetic operators like "+", "-", "*", "/", "%" or comparing operators like "&lt;", "&gt;", "&lt;=", "&gt;=", "==", "!=" </td></tr>
+    <tr><td class="paramname">rhs</td><td>right hand side of the expression </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="binaryExpression_8cpp_source.html#l00017">17</a> of file <a class="el" href="binaryExpression_8cpp_source.html">binaryExpression.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a13e892f3e897d428c1af69fe9c62d4d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13e892f3e897d428c1af69fe9c62d4d6">&#9670;&nbsp;</a></span>generateCode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Value * binaryExpression::generateCode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classConstructs.html">Constructs</a> *&#160;</td>
+          <td class="paramname"><em>compilerConstructs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Generate the intermediate representation for the node </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">compilerConstructs</td><td>an instance of the <a class="el" href="classConstructs.html">Constructs</a> class which contains the data required for building the IR </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>generated IR representation </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classExpression.html#a5afb529487040fcfe00649cc382c3bfe">Expression</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="binaryExpression_8cpp_source.html#l00024">24</a> of file <a class="el" href="binaryExpression_8cpp_source.html">binaryExpression.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="binaryExpression_8h_source.html">binaryExpression.h</a></li>
 <li><a class="el" href="binaryExpression_8cpp_source.html">binaryExpression.cpp</a></li>
 </ul>

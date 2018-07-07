@@ -1,32 +1,42 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/*
+ * class to hold locations ( variables, array locations etc ) in the code
+ */
 
 #ifndef DECAF_COMPILER_LOCATION_H
 #define DECAF_COMPILER_LOCATION_H
 
 
 #include "expression.h"
-#include "globals.h"
+#include "constructs.h"
 #include <string>
 
 using namespace std;
 
+enum locationType {
+    array = 1, variable = 2
+};
+
 class Location : public Expression {
 private:
-    string var; /* name used in location */
-    string location_type; /* Array or normal */
-    class Expression *expr; /* if it is array then we have the address */
+    /* name used in location */
+    string var;
+    /* Array or normal */
+    locationType location_type;
+
+    /* if it is array then we have the address */
+    class Expression *array_index;
+
+    /* If the index provided for the array is invalid report error */
+    Value *invalidArrayIndex(Constructs *compilerConstructs);
+
 public:
-    Location(string, string, class Expression *);
+    Location(string, class Expression *);
 
-    Location(string, string);
+    explicit Location(string);
 
-    string getVar();/* returns the var name */
-    bool is_array(); /* tells if its array or not */
-    class Expression *getExpr();
+    string getVar();
 
-    Value *generateCode(globals *currentGlobals);
+    Value *generateCode(Constructs *compilerConstructs) override;
 };
 
 

@@ -1,26 +1,46 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * Implementation of the \ref  Program class
+ */
 
 #include "program.h"
 
-
-Program::Program(string name, class fieldDeclarations *decls, class methodDeclarations *methods) {
+/**
+ * Constructor for the class
+ * @param name name of the decaf class
+ * @param fields field Declarations of the class
+ * @param methods method declarations of the class
+ */
+Program::Program(string name, class fieldDeclarations *fields, class methodDeclarations *methods) {
     this->methods = methods;
-    this->name = name;
-    this->fields = decls;
-    this->currentGlobals = new globals();
+    this->name = std::move(name);
+    this->fields = fields;
+    this->compilerConstructs = new Constructs();
 }
 
+/**
+ * Generate the IR for the program
+ */
 Value *Program::generateCode() {
     Value *V;
-    int errors = 0;
-    V = fields->generateCode(this->currentGlobals);
-    V = methods->generateCode(this->currentGlobals);
+    // Generate code for field Declarations
+    V = fields->generateCode(this->compilerConstructs);
+    if (V == nullptr) {
+        reportError("Invalid field Declarations");
+        return nullptr;
+    }
+    //Generate the code for method Declarations
+    V = methods->generateCode(this->compilerConstructs);
+    if (V == nullptr) {
+        reportError("Invalid method Declarations");
+        return nullptr;
+    }
     return V;
 }
 
+/**
+ * Dump the IR generated onto stdout
+ */
 void Program::generateCodeDump() {
     cerr << "Generating LLVM IR Code\n";
-    this->currentGlobals->TheModule->print(llvm::outs(), nullptr);
+    this->compilerConstructs->TheModule->print(llvm::outs(), nullptr);
 }

@@ -87,6 +87,8 @@ $(document).ready(function(){initNavTree('classmethodArguments.html','');});
 <div class="title">methodArguments Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="methodArguments_8h_source.html">methodArguments.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for methodArguments:</div>
 <div class="dyncontent">
@@ -106,20 +108,63 @@ Collaboration diagram for methodArguments:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af1d4878f27aac6f88ca1d20efe11722c"><td class="memItemLeft" align="right" valign="top"><a id="af1d4878f27aac6f88ca1d20efe11722c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>push_back</b> (class <a class="el" href="classmethodArgument.html">methodArgument</a> *)</td></tr>
+<tr class="memitem:af1d4878f27aac6f88ca1d20efe11722c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmethodArguments.html#af1d4878f27aac6f88ca1d20efe11722c">push_back</a> (class <a class="el" href="classmethodArgument.html">methodArgument</a> *)</td></tr>
 <tr class="separator:af1d4878f27aac6f88ca1d20efe11722c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad349e6dcdf4d7cc27aa0c060c2c4423b"><td class="memItemLeft" align="right" valign="top"><a id="ad349e6dcdf4d7cc27aa0c060c2c4423b"></a>
-std::vector&lt; class <a class="el" href="classmethodArgument.html">methodArgument</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getArgList</b> ()</td></tr>
+<tr class="memitem:ad349e6dcdf4d7cc27aa0c060c2c4423b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; class <a class="el" href="classmethodArgument.html">methodArgument</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmethodArguments.html#ad349e6dcdf4d7cc27aa0c060c2c4423b">getArgList</a> ()</td></tr>
 <tr class="separator:ad349e6dcdf4d7cc27aa0c060c2c4423b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba392a572f3b35017149a14b0ea57b3f"><td class="memItemLeft" align="right" valign="top"><a id="aba392a572f3b35017149a14b0ea57b3f"></a>
-Value *&#160;</td><td class="memItemRight" valign="bottom"><b>generateCode</b> (<a class="el" href="classglobals.html">globals</a> *currentGlobals)</td></tr>
-<tr class="separator:aba392a572f3b35017149a14b0ea57b3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
+<div class="textblock"><p>Class to handle all the arguments defined in a method declaration </p>
+
 <p class="definition">Definition at line <a class="el" href="methodArguments_8h_source.html#l00013">13</a> of file <a class="el" href="methodArguments_8h_source.html">methodArguments.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad349e6dcdf4d7cc27aa0c060c2c4423b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad349e6dcdf4d7cc27aa0c060c2c4423b">&#9670;&nbsp;</a></span>getArgList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; class <a class="el" href="classmethodArgument.html">methodArgument</a> * &gt; methodArguments::getArgList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Implementation of <a class="el" href="classmethodArguments.html">methodArguments</a> class </p><dl class="section return"><dt>Returns</dt><dd>list of arguments for the given method </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="methodArguments_8cpp_source.html#l00010">10</a> of file <a class="el" href="methodArguments_8cpp_source.html">methodArguments.cpp</a>.</p>
+
+</div>
+</div>
+<a id="af1d4878f27aac6f88ca1d20efe11722c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1d4878f27aac6f88ca1d20efe11722c">&#9670;&nbsp;</a></span>push_back()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void methodArguments::push_back </td>
+          <td>(</td>
+          <td class="paramtype">class <a class="el" href="classmethodArgument.html">methodArgument</a> *&#160;</td>
+          <td class="paramname"><em>arg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Add an argument to the list of arguments </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td>method argument to be added </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="methodArguments_8cpp_source.html#l00018">18</a> of file <a class="el" href="methodArguments_8cpp_source.html">methodArguments.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="methodArguments_8h_source.html">methodArguments.h</a></li>
 <li><a class="el" href="methodArguments_8cpp_source.html">methodArguments.cpp</a></li>
 </ul>

@@ -1,13 +1,19 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * Implementation of \ref binaryExpression class */
 #include <utility>
 
 
 #include "binaryExpression.h"
 #include "utilities.h"
-#include "globals.h"
 
+/**
+ * Constructor for binaryExpression class
+ * @param lhs left hand side of the expression
+ * @param opr operator present in the expression can be
+ *            arithmetic operators like "+", "-", "*", "/", "%" or
+ *            comparing operators like "<", ">", "<=", ">=", "==", "!="
+ * @param rhs right hand side of the expression
+ */
 binaryExpression::binaryExpression(class Expression *lhs, string opr, class Expression *rhs) {
     this->lhs = lhs;
     this->rhs = rhs;
@@ -15,45 +21,45 @@ binaryExpression::binaryExpression(class Expression *lhs, string opr, class Expr
     this->etype = exprType::binary;
 }
 
-Value *binaryExpression::generateCode(globals *currentGlobals) {
-    Value *left = lhs->generateCode(currentGlobals);
-    Value *right = rhs->generateCode(currentGlobals);
+Value *binaryExpression::generateCode(Constructs *compilerConstructs) {
+    Value *left = lhs->generateCode(compilerConstructs);
+    Value *right = rhs->generateCode(compilerConstructs);
     if (lhs->getEtype() == exprType::location) {
-        left = currentGlobals->Builder->CreateLoad(left);
+        left = compilerConstructs->Builder->CreateLoad(left);
     }
     if (rhs->getEtype() == exprType::location) {
-        right = currentGlobals->Builder->CreateLoad(right);
+        right = compilerConstructs->Builder->CreateLoad(right);
     }
     if (left == 0) {
-        currentGlobals->errors++;
+        compilerConstructs->errors++;
         return reportError("Error in left operand of " + opr);
     } else if (right == 0) {
-        currentGlobals->errors++;
+        compilerConstructs->errors++;
         return reportError("Error in right operand of " + opr);
     }
     Value *v = nullptr;
     if (opr == "+") {
-        v = currentGlobals->Builder->CreateAdd(left, right, "addtmp");
+        v = compilerConstructs->Builder->CreateAdd(left, right, "addtmp");
     } else if (opr == "-") {
-        v = currentGlobals->Builder->CreateSub(left, right, "subtmp");
+        v = compilerConstructs->Builder->CreateSub(left, right, "subtmp");
     } else if (opr == "*") {
-        v = currentGlobals->Builder->CreateMul(left, right, "multmp");
+        v = compilerConstructs->Builder->CreateMul(left, right, "multmp");
     } else if (opr == "/") {
-        v = currentGlobals->Builder->CreateUDiv(left, right, "divtmp");
+        v = compilerConstructs->Builder->CreateUDiv(left, right, "divtmp");
     } else if (opr == "%") {
-        v = currentGlobals->Builder->CreateURem(left, right, "modtmp");
+        v = compilerConstructs->Builder->CreateURem(left, right, "modtmp");
     } else if (opr == "<") {
-        v = currentGlobals->Builder->CreateICmpULT(left, right, "ltcomparetmp");
+        v = compilerConstructs->Builder->CreateICmpULT(left, right, "ltcomparetmp");
     } else if (opr == ">") {
-        v = currentGlobals->Builder->CreateICmpUGT(left, right, "gtcomparetmp");
+        v = compilerConstructs->Builder->CreateICmpUGT(left, right, "gtcomparetmp");
     } else if (opr == "<=") {
-        v = currentGlobals->Builder->CreateICmpULE(left, right, "lecomparetmp");
+        v = compilerConstructs->Builder->CreateICmpULE(left, right, "lecomparetmp");
     } else if (opr == ">=") {
-        v = currentGlobals->Builder->CreateICmpUGE(left, right, "gecomparetmp");
+        v = compilerConstructs->Builder->CreateICmpUGE(left, right, "gecomparetmp");
     } else if (opr == "==") {
-        v = currentGlobals->Builder->CreateICmpEQ(left, right, "equalcomparetmp");
+        v = compilerConstructs->Builder->CreateICmpEQ(left, right, "equalcomparetmp");
     } else if (opr == "!=") {
-        v = currentGlobals->Builder->CreateICmpNE(left, right, "notequalcomparetmp");
+        v = compilerConstructs->Builder->CreateICmpNE(left, right, "notequalcomparetmp");
     }
     return v;
 }

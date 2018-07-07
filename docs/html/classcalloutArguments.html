@@ -87,6 +87,8 @@ $(document).ready(function(){initNavTree('classcalloutArguments.html','');});
 <div class="title">calloutArguments Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="calloutArguments_8h_source.html">calloutArguments.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for calloutArguments:</div>
 <div class="dyncontent">
@@ -106,20 +108,92 @@ Collaboration diagram for calloutArguments:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0f1bb198e2b22ef56c2e20760cffdf35"><td class="memItemLeft" align="right" valign="top"><a id="a0f1bb198e2b22ef56c2e20760cffdf35"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>push_back</b> (class <a class="el" href="classcalloutArgument.html">calloutArgument</a> *)</td></tr>
+<tr class="memitem:a8e9a006a48f7bc3dd03da0bbccb66cb1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcalloutArguments.html#a8e9a006a48f7bc3dd03da0bbccb66cb1">calloutArguments</a> ()=default</td></tr>
+<tr class="separator:a8e9a006a48f7bc3dd03da0bbccb66cb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f1bb198e2b22ef56c2e20760cffdf35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcalloutArguments.html#a0f1bb198e2b22ef56c2e20760cffdf35">push_back</a> (class <a class="el" href="classcalloutArgument.html">calloutArgument</a> *)</td></tr>
 <tr class="separator:a0f1bb198e2b22ef56c2e20760cffdf35"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbd6a0eb96fa39a74bd61d35911fb64a"><td class="memItemLeft" align="right" valign="top"><a id="acbd6a0eb96fa39a74bd61d35911fb64a"></a>
-std::vector&lt; class <a class="el" href="classcalloutArgument.html">calloutArgument</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getArgsList</b> ()</td></tr>
+<tr class="memitem:acbd6a0eb96fa39a74bd61d35911fb64a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; class <a class="el" href="classcalloutArgument.html">calloutArgument</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcalloutArguments.html#acbd6a0eb96fa39a74bd61d35911fb64a">getArgsList</a> ()</td></tr>
 <tr class="separator:acbd6a0eb96fa39a74bd61d35911fb64a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03a6e5eca82a35a9b83b4cecaaea8c0b"><td class="memItemLeft" align="right" valign="top"><a id="a03a6e5eca82a35a9b83b4cecaaea8c0b"></a>
-Value *&#160;</td><td class="memItemRight" valign="bottom"><b>generateCode</b> (<a class="el" href="classglobals.html">globals</a> *currentGlobals)</td></tr>
-<tr class="separator:a03a6e5eca82a35a9b83b4cecaaea8c0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
+<div class="textblock"><p>class to hold all the arguments given to the callout statement </p>
+
 <p class="definition">Definition at line <a class="el" href="calloutArguments_8h_source.html#l00013">13</a> of file <a class="el" href="calloutArguments_8h_source.html">calloutArguments.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a8e9a006a48f7bc3dd03da0bbccb66cb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e9a006a48f7bc3dd03da0bbccb66cb1">&#9670;&nbsp;</a></span>calloutArguments()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">calloutArguments::calloutArguments </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Default constructor </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="acbd6a0eb96fa39a74bd61d35911fb64a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbd6a0eb96fa39a74bd61d35911fb64a">&#9670;&nbsp;</a></span>getArgsList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; class <a class="el" href="classcalloutArgument.html">calloutArgument</a> * &gt; calloutArguments::getArgsList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>return the list of arguments in the class </p><dl class="section return"><dt>Returns</dt><dd>argument list for the callout statements </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="calloutArguments_8cpp_source.html#l00019">19</a> of file <a class="el" href="calloutArguments_8cpp_source.html">calloutArguments.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a0f1bb198e2b22ef56c2e20760cffdf35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f1bb198e2b22ef56c2e20760cffdf35">&#9670;&nbsp;</a></span>push_back()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void calloutArguments::push_back </td>
+          <td>(</td>
+          <td class="paramtype">class <a class="el" href="classcalloutArgument.html">calloutArgument</a> *&#160;</td>
+          <td class="paramname"><em>arg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Implementation of the <a class="el" href="classcalloutArguments.html">calloutArguments</a> class add a given argument to the list of arguments </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td>argument to be added </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="calloutArguments_8cpp_source.html#l00011">11</a> of file <a class="el" href="calloutArguments_8cpp_source.html">calloutArguments.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="calloutArguments_8h_source.html">calloutArguments.h</a></li>
 <li><a class="el" href="calloutArguments_8cpp_source.html">calloutArguments.cpp</a></li>
 </ul>

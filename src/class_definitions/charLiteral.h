@@ -1,7 +1,6 @@
-//
-// Created by harry7 on 7/4/18.
-//
-
+/**
+ * class to handle character literals present in the code
+ */
 #ifndef DECAF_COMPILER_CHARLITERAL_H
 #define DECAF_COMPILER_CHARLITERAL_H
 

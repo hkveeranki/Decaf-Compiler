@@ -1,23 +1,27 @@
-//
-// Created by harry7 on 7/4/18.
-//
-
+/**
+ * Class to deal with blocks of code in the program. Deals with code
+ * assosciated within if else statements or a for loop
+ */
 #ifndef DECAF_COMPILER_BLOCK_H
 #define DECAF_COMPILER_BLOCK_H
 
 #include "statement.h"
-#include "globals.h"
+#include "constructs.h"
 
 class Block : public Statement {
 private:
-    class variableDeclarations *decls_list; /* list of variable declarations */
-    class Statements *stmts_list; /* list of statement declarations */
+    /* list of variable declarations */
+    class variableDeclarations *declarations_list;
+
+    /* list of statements */
+    class Statements *statements_list;
+
 public:
     Block(class variableDeclarations *, class Statements *);
 
-    bool has_return();
+    bool has_return() override;
 
-    Value *generateCode(globals *currentGlobals);
+    Value *generateCode(Constructs *compilerConstructs) override;
 };
 
 

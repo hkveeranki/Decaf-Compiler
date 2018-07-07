@@ -611,7 +611,7 @@ SORT_BY_SCOPE_NAME     = NO
 
 # If the STRICT_PROTO_MATCHING option is enabled and doxygen fails to do proper
 # type resolution of all parameters of a function it will reject a match between
-# the prototype and the implementation of a member function even if there is
+# the prototype and the Implementation of `a member function even if there is
 # only one candidate or it is obvious which candidate to choose by doing a
 # simple string match. By disabling STRICT_PROTO_MATCHING doxygen will still
 # accept a match between prototype and implementation in such cases.

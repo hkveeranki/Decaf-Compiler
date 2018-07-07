@@ -1,21 +1,21 @@
-//
-// Created by harry7 on 7/4/18.
-//
-
+/**
+ * class to deal with string literals in the code
+ */
 #ifndef DECAF_COMPILER_STRINGLITERAL_H
 #define DECAF_COMPILER_STRINGLITERAL_H
 
 #include  "literal.h"
-#include "globals.h"
+#include "constructs.h"
 #include <string>
 
 class stringLiteral : public Literal {
 private:
+    /* Value of the literal */
     std::string value;
 public:
-    stringLiteral(std::string);
+    explicit stringLiteral(std::string);
 
-    Value *generateCode(globals *currentGlobals);
+    Value *generateCode(Constructs *compilerConstructs) override;
 };
 
 

@@ -1,6 +1,6 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * Class to handle declaration of a field in the class
+ */
 
 #ifndef DECAF_COMPILER_FIELDDECLARATION_H
 #define DECAF_COMPILER_FIELDDECLARATION_H
@@ -15,14 +15,14 @@ using namespace std;
 
 class fieldDeclaration : public astNode {
 private:
-    string dataType; /* Field declaration can have datatype and vaariables */
+    /* Field declaration can have data type */
+    string dataType;
+    /* and a list of variables */
     vector<class Variable *> var_list;
 public:
     fieldDeclaration(string, class Variables *);
 
-    vector<class Variable *> getVarsList();
-
-    Value *generateCode(globals* currentGlobals);
+    Value *generateCode(Constructs *compilerConstructs) override;
 };
 
 #endif

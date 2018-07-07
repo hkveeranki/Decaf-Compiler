@@ -87,6 +87,8 @@ $(document).ready(function(){initNavTree('classforStatement.html','');});
 <div class="title">forStatement Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="forStatement_8h_source.html">forStatement.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for forStatement:</div>
 <div class="dyncontent">
@@ -108,25 +110,16 @@ Collaboration diagram for forStatement:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab2fc3b37d57f2496cba935ee7a0b3e83"><td class="memItemLeft" align="right" valign="top"><a id="ab2fc3b37d57f2496cba935ee7a0b3e83"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>forStatement</b> (std::string, class <a class="el" href="classExpression.html">Expression</a> *, class <a class="el" href="classExpression.html">Expression</a> *, class <a class="el" href="classBlock.html">Block</a> *)</td></tr>
+<tr class="memitem:ab2fc3b37d57f2496cba935ee7a0b3e83"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classforStatement.html#ab2fc3b37d57f2496cba935ee7a0b3e83">forStatement</a> (std::string, class <a class="el" href="classExpression.html">Expression</a> *, class <a class="el" href="classExpression.html">Expression</a> *, class <a class="el" href="classBlock.html">Block</a> *)</td></tr>
 <tr class="separator:ab2fc3b37d57f2496cba935ee7a0b3e83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d91be839ec97a3b276c889b399a7b5d"><td class="memItemLeft" align="right" valign="top"><a id="a3d91be839ec97a3b276c889b399a7b5d"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>has_return</b> ()</td></tr>
-<tr class="separator:a3d91be839ec97a3b276c889b399a7b5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a063334ab9e4f43825cc8bfa8bcef60ad"><td class="memItemLeft" align="right" valign="top"><a id="a063334ab9e4f43825cc8bfa8bcef60ad"></a>
-Value *&#160;</td><td class="memItemRight" valign="bottom"><b>generateCode</b> (<a class="el" href="classglobals.html">globals</a> *currentGlobals)</td></tr>
-<tr class="separator:a063334ab9e4f43825cc8bfa8bcef60ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a285dbc1acf8fafb162716cc71e28c2c9"><td class="memItemLeft" align="right" valign="top"><a id="a285dbc1acf8fafb162716cc71e28c2c9"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>has_return</b> () override</td></tr>
+<tr class="separator:a285dbc1acf8fafb162716cc71e28c2c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afba96ba86d1e6959fa7592485fa4faae"><td class="memItemLeft" align="right" valign="top">Value *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classforStatement.html#afba96ba86d1e6959fa7592485fa4faae">generateCode</a> (<a class="el" href="classConstructs.html">Constructs</a> *compilerConstructs) override</td></tr>
+<tr class="separator:afba96ba86d1e6959fa7592485fa4faae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classStatement"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classStatement')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classStatement.html">Statement</a></td></tr>
-<tr class="memitem:a3a2b2cdfbc9dcaaeb418446236c09876 inherit pub_methods_classStatement"><td class="memItemLeft" align="right" valign="top"><a id="a3a2b2cdfbc9dcaaeb418446236c09876"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>traverse</b> ()</td></tr>
-<tr class="separator:a3a2b2cdfbc9dcaaeb418446236c09876 inherit pub_methods_classStatement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68fdce123f2a86396e7296556de467c8 inherit pub_methods_classStatement"><td class="memItemLeft" align="right" valign="top"><a id="a68fdce123f2a86396e7296556de467c8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setStype</b> (stmtType x)</td></tr>
-<tr class="separator:a68fdce123f2a86396e7296556de467c8 inherit pub_methods_classStatement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af751973a822aa3926dd5fb070222b575 inherit pub_methods_classStatement"><td class="memItemLeft" align="right" valign="top"><a id="af751973a822aa3926dd5fb070222b575"></a>
-stmtType&#160;</td><td class="memItemRight" valign="bottom"><b>getStype</b> ()</td></tr>
-<tr class="separator:af751973a822aa3926dd5fb070222b575 inherit pub_methods_classStatement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f9f81bff7e6c21e51d2d16507f12ea1 inherit pub_methods_classStatement"><td class="memItemLeft" align="right" valign="top">Value *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStatement.html#a4f9f81bff7e6c21e51d2d16507f12ea1">generateCode</a> (<a class="el" href="classConstructs.html">Constructs</a> *compilerConstructs) override</td></tr>
+<tr class="separator:a4f9f81bff7e6c21e51d2d16507f12ea1 inherit pub_methods_classStatement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -136,9 +129,100 @@ stmtType&#160;</td><td class="memItemRight" valign="bottom"><b>stype</b></td></t
 <tr class="separator:a2abeea7411a613b53985054eb1d70cd6 inherit pro_attribs_classStatement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
+<div class="textblock"><p>class to deal with for statements in the code </p>
+
 <p class="definition">Definition at line <a class="el" href="forStatement_8h_source.html#l00013">13</a> of file <a class="el" href="forStatement_8h_source.html">forStatement.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ab2fc3b37d57f2496cba935ee7a0b3e83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2fc3b37d57f2496cba935ee7a0b3e83">&#9670;&nbsp;</a></span>forStatement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">forStatement::forStatement </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class <a class="el" href="classExpression.html">Expression</a> *&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class <a class="el" href="classExpression.html">Expression</a> *&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class <a class="el" href="classBlock.html">Block</a> *&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Implementation of <a class="el" href="classforStatement.html">forStatement</a> class Constructor for the class </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">loop_variable</td><td>variable iterated in the loop </td></tr>
+    <tr><td class="paramname">init</td><td>initial value for the loop variable </td></tr>
+    <tr><td class="paramname">condition</td><td>condition for the loop variable to break </td></tr>
+    <tr><td class="paramname">block</td><td>body of the for loop </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="forStatement_8cpp_source.html#l00015">15</a> of file <a class="el" href="forStatement_8cpp_source.html">forStatement.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="afba96ba86d1e6959fa7592485fa4faae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afba96ba86d1e6959fa7592485fa4faae">&#9670;&nbsp;</a></span>generateCode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Value * forStatement::generateCode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classConstructs.html">Constructs</a> *&#160;</td>
+          <td class="paramname"><em>compilerConstructs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Generate the intermediate representation for the node </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">compilerConstructs</td><td>an instance of the <a class="el" href="classConstructs.html">Constructs</a> class which contains the data required for building the IR </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>generated IR representation </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classastNode.html">astNode</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="forStatement_8cpp_source.html#l00024">24</a> of file <a class="el" href="forStatement_8cpp_source.html">forStatement.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="forStatement_8h_source.html">forStatement.h</a></li>
 <li><a class="el" href="forStatement_8cpp_source.html">forStatement.cpp</a></li>
 </ul>

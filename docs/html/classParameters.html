@@ -87,6 +87,8 @@ $(document).ready(function(){initNavTree('classParameters.html','');});
 <div class="title">Parameters Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="parameters_8h_source.html">parameters.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for Parameters:</div>
 <div class="dyncontent">
@@ -106,20 +108,63 @@ Collaboration diagram for Parameters:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9b4441343acabf1e8a93644e7ad53469"><td class="memItemLeft" align="right" valign="top"><a id="a9b4441343acabf1e8a93644e7ad53469"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>push_back</b> (class <a class="el" href="classExpression.html">Expression</a> *)</td></tr>
+<tr class="memitem:a9b4441343acabf1e8a93644e7ad53469"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classParameters.html#a9b4441343acabf1e8a93644e7ad53469">push_back</a> (class <a class="el" href="classExpression.html">Expression</a> *)</td></tr>
 <tr class="separator:a9b4441343acabf1e8a93644e7ad53469"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84d944e204da67632cfd22ee92f3a9f4"><td class="memItemLeft" align="right" valign="top"><a id="a84d944e204da67632cfd22ee92f3a9f4"></a>
-std::vector&lt; class <a class="el" href="classExpression.html">Expression</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getExprList</b> ()</td></tr>
-<tr class="separator:a84d944e204da67632cfd22ee92f3a9f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16684aa6cd893f586d9df87b751bbedd"><td class="memItemLeft" align="right" valign="top"><a id="a16684aa6cd893f586d9df87b751bbedd"></a>
-Value *&#160;</td><td class="memItemRight" valign="bottom"><b>generateCode</b> (<a class="el" href="classglobals.html">globals</a> *currentGlobals)</td></tr>
-<tr class="separator:a16684aa6cd893f586d9df87b751bbedd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50d4295dc97ccf55dd990e5b8c4e7c9b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; class <a class="el" href="classExpression.html">Expression</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classParameters.html#a50d4295dc97ccf55dd990e5b8c4e7c9b">getParams</a> ()</td></tr>
+<tr class="separator:a50d4295dc97ccf55dd990e5b8c4e7c9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
+<div class="textblock"><p>class to hold parameters passed during function calls namely method calls and callout calls </p>
+
 <p class="definition">Definition at line <a class="el" href="parameters_8h_source.html#l00012">12</a> of file <a class="el" href="parameters_8h_source.html">parameters.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a50d4295dc97ccf55dd990e5b8c4e7c9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50d4295dc97ccf55dd990e5b8c4e7c9b">&#9670;&nbsp;</a></span>getParams()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; class <a class="el" href="classExpression.html">Expression</a> * &gt; Parameters::getParams </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>list of parameters </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="parameters_8cpp_source.html#l00017">17</a> of file <a class="el" href="parameters_8cpp_source.html">parameters.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a9b4441343acabf1e8a93644e7ad53469"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b4441343acabf1e8a93644e7ad53469">&#9670;&nbsp;</a></span>push_back()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Parameters::push_back </td>
+          <td>(</td>
+          <td class="paramtype">class <a class="el" href="classExpression.html">Expression</a> *&#160;</td>
+          <td class="paramname"><em>param</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Implementation of <a class="el" href="classParameters.html">Parameters</a> class Add a parameter to the list </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">param</td><td>parameter to be added </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="parameters_8cpp_source.html#l00010">10</a> of file <a class="el" href="parameters_8cpp_source.html">parameters.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="parameters_8h_source.html">parameters.h</a></li>
 <li><a class="el" href="parameters_8cpp_source.html">parameters.cpp</a></li>
 </ul>

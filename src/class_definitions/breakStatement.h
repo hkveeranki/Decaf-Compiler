@@ -1,19 +1,21 @@
-//
-// Created by harry7 on 7/4/18.
-//
-
+/**
+ * Class to deal with break statement present in the code
+ */
 #ifndef DECAF_COMPILER_BREAKSTATEMENT_H
 #define DECAF_COMPILER_BREAKSTATEMENT_H
 
 
 #include "statement.h"
-#include "globals.h"
+#include "constructs.h"
 
 class breakStatement : public Statement {
 public:
+    /**
+     * Default constructor which initialises the statement type to NonReturn
+     */
     breakStatement() { this->stype = stmtType::NonReturn; }
 
-    Value *generateCode(globals *currentGlobals);
+    Value *generateCode(Constructs *compilerConstructs) override;
 };
 
 #endif

@@ -1,13 +1,17 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * Implementation of \ref utility functions
+ */
 
 #include "utilities.h"
-#include "globals.h"
 
 using namespace std;
 using namespace llvm;
 
+/**
+ * Replace newline characters in a string
+ * @param str string to be modified
+ * @return modified string in which new line characters are removed
+ */
 string replace_newline(string str) {
     size_t index = 0;
     string search = "\\n";
@@ -23,8 +27,11 @@ string replace_newline(string str) {
     }
     return str;
 }
-
-llvm::Value *reportError(string str) {
-    cerr << str << endl;
+/**
+ * Report error to the stderr
+ * @param error_str name of the error to be reported
+ */
+llvm::Value *reportError(string error_str) {
+    cerr << error_str << endl;
     return nullptr;
 }

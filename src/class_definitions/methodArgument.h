@@ -1,26 +1,25 @@
-//
-// Created by harry7 on 7/4/18.
-//
-
+/**
+ * class to deal with argument defined in the definition of the method
+ */
 #ifndef DECAF_COMPILER_METHODARGUMENT_H
 #define DECAF_COMPILER_METHODARGUMENT_H
 
 #include <string>
 #include "astNode.h"
-#include "globals.h"
+#include "constructs.h"
 
 class methodArgument : public astNode {
 private:
-    std::string type; /* type of the argument int/boolean */
-    std::string name; /* name of argument */
+    /* type of the argument int/boolean */
+    std::string type;
+    /* name of argument */
+    std::string name;
 public:
     methodArgument(std::string, std::string);
 
     std::string getName();
 
     std::string getType();
-
-    Value *generateCode(globals *currentGlobals);
 };
 
 

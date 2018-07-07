@@ -1,23 +1,23 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * class to deal with enclosed expressions i.e expressions enclosed within braces
+ */
 
 #ifndef DECAF_COMPILER_ENCLOSEDEXPRESSION_H
 #define DECAF_COMPILER_ENCLOSEDEXPRESSION_H
 
 #include "expression.h"
-#include "globals.h"
+#include "constructs.h"
 
 class enclosedExpression : public Expression {
 private:
+    /* expression which is enclosed */
     class Expression *expr;
 
 public:
-    enclosedExpression(class Expression *);
+    explicit enclosedExpression(class Expression *);
 
-    Value *generateCode(globals *currentGlobals);
+    Value *generateCode(Constructs *compilerConstructs) override;
 };
-
 
 
 #endif

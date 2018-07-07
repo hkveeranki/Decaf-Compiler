@@ -1,16 +1,16 @@
-//
-// Created by harry7 on 7/4/18.
-//
-
+/**
+ * Implementation of \ref enclosedExpression class */
 #include "enclosedExpression.h"
-#include "globals.h"
 
-
+/**
+ * Constructor for the class
+ * @param expr expression which is enclosed within the braces
+ */
 enclosedExpression::enclosedExpression(class Expression *expr) {
     this->expr = expr;
     this->etype = exprType::enclExpr;
 }
 
-Value *enclosedExpression::generateCode(globals *currentGlobals) {
-    return expr->generateCode(currentGlobals);
+Value *enclosedExpression::generateCode(Constructs *compilerConstructs) {
+    return expr->generateCode(compilerConstructs);
 }

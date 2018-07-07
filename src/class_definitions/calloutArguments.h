@@ -1,6 +1,6 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * class to hold all the arguments given to the callout statement
+ */
 
 #ifndef DECAF_COMPILER_CALLOUTARGUMENTS_H
 #define DECAF_COMPILER_CALLOUTARGUMENTS_H
@@ -8,20 +8,21 @@
 #include <vector>
 #include "astNode.h"
 #include "calloutArgument.h"
-#include "globals.h"
+#include "constructs.h"
 
 class calloutArguments : public astNode {
 private:
+    /* list of arguments (\ref calloutArgument) given to the callout statement */
     std::vector<class calloutArgument *> args_list;
-    int cnt;
 public:
-    calloutArguments();
+    /**
+     * Default constructor
+     */
+    calloutArguments() = default;
 
     void push_back(class calloutArgument *);
 
     std::vector<class calloutArgument *> getArgsList();
-
-    Value *generateCode(globals *currentGlobals);
 };
 
 

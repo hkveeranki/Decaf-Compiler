@@ -1,5 +1,5 @@
 var classmethodCall =
 [
-    [ "generateCode", "classmethodCall.html#a7a7c3750778782ad9a1290109a046926", null ],
-    [ "method_name", "classmethodCall.html#a5282f7c9e8d10ae74efc98d28b6c3d41", null ]
+    [ "methodCall", "classmethodCall.html#a2c7cb09df862542a4f0c42d18978009f", null ],
+    [ "generateCode", "classmethodCall.html#a64f2696283e41c242c9b23290614db55", null ]
 ];

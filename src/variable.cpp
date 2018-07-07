@@ -1,40 +1,35 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * Implementation of \ref Variable class
+ */
 
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/LLVMContext.h>
 
 #include "variable.h"
 
-LLVMContext Context;
-
-Variable::Variable(string declType, string name, unsigned int length) {
-    this->declType = std::move(declType);
+/**
+ * Constructor for the class when variable is an array
+ * @param name name of the variable
+ * @param array_size size of the array
+ */
+Variable::Variable(std::string name, unsigned int array_size) {
+    this->declType = variableType::Array;
     this->name = std::move(name);
-    this->length = length;
+    this->length = array_size;
 }
 
-Variable::Variable(string declType, string name) {
-    this->declType = std::move(declType);
+/**
+ * Constructor for the class when variable is non array
+ * @param name name of the variable
+ */
+Variable::Variable(std::string name) {
+    this->declType = variableType::Normal;
     this->name = std::move(name);
 }
 
-bool Variable::isArray() {
-    return (declType == "Array");
-}
-
-void Variable::setDataType(string datatype) {
-    /* Sets the data type for the variable */
-    this->dataType = std::move(datatype);
-}
-
+/**
+ * @return name of the variable
+ */
 string Variable::getName() {
     return name;
-}
-
-
-Value *Variable::generateCode(globals *currentGlobals) {
-    Value *V = ConstantInt::get(currentGlobals->Context, APInt(32, 0));
-    return V;
 }

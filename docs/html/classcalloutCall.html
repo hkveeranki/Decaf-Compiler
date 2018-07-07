@@ -87,12 +87,14 @@ $(document).ready(function(){initNavTree('classcalloutCall.html','');});
 <div class="title">calloutCall Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="calloutCall_8h_source.html">calloutCall.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for calloutCall:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcalloutCall__inherit__graph.png" border="0" usemap="#calloutCall_inherit__map" alt="Inheritance graph"/></div>
 <map name="calloutCall_inherit__map" id="calloutCall_inherit__map">
-<area shape="rect" id="node2" href="classmethodCall.html" title="methodCall" alt="" coords="57,155,145,181"/>
+<area shape="rect" id="node2" href="classfunctionCall.html" title="functionCall" alt="" coords="56,155,147,181"/>
 <area shape="rect" id="node3" href="classStatement.html" title="Statement" alt="" coords="5,80,88,107"/>
 <area shape="rect" id="node4" href="classastNode.html" title="astNode" alt="" coords="66,5,137,32"/>
 <area shape="rect" id="node5" href="classExpression.html" title="Expression" alt="" coords="113,80,199,107"/>
@@ -103,7 +105,7 @@ Collaboration diagram for calloutCall:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcalloutCall__coll__graph.png" border="0" usemap="#calloutCall_coll__map" alt="Collaboration graph"/></div>
 <map name="calloutCall_coll__map" id="calloutCall_coll__map">
-<area shape="rect" id="node2" href="classmethodCall.html" title="methodCall" alt="" coords="57,155,145,181"/>
+<area shape="rect" id="node2" href="classfunctionCall.html" title="functionCall" alt="" coords="56,155,147,181"/>
 <area shape="rect" id="node3" href="classStatement.html" title="Statement" alt="" coords="5,80,88,107"/>
 <area shape="rect" id="node4" href="classastNode.html" title="astNode" alt="" coords="66,5,137,32"/>
 <area shape="rect" id="node5" href="classExpression.html" title="Expression" alt="" coords="113,80,199,107"/>
@@ -112,29 +114,20 @@ Collaboration diagram for calloutCall:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4ea96fdd1d99c510b45d3100651ea9cc"><td class="memItemLeft" align="right" valign="top"><a id="a4ea96fdd1d99c510b45d3100651ea9cc"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>calloutCall</b> (std::string, class <a class="el" href="classcalloutArguments.html">calloutArguments</a> *)</td></tr>
+<tr class="memitem:a4ea96fdd1d99c510b45d3100651ea9cc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcalloutCall.html#a4ea96fdd1d99c510b45d3100651ea9cc">calloutCall</a> (std::string, class <a class="el" href="classcalloutArguments.html">calloutArguments</a> *)</td></tr>
 <tr class="separator:a4ea96fdd1d99c510b45d3100651ea9cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a667d063c37e127e09d26746d71d4d35f"><td class="memItemLeft" align="right" valign="top"><a id="a667d063c37e127e09d26746d71d4d35f"></a>
-Value *&#160;</td><td class="memItemRight" valign="bottom"><b>generateCode</b> (<a class="el" href="classglobals.html">globals</a> *currentGlobals)</td></tr>
-<tr class="separator:a667d063c37e127e09d26746d71d4d35f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af877d4feaf1158cb5f5c4ce4bf3b4036"><td class="memItemLeft" align="right" valign="top">Value *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcalloutCall.html#af877d4feaf1158cb5f5c4ce4bf3b4036">generateCode</a> (<a class="el" href="classConstructs.html">Constructs</a> *compilerConstructs)</td></tr>
+<tr class="separator:af877d4feaf1158cb5f5c4ce4bf3b4036"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classfunctionCall"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classfunctionCall')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classfunctionCall.html">functionCall</a></td></tr>
+<tr class="memitem:ae602b747d6dd991237306cf84c2e8dc5 inherit pub_methods_classfunctionCall"><td class="memItemLeft" align="right" valign="top">Value *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfunctionCall.html#ae602b747d6dd991237306cf84c2e8dc5">generateCode</a> (<a class="el" href="classConstructs.html">Constructs</a> *compilerConstructs) override</td></tr>
+<tr class="separator:ae602b747d6dd991237306cf84c2e8dc5 inherit pub_methods_classfunctionCall"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classStatement"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classStatement')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classStatement.html">Statement</a></td></tr>
-<tr class="memitem:a3a2b2cdfbc9dcaaeb418446236c09876 inherit pub_methods_classStatement"><td class="memItemLeft" align="right" valign="top"><a id="a3a2b2cdfbc9dcaaeb418446236c09876"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>traverse</b> ()</td></tr>
-<tr class="separator:a3a2b2cdfbc9dcaaeb418446236c09876 inherit pub_methods_classStatement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f9f81bff7e6c21e51d2d16507f12ea1 inherit pub_methods_classStatement"><td class="memItemLeft" align="right" valign="top">Value *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classStatement.html#a4f9f81bff7e6c21e51d2d16507f12ea1">generateCode</a> (<a class="el" href="classConstructs.html">Constructs</a> *compilerConstructs) override</td></tr>
+<tr class="separator:a4f9f81bff7e6c21e51d2d16507f12ea1 inherit pub_methods_classStatement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae30fd8fb9191a5cd485839b9b8e8a627 inherit pub_methods_classStatement"><td class="memItemLeft" align="right" valign="top"><a id="ae30fd8fb9191a5cd485839b9b8e8a627"></a>
 virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>has_return</b> ()</td></tr>
 <tr class="separator:ae30fd8fb9191a5cd485839b9b8e8a627 inherit pub_methods_classStatement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68fdce123f2a86396e7296556de467c8 inherit pub_methods_classStatement"><td class="memItemLeft" align="right" valign="top"><a id="a68fdce123f2a86396e7296556de467c8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setStype</b> (stmtType x)</td></tr>
-<tr class="separator:a68fdce123f2a86396e7296556de467c8 inherit pub_methods_classStatement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af751973a822aa3926dd5fb070222b575 inherit pub_methods_classStatement"><td class="memItemLeft" align="right" valign="top"><a id="af751973a822aa3926dd5fb070222b575"></a>
-stmtType&#160;</td><td class="memItemRight" valign="bottom"><b>getStype</b> ()</td></tr>
-<tr class="separator:af751973a822aa3926dd5fb070222b575 inherit pub_methods_classStatement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classExpression"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classExpression')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classExpression.html">Expression</a></td></tr>
-<tr class="memitem:adddb4edcb6707bec944cb89222c1ad4a inherit pub_methods_classExpression"><td class="memItemLeft" align="right" valign="top"><a id="adddb4edcb6707bec944cb89222c1ad4a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setEtype</b> (exprType x)</td></tr>
-<tr class="separator:adddb4edcb6707bec944cb89222c1ad4a inherit pub_methods_classExpression"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab96afcf7aa7e87d19529a92b8fe0c237 inherit pub_methods_classExpression"><td class="memItemLeft" align="right" valign="top"><a id="ab96afcf7aa7e87d19529a92b8fe0c237"></a>
 exprType&#160;</td><td class="memItemRight" valign="bottom"><b>getEtype</b> ()</td></tr>
 <tr class="separator:ab96afcf7aa7e87d19529a92b8fe0c237 inherit pub_methods_classExpression"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,10 +137,10 @@ virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>toStri
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_attribs_classmethodCall"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classmethodCall')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classmethodCall.html">methodCall</a></td></tr>
-<tr class="memitem:a5282f7c9e8d10ae74efc98d28b6c3d41 inherit pro_attribs_classmethodCall"><td class="memItemLeft" align="right" valign="top"><a id="a5282f7c9e8d10ae74efc98d28b6c3d41"></a>
+<tr class="inherit_header pro_attribs_classfunctionCall"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classfunctionCall')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classfunctionCall.html">functionCall</a></td></tr>
+<tr class="memitem:ae7673c6616ae47435ef4fdca615cb39f inherit pro_attribs_classfunctionCall"><td class="memItemLeft" align="right" valign="top"><a id="ae7673c6616ae47435ef4fdca615cb39f"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>method_name</b></td></tr>
-<tr class="separator:a5282f7c9e8d10ae74efc98d28b6c3d41 inherit pro_attribs_classmethodCall"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ae7673c6616ae47435ef4fdca615cb39f inherit pro_attribs_classfunctionCall"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classStatement"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classStatement')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classStatement.html">Statement</a></td></tr>
 <tr class="memitem:a2abeea7411a613b53985054eb1d70cd6 inherit pro_attribs_classStatement"><td class="memItemLeft" align="right" valign="top"><a id="a2abeea7411a613b53985054eb1d70cd6"></a>
 stmtType&#160;</td><td class="memItemRight" valign="bottom"><b>stype</b></td></tr>
@@ -158,9 +151,87 @@ exprType&#160;</td><td class="memItemRight" valign="bottom"><b>etype</b></td></t
 <tr class="separator:ae0df603c2f76ad89c7a83cdb63282dce inherit pro_attribs_classExpression"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
+<div class="textblock"><p>Class to deal with the callout statement present in the code </p>
+
 <p class="definition">Definition at line <a class="el" href="calloutCall_8h_source.html#l00012">12</a> of file <a class="el" href="calloutCall_8h_source.html">calloutCall.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a4ea96fdd1d99c510b45d3100651ea9cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ea96fdd1d99c510b45d3100651ea9cc">&#9670;&nbsp;</a></span>calloutCall()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">calloutCall::calloutCall </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>method_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class <a class="el" href="classcalloutArguments.html">calloutArguments</a> *&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Implementation of the <a class="el" href="classcalloutCall.html">calloutCall</a> class Constructor for the <a class="el" href="classcalloutCall.html">calloutCall</a> class </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">method_name</td><td>name of the function to be called </td></tr>
+    <tr><td class="paramname">args</td><td>list of arguments for the function </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="calloutCall_8cpp_source.html#l00013">13</a> of file <a class="el" href="calloutCall_8cpp_source.html">calloutCall.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="af877d4feaf1158cb5f5c4ce4bf3b4036"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af877d4feaf1158cb5f5c4ce4bf3b4036">&#9670;&nbsp;</a></span>generateCode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Value * calloutCall::generateCode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classConstructs.html">Constructs</a> *&#160;</td>
+          <td class="paramname"><em>compilerConstructs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Generate the intermediate representation for the node </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">compilerConstructs</td><td>an instance of the <a class="el" href="classConstructs.html">Constructs</a> class which contains the data required for building the IR </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>generated IR representation </dd></dl>
+<p>Iterate through the arguments and generate the code required for each one of them</p>
+
+<p>Reimplemented from <a class="el" href="classExpression.html#a5afb529487040fcfe00649cc382c3bfe">Expression</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="calloutCall_8cpp_source.html#l00018">18</a> of file <a class="el" href="calloutCall_8cpp_source.html">calloutCall.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="calloutCall_8h_source.html">calloutCall.h</a></li>
 <li><a class="el" href="calloutCall_8cpp_source.html">calloutCall.cpp</a></li>
 </ul>

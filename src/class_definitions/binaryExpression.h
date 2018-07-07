@@ -1,25 +1,30 @@
-//
-// Created by harry7 on 7/4/18.
-//
-
+/**
+ * Class to handle binary operator expression in the code.
+ *
+ */
 #ifndef DECAF_COMPILER_BINARYEXPR_H
 #define DECAF_COMPILER_BINARYEXPR_H
 
 #include <string>
 #include "expression.h"
-#include "globals.h"
+#include "constructs.h"
 
 using namespace std;
 
 class binaryExpression : public Expression {
 private:
-    class Expression *lhs; /* left hand side */
-    class Expression *rhs; /* right hand side */
-    string opr; /* operator in between */
+    /* left hand side */
+    class Expression *lhs;
+
+    /* right hand side */
+    class Expression *rhs;
+
+    /* operator in between */
+    string opr;
 public:
     binaryExpression(class Expression *, string, class Expression *);
 
-    Value *generateCode(globals *currentGlobals);
+    Value *generateCode(Constructs *compilerConstructs) override;
 };
 
 

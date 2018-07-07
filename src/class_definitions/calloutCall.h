@@ -1,21 +1,23 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * Class to deal with the callout statement present in the code
+ */
 
 #ifndef DECAF_COMPILER_CALLOUTCALL_H
 #define DECAF_COMPILER_CALLOUTCALL_H
 
 #include <string>
-#include "methodCall.h"
-#include "globals.h"
+#include "functionCall.h"
+#include "constructs.h"
 
-class calloutCall : public methodCall {
+class calloutCall : public functionCall {
 private:
-    class calloutArguments *args; /* Args passed to callout call */
+    /* Args passed to callout call */
+    class calloutArguments *args;
+
 public:
     calloutCall(std::string, class calloutArguments *);
 
-    Value *generateCode(globals *currentGlobals);
+    Value *generateCode(Constructs *compilerConstructs);
 };
 
 

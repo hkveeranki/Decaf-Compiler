@@ -87,6 +87,8 @@ $(document).ready(function(){initNavTree('classvariableDeclaration.html','');});
 <div class="title">variableDeclaration Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="variableDeclaration_8h_source.html">variableDeclaration.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for variableDeclaration:</div>
 <div class="dyncontent">
@@ -106,20 +108,84 @@ Collaboration diagram for variableDeclaration:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3e2b34e7a82c3060751119bbe8a1e7fd"><td class="memItemLeft" align="right" valign="top"><a id="a3e2b34e7a82c3060751119bbe8a1e7fd"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>variableDeclaration</b> (std::string, class <a class="el" href="classstringList.html">stringList</a> *)</td></tr>
+<tr class="memitem:a3e2b34e7a82c3060751119bbe8a1e7fd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvariableDeclaration.html#a3e2b34e7a82c3060751119bbe8a1e7fd">variableDeclaration</a> (std::string, class <a class="el" href="classstringList.html">stringList</a> *)</td></tr>
 <tr class="separator:a3e2b34e7a82c3060751119bbe8a1e7fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23d08d62269f15a865585f4af8013d80"><td class="memItemLeft" align="right" valign="top"><a id="a23d08d62269f15a865585f4af8013d80"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>push_back</b> (std::string)</td></tr>
+<tr class="memitem:a23d08d62269f15a865585f4af8013d80"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvariableDeclaration.html#a23d08d62269f15a865585f4af8013d80">push_back</a> (std::string)</td></tr>
 <tr class="separator:a23d08d62269f15a865585f4af8013d80"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0137172981c5202e3a1e8553f5c8b8c"><td class="memItemLeft" align="right" valign="top"><a id="ad0137172981c5202e3a1e8553f5c8b8c"></a>
-Value *&#160;</td><td class="memItemRight" valign="bottom"><b>generateCode</b> (std::map&lt; std::string, llvm::AllocaInst *&gt; &amp;, <a class="el" href="classglobals.html">globals</a> *)</td></tr>
-<tr class="separator:ad0137172981c5202e3a1e8553f5c8b8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af34b64f3d7cd3edfc292b321d7f81ae1"><td class="memItemLeft" align="right" valign="top"><a id="af34b64f3d7cd3edfc292b321d7f81ae1"></a>
+Value *&#160;</td><td class="memItemRight" valign="bottom"><b>generateCode</b> (std::map&lt; std::string, llvm::AllocaInst *&gt; &amp;, <a class="el" href="classConstructs.html">Constructs</a> *)</td></tr>
+<tr class="separator:af34b64f3d7cd3edfc292b321d7f81ae1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
+<div class="textblock"><p>class to deal variable declarations in the code </p>
+
 <p class="definition">Definition at line <a class="el" href="variableDeclaration_8h_source.html#l00017">17</a> of file <a class="el" href="variableDeclaration_8h_source.html">variableDeclaration.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a3e2b34e7a82c3060751119bbe8a1e7fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e2b34e7a82c3060751119bbe8a1e7fd">&#9670;&nbsp;</a></span>variableDeclaration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">variableDeclaration::variableDeclaration </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class <a class="el" href="classstringList.html">stringList</a> *&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Constructor of the class </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data_type</td><td>data type of the declaration </td></tr>
+    <tr><td class="paramname">list</td><td>list of variables in the declaration </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="variableDeclaration_8cpp_source.html#l00018">18</a> of file <a class="el" href="variableDeclaration_8cpp_source.html">variableDeclaration.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a23d08d62269f15a865585f4af8013d80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23d08d62269f15a865585f4af8013d80">&#9670;&nbsp;</a></span>push_back()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void variableDeclaration::push_back </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Add a variable to the list of variables in the declaration </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>variable name to be added </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="variableDeclaration_8cpp_source.html#l00030">30</a> of file <a class="el" href="variableDeclaration_8cpp_source.html">variableDeclaration.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="variableDeclaration_8h_source.html">variableDeclaration.h</a></li>
 <li><a class="el" href="variableDeclaration_8cpp_source.html">variableDeclaration.cpp</a></li>
 </ul>

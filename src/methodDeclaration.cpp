@@ -1,39 +1,45 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * Implementation of \ref methodDeclaration class
+ */
 
 #include <llvm/IR/Verifier.h>
-#include <string>
-
 #include "methodDeclaration.h"
 #include "utilities.h"
 
-methodDeclaration::methodDeclaration(std::string ret_type, std::string name, class methodArguments *args, class Block *block) {
-    this->type = ret_type;
-    this->name = name;
+/**
+ * Constructor for the class
+ * @param return_type return type of the function can be "int", "boolean" or "void"
+ * @param name name of the function
+ * @param args list of arguments for the function
+ * @param block body of the function
+ */
+methodDeclaration::methodDeclaration(std::string return_type, std::string name, class methodArguments *args,
+                                     class Block *block) {
+    this->return_type = std::move(return_type);
+    this->name = std::move(name);
     this->arg_list = args;
     this->body = block;
 }
 
 
-Function *methodDeclaration::generateCode(globals *currentGlobals) {
+Function *methodDeclaration::generateCode(Constructs *compilerConstructs) {
     std::vector<std::string> argNames;
     std::vector<std::string> argTypes;
     std::vector<class methodArgument *> args = arg_list->getArgList();
     std::vector<Type *> arguments;
-    int arg_size = args.size();
-    for (int i = 0; i < args.size(); i++) {
+    auto arg_size = args.size();
+    for (auto &arg : args) {
         /* Iterate over the arguments and get the types of them in llvm */
-        std::string arg_type = args[i]->getType();
-        std::string arg_name = args[i]->getName();
+        std::string arg_type = arg->getType();
+        std::string arg_name = arg->getName();
         if (arg_type == "int") {
-            arguments.push_back(Type::getInt32Ty(currentGlobals->Context));
+            arguments.push_back(Type::getInt32Ty(compilerConstructs->Context));
         } else if (arg_type == "boolean") {
-            arguments.push_back(Type::getInt1Ty(currentGlobals->Context));
+            arguments.push_back(Type::getInt1Ty(compilerConstructs->Context));
         } else {
-            currentGlobals->errors++;
+            compilerConstructs->errors++;
             reportError("Arguments can only be int or boolean");
-            return 0;
+            return nullptr;
         }
         argTypes.emplace_back(arg_type);
         argNames.emplace_back(arg_name);
@@ -41,21 +47,21 @@ Function *methodDeclaration::generateCode(globals *currentGlobals) {
 
     Type *returnType;
     /* Get the return Type */
-    if (type == "int") {
-        returnType = Type::getInt32Ty(currentGlobals->Context);
-    } else if (type == "boolean") {
-        returnType = Type::getInt1Ty(currentGlobals->Context);
-    } else if (type == "void") {
-        returnType = Type::getVoidTy(currentGlobals->Context);
+    if (return_type == "int") {
+        returnType = Type::getInt32Ty(compilerConstructs->Context);
+    } else if (return_type == "boolean") {
+        returnType = Type::getInt1Ty(compilerConstructs->Context);
+    } else if (return_type == "void") {
+        returnType = Type::getVoidTy(compilerConstructs->Context);
     } else {
-        currentGlobals->errors++;
+        compilerConstructs->errors++;
         reportError("Invalid Return Type for " + name + ". Return Type can only be int or boolean or bool");
-        return 0;
+        return nullptr;
     }
 
     /* Get the function type and create a Function */
     FunctionType *FT = llvm::FunctionType::get(returnType, arguments, false);
-    Function *F = llvm::Function::Create(FT, Function::ExternalLinkage, name, currentGlobals->TheModule);
+    Function *F = llvm::Function::Create(FT, Function::ExternalLinkage, name, compilerConstructs->TheModule);
 
     /* Iterate through arguments and set the Names for them */
 
@@ -65,32 +71,29 @@ Function *methodDeclaration::generateCode(globals *currentGlobals) {
     }
 
     /* Create a New block for this Function */
-    BasicBlock *BB = BasicBlock::Create(currentGlobals->Context, "entry", F);
-    currentGlobals->Builder->SetInsertPoint(BB);
+    BasicBlock *BB = BasicBlock::Create(compilerConstructs->Context, "entry", F);
+    compilerConstructs->Builder->SetInsertPoint(BB);
     Idx = 0;
 
     /* Allocate memory for the arguments passed */
     for (auto &Arg : F->args()) {
-        if (Idx == arg_size) { break; }
-        AllocaInst *Alloca = currentGlobals->CreateEntryBlockAlloca(F, argNames[Idx], argTypes[Idx]);
-        currentGlobals->Builder->CreateStore(&Arg, Alloca);
-
-        currentGlobals->NamedValues[argNames[Idx]] = Alloca;
-        Idx++;
+        AllocaInst *Alloca = compilerConstructs->CreateEntryBlockAlloca(F, argNames[Idx], argTypes[Idx]);
+        compilerConstructs->Builder->CreateStore(&Arg, Alloca);
+        compilerConstructs->NamedValues[argNames[Idx]] = Alloca;
     }
 
-    Value *RetVal = body->generateCode(currentGlobals);
+    Value *RetVal = body->generateCode(compilerConstructs);
     if (RetVal) {
         /* make this the return value */
-        if (type != "void")
-            currentGlobals->Builder->CreateRet(RetVal);
+        if (return_type != "void")
+            compilerConstructs->Builder->CreateRet(RetVal);
         else
-            currentGlobals->Builder->CreateRetVoid();
+            compilerConstructs->Builder->CreateRetVoid();
         /* Verify the function */
         verifyFunction(*F);
         return F;
     }
-    /* Error Condition */
+    /* In case of errors remove the function */
     F->eraseFromParent();
-    return 0;
+    return nullptr;
 }

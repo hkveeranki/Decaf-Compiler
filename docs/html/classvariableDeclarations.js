@@ -1,6 +1,6 @@
 var classvariableDeclarations =
 [
-    [ "variableDeclarations", "classvariableDeclarations.html#ad8b7a1fdaa83de18d40bccf11afe2dd6", null ],
-    [ "generateCode", "classvariableDeclarations.html#ab71394a27cb27244885424a9d9ad5f81", null ],
+    [ "variableDeclarations", "classvariableDeclarations.html#a8a925ba23e29c5e22e747e09707b6333", null ],
+    [ "generateCode", "classvariableDeclarations.html#acfe16e29b57e7e963e0cf7b7da145b3f", null ],
     [ "push_back", "classvariableDeclarations.html#a3e34bc25546cb51020994395e06f4d26", null ]
 ];

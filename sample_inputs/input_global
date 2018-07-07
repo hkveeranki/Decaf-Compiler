@@ -1,9 +1,7 @@
 class Program{
 	int x,y[100],t[100];
 	void main(){
-		for i=0, 99{
-			y[i] = 100-i;
-		}
+		assignValues(99);
 		sort(99);
 		callout("printf","Sorted Array is");
 		for i=0, 99{
@@ -11,8 +9,18 @@ class Program{
 		}
 		callout("printf","\n");
 	}
+	void assignValues(int n){
+        boolean x;
+        x = true;
+		for i=0, 99{
+        	y[i] = 100-i;
+        }
+        callout("printf"," local value of x is %d\n",x);
+	}
 	void sort(int n){
 		int temp;
+		x = 100;
+        callout("printf"," global value of x is %d\n",x);
 		for c=0, n-1{
 			for d=0, n-c-1{
 				boolean swapped;

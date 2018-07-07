@@ -1,23 +1,24 @@
-//
-// Created by harry7 on 7/4/18.
-//
+/**
+ * class to deal with return statements in the code
+ */
 
 #ifndef DECAF_COMPILER_RETURNSTATEMENT_H
 #define DECAF_COMPILER_RETURNSTATEMENT_H
 
 #include "expression.h"
 #include "statement.h"
-#include "globals.h"
+#include "constructs.h"
 
 class returnStatement : public Statement {
 private:
-    class Expression *ret;/* Expression to be returned */
+    /* Expression to be returned */
+    class Expression *ret;
 public:
-    returnStatement(class Expression *);
+    explicit returnStatement(class Expression *);
 
-    Value *generateCode(globals *currentGlobals);
+    Value *generateCode(Constructs *compilerConstructs) override;
 
-    bool has_return() { return true; }
+    bool has_return() override { return true; }
 };
 
 

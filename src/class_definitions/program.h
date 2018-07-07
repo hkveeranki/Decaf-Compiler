@@ -1,6 +1,11 @@
-//
-// Created by harry7 on 7/4/18.
-//
+
+
+/** \mainpage Decaf Compiler
+*
+*  \brief Simple Compiler written for Decaf programming language.
+*  Designed with visitor design pattern and built using flex, bison and llvm framework in cpp.
+* \author Hemanth Kumar Veeranki
+*/
 
 #ifndef DECAF_COMPILER_PROG_H
 #define DECAF_COMPILER_PROG_H
@@ -32,10 +37,10 @@
 #include "location.h"
 #include "methodArgument.h"
 #include "methodArguments.h"
-#include "methodCall.h"
+#include "functionCall.h"
 #include "methodDeclaration.h"
 #include "methodDeclarations.h"
-#include "method.h"
+#include "methodCall.h"
 #include "parameters.h"
 #include "returnStatement.h"
 #include "statement.h"
@@ -48,7 +53,7 @@
 #include "variableDeclarations.h"
 #include "variable.h"
 #include "variables.h"
-#include "globals.h"
+#include "constructs.h"
 
 union Node {
     int number;
@@ -89,7 +94,7 @@ union Node {
 
     class methodArguments *method_args;
 
-    class methodCall *method_call;
+    class functionCall *function_call;
 
     class Location *location;
 
@@ -106,20 +111,29 @@ union Node {
 
 typedef union Node YYSTYPE;
 
-
+/**
+ * \class Program
+ * Class to deal with the entire decaf program
+ */
 class Program : public astNode {
 private:
-    string name; /* name of the class */
-    class methodDeclarations *methods; /* list of methods */
-    class fieldDeclarations *fields; /* list of fields */
+    /* name of the class */
+    string name;
+
+    /* list of methods */
+    class methodDeclarations *methods;
+
+    /* list of fields */
+    class fieldDeclarations *fields;
+
 public:
     Program(string name, class fieldDeclarations *, class methodDeclarations *);
 
-    Value *generateCode() override;
+    Value *generateCode();
 
     void generateCodeDump();
 
-    globals *currentGlobals;
+    Constructs *compilerConstructs;
 };
 
 

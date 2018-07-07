@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['ifelsestatements',['ifElseStatements',['../classifElseStatements.html',1,'']]],
-  ['integerliteral',['integerLiteral',['../classintegerLiteral.html',1,'']]]
+  ['literal',['Literal',['../classLiteral.html',1,'']]],
+  ['location',['Location',['../classLocation.html',1,'']]]
 ];

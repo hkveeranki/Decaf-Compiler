@@ -106,20 +106,91 @@ Collaboration diagram for fieldDeclaration:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a96d35a2cb9dfec30ec13ea069b16536a"><td class="memItemLeft" align="right" valign="top"><a id="a96d35a2cb9dfec30ec13ea069b16536a"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>fieldDeclaration</b> (string, class <a class="el" href="classVariables.html">Variables</a> *)</td></tr>
+<tr class="memitem:a96d35a2cb9dfec30ec13ea069b16536a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfieldDeclaration.html#a96d35a2cb9dfec30ec13ea069b16536a">fieldDeclaration</a> (string, class <a class="el" href="classVariables.html">Variables</a> *)</td></tr>
 <tr class="separator:a96d35a2cb9dfec30ec13ea069b16536a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ae401baa4b83f2dd08d651be0298dc3"><td class="memItemLeft" align="right" valign="top"><a id="a9ae401baa4b83f2dd08d651be0298dc3"></a>
-vector&lt; class <a class="el" href="classVariable.html">Variable</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getVarsList</b> ()</td></tr>
-<tr class="separator:a9ae401baa4b83f2dd08d651be0298dc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4e36a18c58ff7ebe4f0a9af78789fb5"><td class="memItemLeft" align="right" valign="top"><a id="af4e36a18c58ff7ebe4f0a9af78789fb5"></a>
-Value *&#160;</td><td class="memItemRight" valign="bottom"><b>generateCode</b> (<a class="el" href="classglobals.html">globals</a> *currentGlobals)</td></tr>
-<tr class="separator:af4e36a18c58ff7ebe4f0a9af78789fb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54ae4d290a2803fe5e96facf0746ad5b"><td class="memItemLeft" align="right" valign="top">Value *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfieldDeclaration.html#a54ae4d290a2803fe5e96facf0746ad5b">generateCode</a> (<a class="el" href="classConstructs.html">Constructs</a> *compilerConstructs) override</td></tr>
+<tr class="separator:a54ae4d290a2803fe5e96facf0746ad5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="fieldDeclaration_8h_source.html#l00016">16</a> of file <a class="el" href="fieldDeclaration_8h_source.html">fieldDeclaration.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a96d35a2cb9dfec30ec13ea069b16536a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96d35a2cb9dfec30ec13ea069b16536a">&#9670;&nbsp;</a></span>fieldDeclaration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">fieldDeclaration::fieldDeclaration </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>dataType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class <a class="el" href="classVariables.html">Variables</a> *&#160;</td>
+          <td class="paramname"><em>variables</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Implementation of <a class="el" href="classfieldDeclaration.html">fieldDeclaration</a> class Constructor for the class </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dataType</td><td>data type in the declaration i.e the data type for all the variables listed </td></tr>
+    <tr><td class="paramname">variables</td><td>variables that are listed in the declaration </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="fieldDeclaration_8cpp_source.html#l00011">11</a> of file <a class="el" href="fieldDeclaration_8cpp_source.html">fieldDeclaration.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a54ae4d290a2803fe5e96facf0746ad5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54ae4d290a2803fe5e96facf0746ad5b">&#9670;&nbsp;</a></span>generateCode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Value * fieldDeclaration::generateCode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classConstructs.html">Constructs</a> *&#160;</td>
+          <td class="paramname"><em>compilerConstructs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Generate the intermediate representation for the node </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">compilerConstructs</td><td>an instance of the <a class="el" href="classConstructs.html">Constructs</a> class which contains the data required for building the IR </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>generated IR representation </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classastNode.html">astNode</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="fieldDeclaration_8cpp_source.html#l00016">16</a> of file <a class="el" href="fieldDeclaration_8cpp_source.html">fieldDeclaration.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="fieldDeclaration_8h_source.html">fieldDeclaration.h</a></li>
 <li><a class="el" href="fieldDeclaration_8cpp_source.html">fieldDeclaration.cpp</a></li>
 </ul>

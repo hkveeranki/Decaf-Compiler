@@ -87,6 +87,8 @@ $(document).ready(function(){initNavTree('classunaryExpression.html','');});
 <div class="title">unaryExpression Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="unaryExpression_8h_source.html">unaryExpression.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for unaryExpression:</div>
 <div class="dyncontent">
@@ -108,16 +110,11 @@ Collaboration diagram for unaryExpression:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abde7e26494b92c52650e2f0f9c187266"><td class="memItemLeft" align="right" valign="top"><a id="abde7e26494b92c52650e2f0f9c187266"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>unaryExpression</b> (std::string, class <a class="el" href="classExpression.html">Expression</a> *)</td></tr>
+<tr class="memitem:abde7e26494b92c52650e2f0f9c187266"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classunaryExpression.html#abde7e26494b92c52650e2f0f9c187266">unaryExpression</a> (std::string, class <a class="el" href="classExpression.html">Expression</a> *)</td></tr>
 <tr class="separator:abde7e26494b92c52650e2f0f9c187266"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc87e56ed4b0fb39908e1431940813af"><td class="memItemLeft" align="right" valign="top"><a id="acc87e56ed4b0fb39908e1431940813af"></a>
-Value *&#160;</td><td class="memItemRight" valign="bottom"><b>generateCode</b> (<a class="el" href="classglobals.html">globals</a> *currentGlobals)</td></tr>
-<tr class="separator:acc87e56ed4b0fb39908e1431940813af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc9cf5283ce3ec74a7a3c2117e13ed5a"><td class="memItemLeft" align="right" valign="top">Value *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classunaryExpression.html#afc9cf5283ce3ec74a7a3c2117e13ed5a">generateCode</a> (<a class="el" href="classConstructs.html">Constructs</a> *compilerConstructs) override</td></tr>
+<tr class="separator:afc9cf5283ce3ec74a7a3c2117e13ed5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classExpression"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classExpression')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classExpression.html">Expression</a></td></tr>
-<tr class="memitem:adddb4edcb6707bec944cb89222c1ad4a inherit pub_methods_classExpression"><td class="memItemLeft" align="right" valign="top"><a id="adddb4edcb6707bec944cb89222c1ad4a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setEtype</b> (exprType x)</td></tr>
-<tr class="separator:adddb4edcb6707bec944cb89222c1ad4a inherit pub_methods_classExpression"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab96afcf7aa7e87d19529a92b8fe0c237 inherit pub_methods_classExpression"><td class="memItemLeft" align="right" valign="top"><a id="ab96afcf7aa7e87d19529a92b8fe0c237"></a>
 exprType&#160;</td><td class="memItemRight" valign="bottom"><b>getEtype</b> ()</td></tr>
 <tr class="separator:ab96afcf7aa7e87d19529a92b8fe0c237 inherit pub_methods_classExpression"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,9 +130,88 @@ exprType&#160;</td><td class="memItemRight" valign="bottom"><b>etype</b></td></t
 <tr class="separator:ae0df603c2f76ad89c7a83cdb63282dce inherit pro_attribs_classExpression"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="unaryExpression_8h_source.html#l00012">12</a> of file <a class="el" href="unaryExpression_8h_source.html">unaryExpression.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+<div class="textblock"><p>class to deal unary Expressions in the code </p>
+
+<p class="definition">Definition at line <a class="el" href="unaryExpression_8h_source.html#l00011">11</a> of file <a class="el" href="unaryExpression_8h_source.html">unaryExpression.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="abde7e26494b92c52650e2f0f9c187266"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abde7e26494b92c52650e2f0f9c187266">&#9670;&nbsp;</a></span>unaryExpression()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unaryExpression::unaryExpression </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class <a class="el" href="classExpression.html">Expression</a> *&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Constructor to the class </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">opr</td><td>operator in the unary expression </td></tr>
+    <tr><td class="paramname">expr</td><td>body of the expression </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="unaryExpression_8cpp_source.html#l00013">13</a> of file <a class="el" href="unaryExpression_8cpp_source.html">unaryExpression.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="afc9cf5283ce3ec74a7a3c2117e13ed5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc9cf5283ce3ec74a7a3c2117e13ed5a">&#9670;&nbsp;</a></span>generateCode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Value * unaryExpression::generateCode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classConstructs.html">Constructs</a> *&#160;</td>
+          <td class="paramname"><em>compilerConstructs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Generate the intermediate representation for the node </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">compilerConstructs</td><td>an instance of the <a class="el" href="classConstructs.html">Constructs</a> class which contains the data required for building the IR </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>generated IR representation </dd></dl>
+<p>Generate IR for body of the expression</p>
+<p>Generate the code for operation based on the operator </p>
+
+<p>Reimplemented from <a class="el" href="classExpression.html#a5afb529487040fcfe00649cc382c3bfe">Expression</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="unaryExpression_8cpp_source.html#l00019">19</a> of file <a class="el" href="unaryExpression_8cpp_source.html">unaryExpression.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="unaryExpression_8h_source.html">unaryExpression.h</a></li>
 <li><a class="el" href="unaryExpression_8cpp_source.html">unaryExpression.cpp</a></li>
 </ul>

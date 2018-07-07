@@ -1,67 +1,76 @@
-//
-// Created by harry7 on 7/4/18.
-//
-
+/**
+ * Implementation of \ref forStatement class
+ */
 #include <utility>
 #include "forStatement.h"
-
 #include "utilities.h"
 
-forStatement::forStatement(string loc, class Expression *init, class Expression *cond, class Block *block) {
+/**
+ * Constructor for the class
+ * @param loop_variable variable iterated in the loop
+ * @param init initial value for the loop variable
+ * @param condition condition for the loop variable to break
+ * @param block body of the for loop
+ */
+forStatement::forStatement(string loop_variable, class Expression *init, class Expression *condition,
+                           class Block *block) {
     this->stype = stmtType::NonReturn;
-    this->var = std::move(loc);
+    this->var = std::move(loop_variable);
     this->init = init;
-    this->condition = cond;
+    this->condition = condition;
     this->body = block;
 }
 
-Value *forStatement::generateCode(globals *currentGlobals) {
-    Value *start = init->generateCode(currentGlobals);
-    if (start == 0) {
-        return 0;
-    }
-    Function *TheFunction = currentGlobals->Builder->GetInsertBlock()->getParent();
-    llvm::AllocaInst *Alloca = currentGlobals->CreateEntryBlockAlloca(TheFunction, var, string("int"));
-    currentGlobals->Builder->CreateStore(start, Alloca);
-    Value *step_val = ConstantInt::get(currentGlobals->Context, APInt(32, 1));
-    BasicBlock *preheaderBB = currentGlobals->Builder->GetInsertBlock();
-    BasicBlock *loop_body = BasicBlock::Create(currentGlobals->Context, "loop", TheFunction);
-    currentGlobals->Builder->CreateBr(loop_body);
-    currentGlobals->Builder->SetInsertPoint(loop_body);
+Value *forStatement::generateCode(Constructs *compilerConstructs) {
 
-    PHINode *Variable = currentGlobals->Builder->CreatePHI(Type::getInt32Ty(currentGlobals->Context), 2, var);
-    Variable->addIncoming(start, preheaderBB);
+    Value *start = init->generateCode(compilerConstructs);
+    if (start == nullptr) {
+        return nullptr;
+    }
+    /* Get the parent method of this for loop */
+    Function *TheFunction = compilerConstructs->Builder->GetInsertBlock()->getParent();
+    /* Create memory for the loop variable */
+    llvm::AllocaInst *Alloca = compilerConstructs->CreateEntryBlockAlloca(TheFunction, var, string("int"));
+    compilerConstructs->Builder->CreateStore(start, Alloca);
+
+    Value *step_val = ConstantInt::get(compilerConstructs->Context, APInt(32, 1));
+    BasicBlock *pre_header_basic_block = compilerConstructs->Builder->GetInsertBlock();
+    BasicBlock *loop_body = BasicBlock::Create(compilerConstructs->Context, "loop", TheFunction);
+    compilerConstructs->Builder->CreateBr(loop_body);
+    compilerConstructs->Builder->SetInsertPoint(loop_body);
+
+    PHINode *Variable = compilerConstructs->Builder->CreatePHI(Type::getInt32Ty(compilerConstructs->Context), 2, var);
+    Variable->addIncoming(start, pre_header_basic_block);
     /* Store the old value */
-    llvm::AllocaInst *OldVal = currentGlobals->NamedValues[var];
-    currentGlobals->NamedValues[var] = Alloca;
-
-    if (body->generateCode(currentGlobals) == nullptr) {
-        return 0;
+    llvm::AllocaInst *OldVal = compilerConstructs->NamedValues[var];
+    compilerConstructs->NamedValues[var] = Alloca;
+    /* Generate the code for the body */
+    if (body->generateCode(compilerConstructs) == nullptr) {
+        return nullptr;
     }
 
-    Value *cur = currentGlobals->Builder->CreateLoad(Alloca, var);
-    Value *nextval = currentGlobals->Builder->CreateAdd(cur, step_val, "NextVal");
-    currentGlobals->Builder->CreateStore(nextval, Alloca);
+    Value *cur = compilerConstructs->Builder->CreateLoad(Alloca, var);
+    Value *next_val = compilerConstructs->Builder->CreateAdd(cur, step_val, "NextVal");
+    compilerConstructs->Builder->CreateStore(next_val, Alloca);
 
-    Value *cond = condition->generateCode(currentGlobals);
-    if (cond == 0) {
-        currentGlobals->errors++;
+    Value *cond = condition->generateCode(compilerConstructs);
+    if (cond == nullptr) {
+        compilerConstructs->errors++;
         return reportError("Invalid Condition");
     }
 
-    cond = currentGlobals->Builder->CreateICmpULE(nextval, cond, "loopcondition");
-    BasicBlock *loopEndBlock = currentGlobals->Builder->GetInsertBlock();
-    BasicBlock *afterBB = BasicBlock::Create(currentGlobals->Context, "afterloop", TheFunction);
-    currentGlobals->Builder->CreateCondBr(cond, loop_body, afterBB);
-
-    currentGlobals->Builder->SetInsertPoint(afterBB);
-    Variable->addIncoming(nextval, loopEndBlock);
+    cond = compilerConstructs->Builder->CreateICmpULE(next_val, cond, "loopcondition");
+    BasicBlock *loopEndBlock = compilerConstructs->Builder->GetInsertBlock();
+    BasicBlock *afterBB = BasicBlock::Create(compilerConstructs->Context, "afterloop", TheFunction);
+    compilerConstructs->Builder->CreateCondBr(cond, loop_body, afterBB);
+    compilerConstructs->Builder->SetInsertPoint(afterBB);
+    Variable->addIncoming(next_val, loopEndBlock);
 
     if (OldVal) {
-        currentGlobals->NamedValues[var] = OldVal;
+        compilerConstructs->NamedValues[var] = OldVal;
     } else {
-        currentGlobals->NamedValues.erase(var);
+        compilerConstructs->NamedValues.erase(var);
     }
-    llvm::Value *V = ConstantInt::get(currentGlobals->Context, APInt(32, 1));
+    llvm::Value *V = ConstantInt::get(compilerConstructs->Context, APInt(32, 1));
     return V;
 }
