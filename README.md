@@ -12,7 +12,7 @@ en trimmed down and simplified to keep the programming projects manageable
 - [src](./src) contains all the code
     + [class_definitions](./src/class_definitions) contains definitions for all the classes
 - [docs](./docs) contain code documentation
-- [sample_inputs](./sample_inputs)` contain some sample Decaf programs
+- [sample_inputs](./sample_inputs) contain some sample Decaf programs
 
 ## Building
 ``` 

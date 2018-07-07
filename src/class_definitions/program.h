@@ -1,10 +1,23 @@
 
 
 /** \mainpage Decaf Compiler
-*
-*  \brief Simple Compiler written for Decaf programming language.
-*  Designed with visitor design pattern and built using flex, bison and llvm framework in cpp.
-* \author Hemanth Kumar Veeranki
+*   \brief Simple Compiler written for Decaf programming language.
+ *  \section design_process Design Process
+ *   - Designed with visitor design pattern and built using flex, bison and llvm framework in cpp.
+ *   - Visitor design pattern is used.
+ *   - This is built as a part of course work for compilers course at IIIT Hyderabad, as a course project. So, the design
+ *     and implementation are more focused towards learning the principles behind compiler design than practical
+ *     implications and other production level issues.
+*   \section contributing Contributing
+ *   - Contributions are welcome, be it bug fixes or feature additions.
+ *   - If you find a bug please raise a bug at [Issue tracker](https://github.com/harry-7/Decaf-Compiler/issues).
+ *   - If you feel like you can improve the compiler by adding new features, please make a pull request
+ *   [here](https://github.com/harry-7/Decaf-Compiler/)
+*   \section  redistribution Licence and Distributing
+ *   This project is open source and distributed under [MIT licence](https://en.wikipedia.org/wiki/MIT_License). Please
+ *   check the [Licence](https://github.com/harry-7/Decaf-Compiler/blob/master/LICENCE) file for more info on
+ *   how this can be redistributed.
+*   \author Hemanth Kumar Veeranki <hems.india1997@gmail.com>
 */
 
 #ifndef DECAF_COMPILER_PROG_H
