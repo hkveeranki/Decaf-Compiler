@@ -21,10 +21,10 @@ cd build/
 cmake ..
 make 
 ``` 
-This will create an executable named `decaf_compiler` in `build/bin` directory
+This will create an executable named `decafCompiler` in `build/bin` directory
 
 ## Running the executable
 ```
-decaf_compiler <input_file> > <output_file>
+decafCompiler <input_file> > <output_file>
 lli <output_file>
 ```

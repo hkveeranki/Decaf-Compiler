@@ -80,6 +80,7 @@ Function *methodDeclaration::generateCode(Constructs *compilerConstructs) {
         AllocaInst *Alloca = compilerConstructs->CreateEntryBlockAlloca(F, argNames[Idx], argTypes[Idx]);
         compilerConstructs->Builder->CreateStore(&Arg, Alloca);
         compilerConstructs->NamedValues[argNames[Idx]] = Alloca;
+        Idx++;
     }
 
     Value *RetVal = body->generateCode(compilerConstructs);

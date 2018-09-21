@@ -59,6 +59,10 @@ Value *forStatement::generateCode(Constructs *compilerConstructs) {
         return reportError("Invalid Condition");
     }
 
+    // Check if condition is a location
+    if(condition->getEtype() == exprType::location){
+        cond = compilerConstructs->Builder->CreateLoad(cond);
+    }
     cond = compilerConstructs->Builder->CreateICmpULE(next_val, cond, "loopcondition");
     BasicBlock *loopEndBlock = compilerConstructs->Builder->GetInsertBlock();
     BasicBlock *afterBB = BasicBlock::Create(compilerConstructs->Context, "afterloop", TheFunction);

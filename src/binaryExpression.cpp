@@ -45,17 +45,17 @@ Value *binaryExpression::generateCode(Constructs *compilerConstructs) {
     } else if (opr == "*") {
         v = compilerConstructs->Builder->CreateMul(left, right, "multmp");
     } else if (opr == "/") {
-        v = compilerConstructs->Builder->CreateUDiv(left, right, "divtmp");
+        v = compilerConstructs->Builder->CreateSDiv(left, right, "divtmp");
     } else if (opr == "%") {
-        v = compilerConstructs->Builder->CreateURem(left, right, "modtmp");
+        v = compilerConstructs->Builder->CreateSRem(left, right, "modtmp");
     } else if (opr == "<") {
-        v = compilerConstructs->Builder->CreateICmpULT(left, right, "ltcomparetmp");
+        v = compilerConstructs->Builder->CreateICmpSLT(left, right, "ltcomparetmp");
     } else if (opr == ">") {
-        v = compilerConstructs->Builder->CreateICmpUGT(left, right, "gtcomparetmp");
+        v = compilerConstructs->Builder->CreateICmpSGT(left, right, "gtcomparetmp");
     } else if (opr == "<=") {
-        v = compilerConstructs->Builder->CreateICmpULE(left, right, "lecomparetmp");
+        v = compilerConstructs->Builder->CreateICmpSLE(left, right, "lecomparetmp");
     } else if (opr == ">=") {
-        v = compilerConstructs->Builder->CreateICmpUGE(left, right, "gecomparetmp");
+        v = compilerConstructs->Builder->CreateICmpSGE(left, right, "gecomparetmp");
     } else if (opr == "==") {
         v = compilerConstructs->Builder->CreateICmpEQ(left, right, "equalcomparetmp");
     } else if (opr == "!=") {

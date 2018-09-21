@@ -47,6 +47,8 @@ Value *methodCall::generateCode(Constructs *compilerConstructs) {
         }
         Args.push_back(argVal);
     }
+    // Reverse the order of arguments as the parser parses in the reverse order
+    std::reverse(Args.begin(), Args.end());
     // Generate the code for the function call
     Value *v = compilerConstructs->Builder->CreateCall(calle, Args);
     return v;
