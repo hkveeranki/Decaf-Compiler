@@ -22,7 +22,9 @@ Value *returnStatement::generateCode(Constructs *compilerConstructs) {
             /// Generate IR for returning it
             V = compilerConstructs->Builder->CreateLoad(V);
         }
+        compilerConstructs->Builder->CreateRet(V);
         return V;
     }
+    compilerConstructs->Builder->CreateRetVoid();
     return V;
 }

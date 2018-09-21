@@ -31,8 +31,13 @@ Value *ifElseStatements::generateCode(Constructs *compilerConstructs) {
     BasicBlock *ifBlock = BasicBlock::Create(compilerConstructs->Context, "if", TheFunction);
     BasicBlock *elseBlock = BasicBlock::Create(compilerConstructs->Context, "else");
     BasicBlock *nextBlock = BasicBlock::Create(compilerConstructs->Context, "ifcont");
+    BasicBlock *otherBlock = elseBlock;
+    bool ret_if = if_block->has_return(), ret_else = false;
     /// Create a conditional break and an insert point
-    compilerConstructs->Builder->CreateCondBr(cond, ifBlock, elseBlock);
+    if (else_block == nullptr) {
+        otherBlock = nextBlock;
+    }
+    compilerConstructs->Builder->CreateCondBr(cond, ifBlock, otherBlock);
     compilerConstructs->Builder->SetInsertPoint(ifBlock);
     /// generate the code for if block
     Value *if_val = if_block->generateCode(compilerConstructs);
@@ -40,45 +45,40 @@ Value *ifElseStatements::generateCode(Constructs *compilerConstructs) {
         return nullptr;
     }
     /// Create a break for next part of the code after else block
-    compilerConstructs->Builder->CreateBr(nextBlock);
-    ifBlock = compilerConstructs->Builder->GetInsertBlock();
 
+    if (!ret_if) {
+        compilerConstructs->Builder->CreateBr(nextBlock);
+    }
+
+    ifBlock = compilerConstructs->Builder->GetInsertBlock();
     /// Create insert point for else block
-    TheFunction->getBasicBlockList().push_back(elseBlock);
-    compilerConstructs->Builder->SetInsertPoint(elseBlock);
+
     Value *else_val = nullptr;
 
     if (else_block != nullptr) {
         /// Generate code for else block
+        TheFunction->getBasicBlockList().push_back(elseBlock);
+        compilerConstructs->Builder->SetInsertPoint(elseBlock);
         else_val = else_block->generateCode(compilerConstructs);
         if (else_val == nullptr) {
             return nullptr;
         }
+        ret_else = else_block->has_return();
+        if (!ret_else)
+            compilerConstructs->Builder->CreateBr(nextBlock);
     }
     // Create a break for the next part of the code
-    compilerConstructs->Builder->CreateBr(nextBlock);
-    elseBlock = compilerConstructs->Builder->GetInsertBlock();
     TheFunction->getBasicBlockList().push_back(nextBlock);
     compilerConstructs->Builder->SetInsertPoint(nextBlock);
-
-    /// Create phi nodes for if and else blocks if they have return value
-    bool phi_if = false, phi_else = false;
-    if (if_block->has_return()) {
-        phi_if = true;
-    }
-    if (else_block != nullptr && else_block->has_return()) {
-        phi_else = true;
-    }
-    if (phi_if || phi_else) {
-        PHINode *PN = compilerConstructs->Builder->CreatePHI(Type::getInt32Ty(compilerConstructs->Context), 2, "iftmp");
-        if (phi_if)
-            PN->addIncoming(if_val, ifBlock);
-        if (phi_else) {
-            PN->addIncoming(else_val, elseBlock);
+    if (ret_else && ret_if) {
+        // if both if and else block have a return statement create a dummy instruction to hold a next block
+        Type *retType = compilerConstructs->Builder->GetInsertBlock()->getParent()->getReturnType();
+        if (retType == Type::getVoidTy(compilerConstructs->Context))
+            compilerConstructs->Builder->CreateRetVoid();
+        else {
+            compilerConstructs->Builder->CreateRet(ConstantInt::get(compilerConstructs->Context, APInt(32, 0)));
         }
-        return PN;
     }
-
     Value *V = ConstantInt::get(compilerConstructs->Context, APInt(32, 0));
     return V;
 }
