@@ -12,8 +12,34 @@
 #include <llvm/IR/LegacyPassManager.h>
 #include <llvm/IR/IRBuilder.h>
 #include <string>
+#include <stack>
 
 using namespace llvm;
+
+class loopInfo {
+    BasicBlock *afterBB, *checkBB;
+    llvm::Value *condition;
+    std::string loopVariable;
+    PHINode *phiVariable;
+public:
+    loopInfo(BasicBlock *afterBlock, BasicBlock *checkBlock, Value *cond, std::string var, PHINode *phiVar) {
+        afterBB = afterBlock;
+        checkBB = checkBlock;
+        condition = cond;
+        loopVariable = var;
+        phiVariable = phiVar;
+    }
+
+    BasicBlock *getAfterBlock() { return afterBB; }
+
+    BasicBlock *getCheckBlock() { return checkBB; }
+
+    llvm::Value *getCondition() { return condition; }
+
+    PHINode *getPHINode() { return phiVariable; }
+
+    std::string getLoopVariable() { return loopVariable; }
+};
 
 class Constructs {
 public:
@@ -50,11 +76,12 @@ public:
      */
     int errors;
 
+    std::stack<loopInfo *> *loops;
+
     Constructs();
 
     AllocaInst *CreateEntryBlockAlloca(Function *TheFunction, std::string VarName, std::string type);
 
 };
-
 
 #endif

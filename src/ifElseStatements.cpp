@@ -20,6 +20,7 @@ ifElseStatements::ifElseStatements(class Expression *condition, class Block *blo
 
 Value *ifElseStatements::generateCode(Constructs *compilerConstructs) {
     /* Generate code for the condition */
+
     Value *cond = condition->generateCode(compilerConstructs);
     if (cond == nullptr) {
         compilerConstructs->errors++;

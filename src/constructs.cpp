@@ -14,6 +14,7 @@
  */
 Constructs::Constructs() {
     this->Builder = new IRBuilder<>(Context);
+    this->loops = new std::stack<loopInfo*>();
     errors = 0;
     this->TheModule = new Module("Decaf compiler", Context);
     this->TheFPM = new llvm::legacy::FunctionPassManager(TheModule);

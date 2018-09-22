@@ -3,6 +3,7 @@
  */
 
 #include <llvm/IR/Verifier.h>
+#include <llvm/IR/CFG.h>
 #include "methodDeclaration.h"
 #include "utilities.h"
 
@@ -21,6 +22,67 @@ methodDeclaration::methodDeclaration(std::string return_type, std::string name, 
     this->body = block;
 }
 
+/**
+ * Split the given basic block into two blocks
+ * @param basicBlock Basic block which should be split
+ * @param it iterator to instruction from which the block should be split
+ * @return new block which is obtained after the split
+ */
+llvm::BasicBlock *splitBlock(llvm::BasicBlock *basicBlock, llvm::BasicBlock::iterator it) {
+
+    /// Double
+    assert(basicBlock->getTerminator() && "Block must have terminator instruction.");
+    assert(it != basicBlock->getInstList().end() &&
+           "Can't split block since there is no following instruction in the basic block.");
+
+    auto newBlock = llvm::BasicBlock::Create(basicBlock->getContext(), "splitedBlock", basicBlock->getParent(),
+                                             basicBlock->getNextNode());
+
+    // Move all of the instructions from original block into new block.
+    newBlock->getInstList().splice(newBlock->end(), basicBlock->getInstList(), it, basicBlock->end());
+
+    // Now we must loop through all of the successors of the New block (which
+    // _were_ the successors of the 'this' block), and update any PHI nodes in
+    // successors.  If there were PHI nodes in the successors, then they need to
+    // know that incoming branches will be from New, not from Old.
+    //
+    for (llvm::succ_iterator I = llvm::succ_begin(newBlock), E = llvm::succ_end(newBlock); I != E; ++I) {
+        // Loop over any phi nodes in the basic block, updating the BB field of
+        // incoming values...
+        llvm::BasicBlock *Successor = *I;
+        for (auto &PN : Successor->phis()) {
+            int Idx = PN.getBasicBlockIndex(basicBlock);
+            while (Idx != -1) {
+                PN.setIncomingBlock((unsigned) Idx, newBlock);
+                Idx = PN.getBasicBlockIndex(basicBlock);
+            }
+        }
+    }
+
+    return newBlock;
+}
+
+/**
+ * Remove dead code from a basic block
+ * @param basicBlock
+ */
+void removeDeadCode(BasicBlock *basicBlock) {
+
+    for (auto it = basicBlock->begin(); it != basicBlock->end(); ++it) {
+        // Check the first terminator instruction
+        if (it->isTerminator()) {
+            ++it;
+            // Check if there is any code after the terminator
+            if (it != basicBlock->getInstList().end()) {
+                // If there is, then split into live and dead code
+                auto deadCodeBlock = splitBlock(basicBlock, it);
+                // Remove the dead code block gracefully
+                deadCodeBlock->eraseFromParent();
+            }
+            return;
+        }
+    }
+}
 
 Function *methodDeclaration::generateCode(Constructs *compilerConstructs) {
     std::vector<std::string> argNames;
@@ -90,11 +152,17 @@ Function *methodDeclaration::generateCode(Constructs *compilerConstructs) {
             compilerConstructs->Builder->CreateRet(RetVal);
         else
             compilerConstructs->Builder->CreateRetVoid();
+        /// Iterate through each basic block in this function and remove any dead code
+        for (auto &basicBlock : *F) {
+            BasicBlock *block = &basicBlock;
+            removeDeadCode(block);
+        }
         /* Verify the function */
         verifyFunction(*F);
         compilerConstructs->TheFPM->run(*F);
         return F;
     }
+
     /* In case of errors remove the function */
     F->eraseFromParent();
     return nullptr;

@@ -27,6 +27,9 @@ Value *forStatement::generateCode(Constructs *compilerConstructs) {
     if (start == nullptr) {
         return nullptr;
     }
+    if (init->getEtype() == exprType::location) {
+        start = compilerConstructs->Builder->CreateLoad(start);
+    }
     /* Get the parent method of this for loop */
     Function *TheFunction = compilerConstructs->Builder->GetInsertBlock()->getParent();
     /* Create memory for the loop variable */
@@ -36,19 +39,13 @@ Value *forStatement::generateCode(Constructs *compilerConstructs) {
     Value *step_val = ConstantInt::get(compilerConstructs->Context, APInt(32, 1));
     BasicBlock *pre_header_basic_block = compilerConstructs->Builder->GetInsertBlock();
     BasicBlock *loop_body = BasicBlock::Create(compilerConstructs->Context, "loop", TheFunction);
+    BasicBlock *afterBB = BasicBlock::Create(compilerConstructs->Context, "afterloop", TheFunction);
     compilerConstructs->Builder->CreateBr(loop_body);
     compilerConstructs->Builder->SetInsertPoint(loop_body);
 
     PHINode *Variable = compilerConstructs->Builder->CreatePHI(Type::getInt32Ty(compilerConstructs->Context), 2, var);
     Variable->addIncoming(start, pre_header_basic_block);
     /* Store the old value */
-    llvm::AllocaInst *OldVal = compilerConstructs->NamedValues[var];
-    compilerConstructs->NamedValues[var] = Alloca;
-    /* Generate the code for the body */
-    if (body->generateCode(compilerConstructs) == nullptr) {
-        return nullptr;
-    }
-
     Value *cur = compilerConstructs->Builder->CreateLoad(Alloca, var);
     Value *next_val = compilerConstructs->Builder->CreateAdd(cur, step_val, "NextVal");
     compilerConstructs->Builder->CreateStore(next_val, Alloca);
@@ -60,12 +57,19 @@ Value *forStatement::generateCode(Constructs *compilerConstructs) {
     }
 
     // Check if condition is a location
-    if(condition->getEtype() == exprType::location){
+    if (condition->getEtype() == exprType::location) {
         cond = compilerConstructs->Builder->CreateLoad(cond);
     }
+    compilerConstructs->loops->push(new loopInfo(afterBB, loop_body, cond, var, Variable));
+    llvm::AllocaInst *OldVal = compilerConstructs->NamedValues[var];
+    compilerConstructs->NamedValues[var] = Alloca;
+    /* Generate the code for the body */
+    if (body->generateCode(compilerConstructs) == nullptr) {
+        return nullptr;
+    }
+
     cond = compilerConstructs->Builder->CreateICmpULE(next_val, cond, "loopcondition");
     BasicBlock *loopEndBlock = compilerConstructs->Builder->GetInsertBlock();
-    BasicBlock *afterBB = BasicBlock::Create(compilerConstructs->Context, "afterloop", TheFunction);
     compilerConstructs->Builder->CreateCondBr(cond, loop_body, afterBB);
     compilerConstructs->Builder->SetInsertPoint(afterBB);
     Variable->addIncoming(next_val, loopEndBlock);
