@@ -46,10 +46,6 @@ Value *forStatement::generateCode(Constructs *compilerConstructs) {
     PHINode *Variable = compilerConstructs->Builder->CreatePHI(Type::getInt32Ty(compilerConstructs->Context), 2, var);
     Variable->addIncoming(start, pre_header_basic_block);
     /* Store the old value */
-    Value *cur = compilerConstructs->Builder->CreateLoad(Alloca, var);
-    Value *next_val = compilerConstructs->Builder->CreateAdd(cur, step_val, "NextVal");
-    compilerConstructs->Builder->CreateStore(next_val, Alloca);
-
     Value *cond = condition->generateCode(compilerConstructs);
     if (cond == nullptr) {
         compilerConstructs->errors++;
@@ -68,7 +64,10 @@ Value *forStatement::generateCode(Constructs *compilerConstructs) {
         return nullptr;
     }
 
-    cond = compilerConstructs->Builder->CreateICmpULE(next_val, cond, "loopcondition");
+    Value *cur = compilerConstructs->Builder->CreateLoad(Alloca, var);
+    Value *next_val = compilerConstructs->Builder->CreateAdd(cur, step_val, "NextVal");
+    compilerConstructs->Builder->CreateStore(next_val, Alloca);
+    cond = compilerConstructs->Builder->CreateICmpSLT(next_val, cond, "loopcondition");
     BasicBlock *loopEndBlock = compilerConstructs->Builder->GetInsertBlock();
     compilerConstructs->Builder->CreateCondBr(cond, loop_body, afterBB);
     compilerConstructs->Builder->SetInsertPoint(afterBB);
