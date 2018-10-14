@@ -1,0 +1,18 @@
+class Program{
+	int gcd(int x, int y) {
+		if(x == y) {
+			return x;
+		} else {
+			if(x < y) {
+				return gcd(x, y - x);
+			} else {
+				return gcd(x - y, y);
+			}
+		}
+	}
+	void main(){
+		int a;
+		a = gcd(6,12);
+		callout("printf","gcd is %d\n",a);
+	}
+}

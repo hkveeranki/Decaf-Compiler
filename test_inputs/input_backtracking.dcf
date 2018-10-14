@@ -1,0 +1,17 @@
+class Program{
+
+	int fib(int n){
+		if(n <= 1){
+			return 1;
+		}
+		return fib(n-1) + fib(n-2);
+	}
+
+	void main(){
+		int n,result;
+		n = 10;
+		result = fib(n);
+		callout("printf","%d th fibonacci number is %d\n",n,result);
+	}
+
+}

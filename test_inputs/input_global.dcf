@@ -1,0 +1,16 @@
+class Program{
+	int x,y[100],t[100];
+	void anotherFunction(int n){
+		callout("printf"," global value of x is %d\n",x);
+	}
+	void assignValues(int n){
+		boolean x;
+		x = true;
+		callout("printf"," local value of x is %d\n",x);
+	}
+	void main(){
+		x = 100;
+		assignValues(99);
+		anotherFunction(99);
+	}
+}
