@@ -27,7 +27,7 @@ Value *Assignment::generateCode(Constructs *compilerConstructs) {
     }
     if (cur == nullptr) {
         compilerConstructs->errors++;
-        return reportError("Unknown Variable Name");
+        return reportError("Unknown Variable Name " + loc->getVar());
     }
 
     Value *val = expr->generateCode(compilerConstructs);
