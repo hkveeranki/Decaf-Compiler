@@ -1,0 +1,90 @@
+class Program {
+	
+	int array[10];
+	int tempArray[10];
+
+	void merge(int s1, int s2, int e1, int e2)
+	{
+		int j;
+		int k;
+		int curlen;
+		int it;
+		int newIt;
+		int loopI;
+
+		j = s2;
+		k = 0;
+		curlen = e2 - s1 + 1;
+		it = s1;
+		loopI = 11;
+
+		for i = s1, e1+1{
+			if(j > e2){
+				loopI = i;
+				break;
+			}
+			if(array[i] < array[j]){
+				tempArray[k] = array[i];
+				k = k + 1;
+			}
+			else{
+				tempArray[k] = array[j];
+				k = k + 1;
+				j = j + 1;
+				i = i - 1;
+			}
+		}
+
+		if(loopI <= e1)
+		{
+			for newIt = loopI,e1+1{
+				tempArray[k] = array[newIt];
+				k = k + 1;
+			}
+		}
+
+		if(j <= e2)
+		{
+			for newIt = j,e2+1{
+				tempArray[k] = array[newIt];
+				k = k + 1;
+			}
+		}
+
+		for k = 0, curlen{
+			array[it] = tempArray[k];
+			it = it + 1;
+		}
+
+	}
+
+	void mergesort(int start, int end){
+
+		if(start < end){
+			int mid;
+			mid = start + (end - start)/2;
+			mergesort(start,mid);
+			mergesort(mid+1,end);
+			merge(start,mid+1,mid,end);			
+
+		}
+	}
+
+	void main(){
+
+		//initializing array
+		for i = 0, 10{
+			array[i] = 10 - i;
+		}
+
+		mergesort(0,9);
+
+		callout("printf", "sorted array : ");
+
+		for i = 0, 10{
+			callout("printf", "%d ",array[i]);
+		}
+		callout("printf", "\n");
+	}
+
+}
