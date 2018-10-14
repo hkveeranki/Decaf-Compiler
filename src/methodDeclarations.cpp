@@ -9,7 +9,7 @@
  * @param declaration method declaration to be added
  */
 void methodDeclarations::push_back(class methodDeclaration *declaration) {
-    decl_list.push_back(declaration);
+    decl_list.insert(decl_list.begin(), declaration);
 }
 
 Value *methodDeclarations::generateCode(Constructs *compilerConstructs) {
