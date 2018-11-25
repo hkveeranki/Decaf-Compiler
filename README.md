@@ -24,3 +24,5 @@ This will create an executable named `decafCompiler` in `build/bin` directory
 decafCompiler <input_file> > <output_file>
 lli <output_file>
 ```
+
+**PS: If you like the code and you are using it, please have the courtesy to star the repo **
