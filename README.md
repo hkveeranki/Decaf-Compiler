@@ -25,4 +25,4 @@ decafCompiler <input_file> > <output_file>
 lli <output_file>
 ```
 
-**PS: If you like the code and you are using it, please have the courtesy to star the repo **
+**PS: If you like the code and you are using it, please have the courtesy to star the repo**
