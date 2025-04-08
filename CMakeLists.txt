@@ -19,10 +19,10 @@ find_package(BISON)
 find_package(FLEX)
 
 # Link the directories which contain required libraries
-link_directories(/usr/lib/llvm-6.0/build/lib)
+link_directories(/usr/lib/llvm-*/build/lib)
 
 # Add directories which has the header files that are used in the project
-include_directories(/usr/lib/llvm-6.0/build/include)
+include_directories(/usr/lib/llvm-*/build/include)
 include_directories(src)
 include_directories(src/class_definitions)
 

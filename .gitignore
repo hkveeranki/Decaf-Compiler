@@ -3,3 +3,4 @@ src/*.txt
 */a.ofstream1
 a.ofstream1
 .idea/
+build/
