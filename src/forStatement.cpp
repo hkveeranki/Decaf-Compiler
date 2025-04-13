@@ -4,6 +4,7 @@
 #include <utility>
 #include "forStatement.h"
 #include "utilities.h"
+#include "location.h"
 
 /**
  * Constructor for the class
@@ -14,7 +15,6 @@
  */
 forStatement::forStatement(string loop_variable, class Expression *init, class Expression *condition,
                            class Block *block) {
-    this->stype = stmtType::NonReturn;
     this->var = std::move(loop_variable);
     this->init = init;
     this->condition = condition;
@@ -28,7 +28,8 @@ Value *forStatement::generateCode(Constructs *compilerConstructs) {
         return nullptr;
     }
     if (init->getEtype() == exprType::location) {
-        start = compilerConstructs->Builder->CreateLoad(start);
+        Location *loc = static_cast<Location *>(init);
+        start = compilerConstructs->Builder->CreateLoad(loc->getValueType(start), start);
     }
     /* Get the parent method of this for loop */
     Function *TheFunction = compilerConstructs->Builder->GetInsertBlock()->getParent();
@@ -54,7 +55,8 @@ Value *forStatement::generateCode(Constructs *compilerConstructs) {
 
     // Check if condition is a location
     if (condition->getEtype() == exprType::location) {
-        cond = compilerConstructs->Builder->CreateLoad(cond);
+        Location *loc = static_cast<Location* >(condition);
+        cond = compilerConstructs->Builder->CreateLoad(loc->getValueType(cond), cond);
     }
     compilerConstructs->loops->push(new loopInfo(afterBB, loop_body, cond, var, Variable));
     llvm::AllocaInst *OldVal = compilerConstructs->NamedValues[var];
@@ -64,7 +66,7 @@ Value *forStatement::generateCode(Constructs *compilerConstructs) {
         return nullptr;
     }
 
-    Value *cur = compilerConstructs->Builder->CreateLoad(Alloca, var);
+    Value *cur = compilerConstructs->Builder->CreateLoad(Alloca->getAllocatedType(), Alloca, var);
     Value *next_val = compilerConstructs->Builder->CreateAdd(cur, step_val, "NextVal");
     compilerConstructs->Builder->CreateStore(next_val, Alloca);
     cond = compilerConstructs->Builder->CreateICmpSLT(next_val, cond, "loopcondition");

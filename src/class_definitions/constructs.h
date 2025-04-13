@@ -9,8 +9,10 @@
 #include <string>
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Instructions.h>
-#include <llvm/IR/LegacyPassManager.h>
+#include <llvm/IR/PassManager.h>
+#include <llvm/IR/Function.h>
 #include <llvm/IR/IRBuilder.h>
+#include <llvm/IR/Module.h>
 #include <string>
 #include <stack>
 
@@ -70,7 +72,9 @@ public:
     /**
      * A FunctionPassManager to hold and organize the LLVM optimizations that we want to run
      */
-    llvm::legacy::FunctionPassManager *TheFPM;
+    FunctionPassManager *TheFPM;
+
+    FunctionAnalysisManager *TheFAM;
     /**
      * Number of errors occured during IR generation
      */

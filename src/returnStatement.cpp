@@ -3,13 +3,15 @@
  */
 
 #include "returnStatement.h"
-
+#include "location.h"
 /**
  * Constructor for the class
  * @param expr expression that should be return
  */
 returnStatement::returnStatement(class Expression *expr) {
-    this->stype = stmtType::Return;
+    this->mhas_return = true;
+    this->mhas_break = false;
+    this->mhas_continue = false;
     this->ret = expr;
 }
 
@@ -20,7 +22,8 @@ Value *returnStatement::generateCode(Constructs *compilerConstructs) {
         V = ret->generateCode(compilerConstructs);
         if (ret->getEtype() == exprType::location) {
             /// Generate IR for returning it
-            V = compilerConstructs->Builder->CreateLoad(V);
+            Location *loc = static_cast<Location *>(ret);
+            V = compilerConstructs->Builder->CreateLoad(loc->getValueType(V), V);
         }
         compilerConstructs->Builder->CreateRet(V);
         return V;

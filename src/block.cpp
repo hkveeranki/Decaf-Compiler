@@ -13,7 +13,6 @@
  * @param statements list of statements present in the block
  */
 Block::Block(class variableDeclarations *variable_declarations, class Statements *statements) {
-    this->stype = stmtType::NonReturn;
     this->declarations_list = variable_declarations;
     this->statements_list = statements;
 }
@@ -24,6 +23,13 @@ Block::Block(class variableDeclarations *variable_declarations, class Statements
  */
 bool Block::has_return() {
     return statements_list->has_return();
+}
+
+bool Block::has_break() {
+    return statements_list->has_break();
+}
+bool Block::has_continue() {
+    return statements_list->has_continue();
 }
 
 Value *Block::generateCode(Constructs *compilerConstructs) {

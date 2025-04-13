@@ -13,7 +13,6 @@
  * @param expression expression which has been assigned
  */
 Assignment::Assignment(class Location *location, string assignmentOperator, class Expression *expression) {
-    this->stype = stmtType::NonReturn;
     this->loc = location;
     this->opr = std::move(assignmentOperator);
     this->expr = expression;
@@ -32,11 +31,12 @@ Value *Assignment::generateCode(Constructs *compilerConstructs) {
 
     Value *val = expr->generateCode(compilerConstructs);
     if (expr->getEtype() == exprType::location) {
-        val = compilerConstructs->Builder->CreateLoad(val);
+        Location *loc = static_cast<Location *>(expr);
+        val = compilerConstructs->Builder->CreateLoad(loc->getValueType(val), val);
     }
 
     Value *lhs = loc->generateCode(compilerConstructs);
-    cur = compilerConstructs->Builder->CreateLoad(lhs);
+    cur = compilerConstructs->Builder->CreateLoad(loc->getValueType(lhs), lhs);
 
     if (val == nullptr) {
         compilerConstructs->errors++;

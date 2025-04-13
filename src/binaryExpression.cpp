@@ -4,6 +4,7 @@
 
 
 #include "binaryExpression.h"
+#include "location.h"
 #include "utilities.h"
 
 /**
@@ -25,10 +26,12 @@ Value *binaryExpression::generateCode(Constructs *compilerConstructs) {
     Value *left = lhs->generateCode(compilerConstructs);
     Value *right = rhs->generateCode(compilerConstructs);
     if (lhs->getEtype() == exprType::location) {
-        left = compilerConstructs->Builder->CreateLoad(left);
+        Location *loc = static_cast<Location *>(lhs);
+        left = compilerConstructs->Builder->CreateLoad(loc->getValueType(left), left);
     }
     if (rhs->getEtype() == exprType::location) {
-        right = compilerConstructs->Builder->CreateLoad(right);
+        Location *loc = static_cast<Location *>(rhs);
+        right = compilerConstructs->Builder->CreateLoad(loc->getValueType(right), right);
     }
     if (left == 0) {
         compilerConstructs->errors++;

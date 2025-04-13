@@ -20,6 +20,8 @@ public:
     void push_back(class Statement *);
 
     bool has_return();
+    bool has_break();
+    bool has_continue();
 
     Value *generateCode(Constructs *compilerConstructs) override;
 };

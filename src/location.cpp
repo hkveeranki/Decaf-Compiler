@@ -35,16 +35,39 @@ string Location::getVar() {
     return var;
 }
 
+Type* Location::getValueType(Value* val) {
+    Type* value_type; 
+    if (location_type == locationType::variable) {
+        AllocaInst* alloca = dyn_cast<AllocaInst>(val);
+        if (alloca == nullptr) {
+            GlobalVariable* global = dyn_cast<GlobalVariable>(val);
+            value_type = global->getValueType();
+        }
+        else{
+            value_type = alloca->getAllocatedType();
+        }
+    } else {
+        GetElementPtrInst* gep = dyn_cast<GetElementPtrInst>(val);
+        value_type = gep->getSourceElementType();
+    }
+    return value_type;
+}
+
 Value *Location::generateCode(Constructs *compilerConstructs) {
     /* Try to get the value of the variable */
+    Type* value_type;
     Value *V = compilerConstructs->NamedValues[var];
     if (V == nullptr) {
         V = compilerConstructs->TheModule->getNamedGlobal(var);
+        if (V == nullptr) {
+            compilerConstructs->errors++;
+            return reportError("Unknown Variable name " + var);
+        }
+        value_type = dyn_cast<GlobalVariable>(V)->getValueType();
+    } else{
+        value_type = dyn_cast<AllocaInst>(V)->getAllocatedType();
     }
-    if (V == nullptr) {
-        compilerConstructs->errors++;
-        return reportError("Unknown Variable name " + var);
-    }
+    
     /* If location is variable return the code generated */
     if (this->location_type == locationType::variable) {
         return V;
@@ -56,7 +79,8 @@ Value *Location::generateCode(Constructs *compilerConstructs) {
     /* Generate the code for index of the array */
     Value *index = array_index->generateCode(compilerConstructs);
     if (array_index->getEtype() == exprType::location) {
-        index = compilerConstructs->Builder->CreateLoad(index);
+        Type* value_type = dynamic_cast<Location*>(array_index)->getValueType(index);
+        index = compilerConstructs->Builder->CreateLoad(value_type, index);
     }
     /* If index is invalid then report error */
     if (index == nullptr) {
@@ -64,11 +88,10 @@ Value *Location::generateCode(Constructs *compilerConstructs) {
     }
     /* Generate the code required for accessing the array at the given index */
     vector<Value *> array_index;
-    array_index.push_back(compilerConstructs->Builder->getInt32(0));
+    // array_index.push_back(compilerConstructs->Builder->getInt32(0));
     array_index.push_back(index);
-    V = compilerConstructs->Builder->CreateGEP(V, array_index, var + "_Index");
+    V = compilerConstructs->Builder->CreateGEP(value_type->getArrayElementType(), V, array_index, var + "_Index");
     return V;
-
 }
 
 Value *Location::invalidArrayIndex(Constructs *compilerConstructs) {

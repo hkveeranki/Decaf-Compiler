@@ -2,7 +2,7 @@
  * Implementation of \ref unaryExpression class */
 
 #include "unaryExpression.h"
-
+#include "location.h"
 using namespace std;
 
 /**
@@ -20,7 +20,8 @@ Value *unaryExpression::generateCode(Constructs *compilerConstructs) {
     /// Generate IR for body of the expression
     Value *v = body->generateCode(compilerConstructs);
     if (body->getEtype() == exprType::location) {
-        v = compilerConstructs->Builder->CreateLoad(v);
+        Location *loc = static_cast<Location *>(body);
+        v = compilerConstructs->Builder->CreateLoad(loc->getValueType(v), v);
     }
     /// Generate the code for operation based on the operator
     if (opr == "-") {

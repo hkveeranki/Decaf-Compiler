@@ -32,6 +32,5 @@ string replace_newline(string str) {
  * @param error_str name of the error to be reported
  */
 llvm::Value *reportError(string error_str) {
-    cerr << error_str << endl;
     return nullptr;
 }

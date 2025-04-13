@@ -42,6 +42,5 @@ Value *Program::generateCode() {
  * Dump the IR generated onto stdout
  */
 void Program::generateCodeDump() {
-    cerr << "Generating LLVM IR Code\n";
     this->compilerConstructs->TheModule->print(llvm::outs(), nullptr);
 }

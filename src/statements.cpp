@@ -2,14 +2,32 @@
  * Implementation of \ref Statements class
  */
 #include "statements.h"
-
 /**
  * Tells whether this set of statements return anything
  * @return true if the return something false otherwise
  */
 bool Statements::has_return() {
-    for (int i = 0; i < statements_list.size(); i++) {
-        if (statements_list[i]->has_return()) {
+    bool has_return = false;
+    for (auto &stmt : statements_list) {
+        if (stmt->has_return()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Statements::has_break() {
+    for (auto &stmt : statements_list) {
+        if (stmt->has_break()) {
+         return true;
+        }
+    }
+    return false;
+}
+
+bool Statements::has_continue() {
+    for (auto &stmt : statements_list) {
+        if (stmt->has_continue()) {
             return true;
         }
     }

@@ -27,8 +27,9 @@ private:
 public:
     forStatement(std::string, class Expression *, class Expression *, class Block *);
 
-    bool has_return() override { this->body->has_return(); }
-
+    bool has_return() override { return this->body->has_return(); }
+    bool has_break() override { return this->body->has_break(); }
+    bool has_continue() override { return this->body->has_continue(); }
     Value *generateCode(Constructs *compilerConstructs) override;
 };
 

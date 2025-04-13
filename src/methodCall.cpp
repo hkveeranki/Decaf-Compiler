@@ -8,6 +8,7 @@
 #include "methodCall.h"
 #include "parameters.h"
 #include "utilities.h"
+#include "location.h"
 
 /**
  * Constructor for the class
@@ -38,7 +39,8 @@ Value *methodCall::generateCode(Constructs *compilerConstructs) {
     for (auto &arg : args_list) {
         Value *argVal = arg->generateCode(compilerConstructs);
         if (arg->getEtype() == exprType::location) {
-            argVal = compilerConstructs->Builder->CreateLoad(argVal);
+            Location *loc = static_cast<Location *>(arg);
+            argVal = compilerConstructs->Builder->CreateLoad(loc->getValueType(argVal), argVal);
         }
         if (argVal == nullptr) {
             compilerConstructs->errors++;

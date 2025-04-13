@@ -20,7 +20,8 @@ public:
     Block(class variableDeclarations *, class Statements *);
 
     bool has_return() override;
-
+    bool has_break() override;
+    bool has_continue() override;
     Value *generateCode(Constructs *compilerConstructs) override;
 };
 

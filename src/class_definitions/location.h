@@ -36,6 +36,7 @@ public:
 
     string getVar();
 
+    Type* getValueType(Value* val);
     Value *generateCode(Constructs *compilerConstructs) override;
 };
 

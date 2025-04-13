@@ -7,6 +7,8 @@
 #include "llvm/Target/TargetMachine.h"
 #include "llvm/Transforms/Scalar.h"
 #include "llvm/Transforms/Scalar/GVN.h"
+#include "llvm/Transforms/Scalar/Reassociate.h"
+#include "llvm/Transforms/InstCombine/InstCombine.h"
 
 /**
  * Constructor for the class
@@ -17,15 +19,15 @@ Constructs::Constructs() {
     this->loops = new std::stack<loopInfo*>();
     errors = 0;
     this->TheModule = new Module("Decaf compiler", Context);
-    this->TheFPM = new llvm::legacy::FunctionPassManager(TheModule);
-    TheFPM->add(createInstructionCombiningPass());
-    // Reassociate expressions.
-    TheFPM->add(createReassociatePass());
-    // Eliminate Common SubExpressions.
-    TheFPM->add(createGVNPass());
-    // Simplify the control flow graph (deleting unreachable blocks, etc).
-    TheFPM->add(createCFGSimplificationPass());
-    TheFPM->doInitialization();
+    TheFPM = new FunctionPassManager();
+    TheFAM = new FunctionAnalysisManager();
+    // TheFPM->addPass(InstCombinePass());
+    // // Reassociate expressions.
+    // TheFPM->addPass(ReassociatePass());
+    // // Eliminate Common SubExpressions.
+    // TheFPM->addPass(createGVNPass());
+    // // Simplify the control flow graph (deleting unreachable blocks, etc).
+    // TheFPM->addPass(createCFGSimplificationPass());
 }
 
 /**

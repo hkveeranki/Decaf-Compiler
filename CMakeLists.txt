@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(Decaf_Compiler)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_COMPILER ${CMAKE_CXX_COMPILER})
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -ldl -lfl")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -ldl -lfl -g")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_FLEX_BISON_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/flex_bison_output)
@@ -19,10 +19,10 @@ find_package(BISON)
 find_package(FLEX)
 
 # Link the directories which contain required libraries
-link_directories(/usr/lib/llvm-*/build/lib)
+link_directories(/usr/lib/llvm-20/build/lib)
 
 # Add directories which has the header files that are used in the project
-include_directories(/usr/lib/llvm-*/build/include)
+include_directories(/usr/lib/llvm-20/build/include)
 include_directories(src)
 include_directories(src/class_definitions)
 
@@ -67,14 +67,13 @@ add_library(coreLibrary SHARED
         src/methodDeclarations.cpp
         src/program.cpp
         src/constructs.cpp)
-
 # Add the main executable
 add_executable(decafCompiler
         ${FLEX_Lexer_OUTPUTS}
         ${BISON_Parser_OUTPUTS})
 target_include_directories(decafCompiler PRIVATE
         ${CMAKE_FLEX_BISON_OUTPUT_DIRECTORY})
-target_link_libraries(decafCompiler coreLibrary)
+target_link_libraries(decafCompiler coreLibrary -g)
 
 llvm_map_components_to_libnames(llvm_libs support core irreader mcjit native)
 target_link_libraries(decafCompiler ${llvm_libs})

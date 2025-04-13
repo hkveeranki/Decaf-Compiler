@@ -13,7 +13,7 @@ public:
     /**
      * Constructor for the class
      */
-    continueStatement() { this->stype = stmtType::NonReturn; }
+    continueStatement() { this->mhas_continue = true; this->mhas_return = false; this->mhas_break = false; }
 
     Value *generateCode(Constructs *compilerConstructs) override;
 };

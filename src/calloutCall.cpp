@@ -35,7 +35,7 @@ Value *calloutCall::generateCode(Constructs *compilerConstructs) {
     llvm::ArrayRef<llvm::Type *> argsRef(argTypes);
     llvm::ArrayRef<llvm::Value *> funcargs(Args);
     llvm::FunctionType *FType = FunctionType::get(Type::getInt32Ty(compilerConstructs->Context), argsRef, false);
-    Constant *func = compilerConstructs->TheModule->getOrInsertFunction(method_name, FType);
+    llvm::FunctionCallee func = compilerConstructs->TheModule->getOrInsertFunction(method_name, FType);
     if (!func) {
         return reportError("Error in inbuilt function. Unknown Function name " + method_name);
     }

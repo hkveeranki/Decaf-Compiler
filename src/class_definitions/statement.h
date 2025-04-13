@@ -9,20 +9,26 @@
 #include "astNode.h"
 #include "constructs.h"
 
-enum stmtType {
-    Return = 1, NonReturn = 2
-};
-
 
 class Statement : public astNode {
 protected:
-    stmtType stype;
+    bool mhas_return;
+    bool mhas_break ;
+    bool mhas_continue;
 public:
-    Statement() { stype = stmtType::NonReturn; }
+    Statement() {  mhas_return=false; mhas_break=false; mhas_continue=false; }
 
     Value *generateCode(Constructs *compilerConstructs) override {}
 
-    virtual bool has_return() { return false; }
+    virtual bool has_return(){
+        return mhas_return;
+    };
+    virtual bool has_break(){
+        return mhas_break;
+    };
+    virtual bool has_continue(){
+        return mhas_continue;
+    };
 
 };
 

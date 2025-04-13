@@ -2,7 +2,7 @@
 IR_FILE='IR_tmp'
 OUT_FILE='output_tmp'
 OUT_DIR='outputs'
-LLI=lli
+LLI=lli-20
 if [ "$#" -lt 1 ]; then
 	BINARY='../build/bin/decafCompiler'
 else

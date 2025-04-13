@@ -235,6 +235,7 @@ int main(int argc, char **argv) {
 	if(start){
     /* Do the code generation part */
 		start->generateCode();
+	cerr << "Code generation success\n";
     if(errors == 0){
       /* Print the code */
       start->generateCodeDump();

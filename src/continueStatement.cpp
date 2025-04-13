@@ -12,12 +12,14 @@ Value *continueStatement::generateCode(Constructs *compilerConstructs) {
     string var = currentLoop->getLoopVariable();
     AllocaInst *Alloca = compilerConstructs->NamedValues[var];
     Value *step_val = ConstantInt::get(compilerConstructs->Context, APInt(32, 1));
-    Value *cur = compilerConstructs->Builder->CreateLoad(Alloca, var);
+    Value *cur = compilerConstructs->Builder->CreateLoad(Alloca->getAllocatedType(), Alloca, var);
     Value *next_val = compilerConstructs->Builder->CreateAdd(cur, step_val, "NextVal");
     compilerConstructs->Builder->CreateStore(next_val, Alloca);
     llvm::Value *cond = compilerConstructs->Builder->CreateICmpULE(next_val, currentLoop->getCondition(),
                                                                    "loopcondition");
+
     BasicBlock *loopEndBlock = compilerConstructs->Builder->GetInsertBlock();
     compilerConstructs->Builder->CreateCondBr(cond, currentLoop->getCheckBlock(), currentLoop->getAfterBlock());
+    currentLoop->getPHINode()->addIncoming(next_val, loopEndBlock);
     return V;
 }

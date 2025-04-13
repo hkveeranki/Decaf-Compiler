@@ -5,6 +5,7 @@
 #include "calloutArgument.h"
 #include "stringLiteral.h"
 #include "utilities.h"
+#include "location.h"
 
 /**
  * Constructor for the class when expression argument is given to callout
@@ -31,7 +32,8 @@ Value *calloutArgument::generateCode(Constructs *compilerConstructs) {
     }
     Value *v = expr->generateCode(compilerConstructs);
     if (expr->getEtype() == exprType::location) {
-        v = compilerConstructs->Builder->CreateLoad(v);
+        Location *loc = static_cast<Location *>(expr);
+        v = compilerConstructs->Builder->CreateLoad(loc->getValueType(v), v);
     }
     return v;
 }

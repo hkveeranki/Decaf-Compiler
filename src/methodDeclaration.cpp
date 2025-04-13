@@ -32,14 +32,14 @@ llvm::BasicBlock *splitBlock(llvm::BasicBlock *basicBlock, llvm::BasicBlock::ite
 
     /// Double
     assert(basicBlock->getTerminator() && "Block must have terminator instruction.");
-    assert(it != basicBlock->getInstList().end() &&
+    assert(it != basicBlock->end() &&
            "Can't split block since there is no following instruction in the basic block.");
 
     auto newBlock = llvm::BasicBlock::Create(basicBlock->getContext(), "splitedBlock", basicBlock->getParent(),
                                              basicBlock->getNextNode());
 
     // Move all of the instructions from original block into new block.
-    newBlock->getInstList().splice(newBlock->end(), basicBlock->getInstList(), it, basicBlock->end());
+    newBlock->splice(newBlock->end(), basicBlock, it, basicBlock->end());
 
     // Now we must loop through all of the successors of the New block (which
     // _were_ the successors of the 'this' block), and update any PHI nodes in
@@ -73,7 +73,7 @@ void removeDeadCode(BasicBlock *basicBlock) {
         if (it->isTerminator()) {
             ++it;
             // Check if there is any code after the terminator
-            if (it != basicBlock->getInstList().end()) {
+            if (it != basicBlock->end()) {
                 // If there is, then split into live and dead code
                 auto deadCodeBlock = splitBlock(basicBlock, it);
                 // Remove the dead code block gracefully
@@ -142,27 +142,25 @@ Function *methodDeclaration::generateCode(Constructs *compilerConstructs) {
         AllocaInst *Alloca = compilerConstructs->CreateEntryBlockAlloca(F, argNames[Idx], argTypes[Idx]);
         compilerConstructs->Builder->CreateStore(&Arg, Alloca);
         compilerConstructs->NamedValues[argNames[Idx]] = Alloca;
-        Idx++;
+        ++Idx;
     }
-
     Value *RetVal = body->generateCode(compilerConstructs);
     if (RetVal) {
-        /* make this the return value */
+        /* make this the return value */        
         if (return_type != "void")
             compilerConstructs->Builder->CreateRet(RetVal);
         else
             compilerConstructs->Builder->CreateRetVoid();
-        /// Iterate through each basic block in this function and remove any dead code
+        // Iterate through each basic block in this function and remove any dead code
         for (auto &basicBlock : *F) {
             BasicBlock *block = &basicBlock;
             removeDeadCode(block);
         }
         /* Verify the function */
         verifyFunction(*F);
-        compilerConstructs->TheFPM->run(*F);
+        // compilerConstructs->TheFPM->run(*F, *compilerConstructs->TheFAM);
         return F;
     }
-
     /* In case of errors remove the function */
     F->eraseFromParent();
     return nullptr;
